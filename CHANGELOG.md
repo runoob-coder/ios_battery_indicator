@@ -1,0 +1,16 @@
+## 1.0.0
+
+- 🎉 Initial stable release
+- **Core widget**: Added `IosBatteryIndicator` widget that faithfully replicates the native iOS battery indicator
+- **Auto system battery monitoring**: Reads battery level, charging state, and low-power mode from the device in real time
+- **Manual control mode**: Supports manually specifying battery state via `batteryLevel`, `batteryState`, and `isInBatterySaveMode`
+- **iOS 27 style support**: Supports the new borderless design introduced in iOS 27, with automatic iOS version detection
+- **Charging bolt overlay**: Renders a bolt (⚡) icon using the native Cupertino icon font when the battery is charging
+- **Cutout percentage effect**: Percentage text is punched through the fill using a cutout effect for a polished look when discharging
+- **Low battery warning**: Indicator turns red when the battery level drops below a configurable threshold (10–30, defaults to 20)
+- **Battery save mode**: Track turns yellow when low-power mode is active
+- **Light / Dark mode**: Automatically adapts to ambient `Brightness`, with an option to force a specific brightness via the `brightness` property
+- **Smooth animations**: Uses `AnimatedSwitcher` for display mode transitions and `AnimatedTheme` for theme transitions
+- **Flexible sizing**: Supports scaling via `height` or `width` properties (mutually exclusive)
+- **Display option controls**: Supports `showBatteryPercentage` to hide the percentage number and `chargingWithBolt` to hide the charging bolt icon
+- **Custom theme**: Added `BatteryIndicatorTheme`, supports custom color schemes via `ThemeData.extensions`, with built-in `.light()` and `.dark()` factory constructors
