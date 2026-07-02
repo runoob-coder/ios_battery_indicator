@@ -172,10 +172,8 @@ Factory constructors `BatteryIndicatorTheme.light()` and
 
 ## ℹ️ Additional information
 
-- **Repository
-  **: [github.com/runoob-coder/ios_battery_indicator](https://github.com/runoob-coder/ios_battery_indicator)
-- **Issue tracker
-  **: [github.com/runoob-coder/ios_battery_indicator/issues](https://github.com/runoob-coder/ios_battery_indicator/issues)
+- **Repository**: [github.com/runoob-coder/ios_battery_indicator](https://github.com/runoob-coder/ios_battery_indicator)
+- **Issue tracker**: [github.com/runoob-coder/ios_battery_indicator/issues](https://github.com/runoob-coder/ios_battery_indicator/issues)
 - **Example app**: See the `example/` directory for a full interactive demo
   that lets you tweak every property in real time.
 - **Contributions**: Pull requests and issues are welcome!
