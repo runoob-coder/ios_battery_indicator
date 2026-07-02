@@ -11,7 +11,7 @@ support for iOS 27 style and automatic system battery monitoring.
 
 Language: English | [中文](README-ZH.md)
 
-| [![iOS Battery Indicator](screenshots/1.png)](https://runoob-coder.github.io/flutter_cutout_widget/) | [![iOS Battery Indicator](screenshots/2.png)](https://runoob-coder.github.io/flutter_cutout_widget/) | [![iOS Battery Indicator](screenshots/3.png)](https://runoob-coder.github.io/flutter_cutout_widget/) | [![iOS Battery Indicator](screenshots/4.png)](https://runoob-coder.github.io/flutter_cutout_widget/) |
+| [![iOS Battery Indicator](screenshots/1.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](screenshots/2.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](screenshots/3.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](screenshots/4.png)](https://runoob-coder.github.io/ios_battery_indicator/) |
 |------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
 
 ## ✨ Features
@@ -40,7 +40,7 @@ Language: English | [中文](README-ZH.md)
 
 Install via pub.dev → [pub.dev/packages/ios_battery_indicator/install](https://pub.dev/packages/ios_battery_indicator/install)
 
-[Live Demo](https://runoob-coder.github.io/flutter_cutout_widget/) — try it out online
+[Live Demo](https://runoob-coder.github.io/ios_battery_indicator/) — try it out online
 
 ### ⚙️ Platform setup
 

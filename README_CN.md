@@ -10,7 +10,7 @@
 
 Language: [English](README.md) | 中文
 
-| [![iOS Battery Indicator](screenshots/1.png)](https://runoob-coder.github.io/flutter_cutout_widget/) | [![iOS Battery Indicator](screenshots/2.png)](https://runoob-coder.github.io/flutter_cutout_widget/) | [![iOS Battery Indicator](screenshots/3.png)](https://runoob-coder.github.io/flutter_cutout_widget/) | [![iOS Battery Indicator](screenshots/4.png)](https://runoob-coder.github.io/flutter_cutout_widget/) |
+| [![iOS Battery Indicator](screenshots/1.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](screenshots/2.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](screenshots/3.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](screenshots/4.png)](https://runoob-coder.github.io/ios_battery_indicator/) |
 |------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
 
 ## ✨ 特性
@@ -29,7 +29,7 @@ Language: [English](README.md) | 中文
 
 通过 pub.dev 安装 → [pub.dev/packages/ios_battery_indicator/install](https://pub.dev/packages/ios_battery_indicator/install)
 
-[在线演示](https://runoob-coder.github.io/flutter_cutout_widget/) — 立即体验
+[在线演示](https://runoob-coder.github.io/ios_battery_indicator/) — 立即体验
 
 ### ⚙️ 平台配置
 
