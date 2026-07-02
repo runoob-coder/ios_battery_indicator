@@ -21,6 +21,17 @@ screenshots:
   - description: "20% Discharging - Low Battery Warning"
     path: screenshots/4.png
 
+include:
+  - pubspec.yaml
+  - CHANGELOG.md
+  - LICENSE
+  - README.md
+  - README_CN.md
+  - analysis_options.yaml
+  - lib/
+  - test/
+  - example/lib/
+
 environment:
   sdk: ^3.10.0
   flutter: ">=3.38.0"
