@@ -56,8 +56,7 @@ template already satisfies this).
 The simplest usage — the widget reads everything from the device:
 
 ```dart
-IosBatteryIndicator
-()
+IosBatteryIndicator();
 ```
 
 - Battery percentage display is enabled by default.
@@ -70,40 +69,29 @@ IosBatteryIndicator
 Provide explicit values to bypass the system readings:
 
 ```dart
-IosBatteryIndicator
-(
-batteryLevel: 80,
-batteryState: BatteryState.charging,
-)
+IosBatteryIndicator(
+  batteryLevel: 80,
+  batteryState: BatteryState.charging,
+);
 ```
 
 ### 🎛️ Controlling display options
 
 ```dart
-IosBatteryIndicator
-(
-showBatteryPercentage
-:
-false
-, // hide the percentage number
-chargingWithBolt
-:
-false
-, // hide the bolt when charging
-)
+IosBatteryIndicator(
+  showBatteryPercentage: false, // hide the percentage number
+  chargingWithBolt: false,      // hide the bolt when charging
+);
 ```
 
 ### 🎨 Styling
 
 ```dart
-IosBatteryIndicator
-(
-isIOS27Style: true, // force iOS 27 borderless style
-brightness: Brightness.dark, // force dark mode colors
-lowBatteryThreshold:
-15
-, // turn red when ≤ 15%
-)
+IosBatteryIndicator(
+  isIOS27Style: true,            // force iOS 27 borderless style
+  brightness: Brightness.dark,   // force dark mode colors
+  lowBatteryThreshold: 15,       // turn red when ≤ 15%
+);
 ```
 
 ### 📐 Sizing
@@ -111,21 +99,11 @@ lowBatteryThreshold:
 Use `height` or`width` (mutually exclusive) to scale it:
 
 ```dart
-IosBatteryIndicator
-(
-height
-:
-36
-) // 36 logical pixels tall, width auto
+IosBatteryIndicator(height: 36); // 36 logical pixels tall, width auto
 ```
 
 ```dart
-IosBatteryIndicator
-(
-width
-:
-40
-) // 40 logical pixels wide, height auto
+IosBatteryIndicator(width: 40); // 40 logical pixels wide, height auto
 ```
 
 ### 🖌️ Custom theme
@@ -134,24 +112,19 @@ You can customize the colors by providing a `BatteryIndicatorTheme` via
 `ThemeData.extensions`:
 
 ```dart
-MaterialApp
-(
-theme: ThemeData(
-extensions: [
-BatteryIndicatorTheme(
-bgColor: Colors.grey.withValues(alpha: .3),
-dischargingTrackColor: Colors.blue,
-contentColor: Colors.blue,
-contentAntiColor: Colors.white,
-),
-]
-,
-)
-,
-home
-: /* ... */
-,
-)
+MaterialApp(
+  theme: ThemeData(
+    extensions: [
+      BatteryIndicatorTheme(
+        bgColor: Colors.grey.withValues(alpha: .3),
+        dischargingTrackColor: Colors.blue,
+        contentColor: Colors.blue,
+        contentAntiColor: Colors.white,
+      ),
+    ],
+  ),
+  home: /* ... */,
+);
 ```
 
 For Cupertino apps, wrap the indicator in a `Theme` widget or use

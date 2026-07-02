@@ -58,7 +58,7 @@ IosBatteryIndicator()
 IosBatteryIndicator(
   batteryLevel: 80,
   batteryState: BatteryState.charging,
-)
+);
 ```
 
 ### 🎛️ 控制显示选项
@@ -67,7 +67,7 @@ IosBatteryIndicator(
 IosBatteryIndicator(
   showBatteryPercentage: false,   // 隐藏百分比数字
   chargingWithBolt: false,        // 充电时隐藏闪电图标
-)
+);
 ```
 
 ### 🎨 样式设置
@@ -77,7 +77,7 @@ IosBatteryIndicator(
   isIOS27Style: true,             // 强制 iOS 27 无边框风格
   brightness: Brightness.dark,    // 强制深色模式颜色
   lowBatteryThreshold: 15,        // 电量 ≤ 15% 时变红
-)
+);
 ```
 
 ### 📐 尺寸设置
@@ -85,11 +85,11 @@ IosBatteryIndicator(
 使用 `height` 或 `width`（互斥）来缩放：
 
 ```dart
-IosBatteryIndicator(height: 36)   // 36 逻辑像素高，宽度自适应
+IosBatteryIndicator(height: 36);   // 36 逻辑像素高，宽度自适应
 ```
 
 ```dart
-IosBatteryIndicator(width: 40)   // 40 逻辑像素宽，高度自适应
+IosBatteryIndicator(width: 40);   // 40 逻辑像素宽，高度自适应
 ```
 
 ### 🖌️ 自定义主题
@@ -109,7 +109,7 @@ MaterialApp(
     ],
   ),
   home: /* ... */,
-)
+);
 ```
 
 对于 Cupertino 应用，将指示器包裹在 `Theme` 组件中或使用 `CupertinoThemeData` 扩展。

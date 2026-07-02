@@ -1,3 +1,8 @@
+## 1.0.1
+
+- 📝 Improve code formatting in README and README_CN documentation examples
+- Bump version to 1.0.1
+
 ## 1.0.0
 
 - 🎉 Initial stable release
