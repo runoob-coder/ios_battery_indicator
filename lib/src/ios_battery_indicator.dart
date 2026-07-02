@@ -282,7 +282,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             );
           }
 
-          return child;
+          return DefaultTextStyle(
+            style: const TextStyle(height: 1, fontWeight: .w500),
+            child: child,
+          );
         },
       ),
     );
@@ -343,7 +346,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                   context,
                   style: TextStyle(
                     height: 1,
-                    fontSize: 14,
+                    fontSize: 13,
                     foreground: Paint()
                       ..style = PaintingStyle.stroke
                       ..strokeWidth = 2,
