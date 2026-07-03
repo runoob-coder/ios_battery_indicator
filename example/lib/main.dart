@@ -17,13 +17,13 @@ class BatteryDemoApp extends StatefulWidget {
 class _BatteryDemoAppState extends State<BatteryDemoApp> {
   double _batteryLevel = 75;
 
-  BatteryState _batteryState = .discharging;
+  BatteryState _batteryState = .charging;
 
   bool _useSystemBattery = false;
 
   bool _isInBatterySaveMode = false;
 
-  bool _showBatteryPercentage = true;
+  bool _showBatteryPercentage = false;
 
   bool _chargingWithBolt = true;
 
