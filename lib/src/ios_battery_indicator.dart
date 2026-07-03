@@ -10,6 +10,8 @@ import 'package:version/version.dart';
 
 import 'theme.dart';
 
+/// A Flutter widget that replicates the native iOS battery indicator,
+/// including support for iOS 27 style and automatic system battery monitoring.
 class IosBatteryIndicator extends StatefulWidget {
   const IosBatteryIndicator({
     super.key,

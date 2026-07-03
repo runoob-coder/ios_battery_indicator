@@ -1,3 +1,13 @@
+## 1.0.2
+
+- 🎨 Adjust text rendering: wrap battery indicator in `DefaultTextStyle` with `height: 1` and `fontWeight: .w500` for consistent typography
+- 🎨 Refine cutout percentage font size from 14 to 13 for better visual balance
+- 📱 Update example app defaults: battery state set to charging, percentage display toggled off
+- 🔧 Fix formatting of Repository and Issue tracker links in README
+- 🌐 Improve example web page SEO: update meta description, keywords, title, and apple-mobile-web-app-title
+- 📝 Add class-level documentation comment to `IosBatteryIndicator`
+- 📦 Include `screenshots/` in published package files
+
 ## 1.0.1
 
 - 📝 Improve code formatting in README and README_CN documentation examples
