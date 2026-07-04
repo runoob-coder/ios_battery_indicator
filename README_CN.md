@@ -17,6 +17,7 @@ Language: [English](README.md) | 中文
 
 - **原生 iOS 外观** — 精确复刻 iOS 电池图标，采用圆角超椭圆形状和合适的尺寸。
 - **自动读取系统电池** — 未手动指定时，实时从设备读取电池电量、充电状态和低功耗模式。
+- **系统事件回调** — `onBatteryLevelChanged` 和 `onBatteryStateChanged` 在自动模式下通知父组件系统值变化。
 - **手动控制** — 可选择性传入 `batteryLevel`、`batteryState` 和 `isInBatterySaveMode` 用于演示或自定义场景。
 - **iOS 27 风格** — 支持 iOS 27 引入的无边框设计，可自动检测 iOS 版本。
 - **充电闪电图标** — 充电时使用原生 Cupertino 图标字体渲染闪电 (⚡) 符号。
@@ -190,5 +191,5 @@ MaterialApp(
 ## ☕️ 请我喝咖啡
 
 <a href="https://ko-fi.com/noob_coder" target="_blank">
-  <img height="36" src="https://storage.ko-fi.com/cdn/kofi1.png?v=3" alt="Buy Me a Coffee at ko-fi.com" />
+  <img src="https://storage.ko-fi.com/cdn/kofi6.png" alt="Buy Me a Coffee at ko-fi.com" />
 </a>

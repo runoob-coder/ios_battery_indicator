@@ -20,6 +20,9 @@ Language: English | [中文](README_CN.md)
   rounded superellipse shape and proper sizing.
 - **Automatic system battery** — reads battery level, charging state, and
   low-power mode from the device in real time when no manual value is supplied.
+- **System event callbacks** — `onBatteryLevelChanged` and
+  `onBatteryStateChanged` notify the parent when system values change in auto
+  mode.
 - **Manual control** — optionally pass `batteryLevel`, `batteryState`, and
   `isInBatterySaveMode` for demo or custom scenarios.
 - **iOS 27 style** — supports the new borderless design introduced in iOS 27,
@@ -210,5 +213,5 @@ It only takes a few seconds and helps other Flutter developers discover the libr
 ## ☕️ Buy Me a Coffee
 
 <a href="https://ko-fi.com/noob_coder" target="_blank">
-  <img height="36" src="https://storage.ko-fi.com/cdn/kofi1.png?v=3" alt="Buy Me a Coffee at ko-fi.com" />
+  <img src="https://storage.ko-fi.com/cdn/kofi6.png" alt="Buy Me a Coffee at ko-fi.com" />
 </a>
