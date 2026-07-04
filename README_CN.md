@@ -45,7 +45,7 @@ Language: [English](README.md) | 中文
 最简单的用法 — 组件从设备读取所有信息：
 
 ```dart
-IosBatteryIndicator()
+IosBatteryIndicator();
 ```
 
 - 默认开启电池百分比显示。
