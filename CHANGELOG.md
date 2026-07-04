@@ -1,3 +1,9 @@
+## 1.0.3
+
+- 🎬 Added `animationDuration` parameter to control all indicator animations, including fill progress, color changes, bolt icon, and crossfade transitions
+- 🎨 Fix cutout percentage text overflow by wrapping `maskChild` with `FittedBox` for proper scaling
+
+
 ## 1.0.2
 
 - 🎨 Adjust text rendering: wrap battery indicator in `DefaultTextStyle` with `height: 1` and `fontWeight: .w500` for consistent typography
