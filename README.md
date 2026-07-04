@@ -39,6 +39,9 @@ Language: English | [中文](README_CN.md)
 - **Smooth animations** — animated fill level, color changes, charging bolt
   transitions, and crossfade between basic and percentage display. All
   animation durations are configurable via `animationDuration`.
+- **Charging sound** — optionally play the native iOS charging sound
+  (`connectedToPower`) when entering the charging state in manual mode
+  (iOS only).
 
 ## 🚀 Getting started
 
@@ -87,6 +90,23 @@ IosBatteryIndicator(
   chargingWithBolt: false,      // hide the bolt when charging
 );
 ```
+
+### 🔊 Charging sound (iOS only)
+
+When in manual mode, you can play the native iOS charging sound when the
+battery state is set to `BatteryState.charging`:
+
+```dart
+IosBatteryIndicator(
+  batteryState: BatteryState.charging,
+  playChargingSound: true, // play iOS charging sound
+);
+```
+
+> [!NOTE]
+> This feature requires the [ios_system_sound](https://pub.dev/packages/ios_system_sound)
+> package and is only supported on iOS. It has no effect on the web or other
+> platforms, and is ignored in auto mode (when `batteryState` is `null`).
 
 ### 🎨 Styling
 
@@ -165,6 +185,7 @@ For Cupertino apps, wrap the indicator in a `Theme` widget or use
 | `isInBatterySaveMode`    | `bool?`         | `null`                    | Low-power mode. When `null`, read from the system.                 |
 | `lowBatteryThreshold`    | `int`           | `20`                      | Low Battery Threshold (10–30) below which the indicator turns red. |
 | `chargingWithBolt`       | `bool`          | `true`                    | Show a bolt icon when charging.                                    |
+| `playChargingSound`      | `bool`          | `false`                   | Play iOS charging sound in manual mode (iOS only).                 |
 | `isIOS27Style`           | `bool?`         | `null`                    | Force iOS 27 style. When `null`, auto-detect the iOS version.      |
 | `brightness`             | `Brightness?`   | `null`                    | Force light or dark colors. When `null`, use ambient brightness.   |
 | `animationDuration`      | `Duration`      | `Duration(milliseconds: 250)` | Duration for battery indicator animations (fill, colors, bolt). |

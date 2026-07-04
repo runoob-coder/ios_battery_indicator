@@ -166,7 +166,15 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.1.0"
+    version: "1.2.0"
+  ios_system_sound:
+    dependency: transitive
+    description:
+      name: ios_system_sound
+      sha256: c094427f95c023251e09262b96deb94fcd5cda001058cb3e1c3f314911e4b42d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -365,5 +373,5 @@ packages:
     source: hosted
     version: "6.6.1"
 sdks:
-  dart: ">=3.10.0 <4.0.0"
+  dart: ">=3.12.0 <4.0.0"
   flutter: ">=3.38.1"

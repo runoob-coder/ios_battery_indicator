@@ -7,6 +7,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ios_system_sound/ios_system_sound.dart';
 import 'package:version/version.dart';
 
 import 'theme.dart';
@@ -24,6 +25,7 @@ class IosBatteryIndicator extends StatefulWidget {
     this.isInBatterySaveMode,
     this.lowBatteryThreshold = 20,
     this.chargingWithBolt = true,
+    this.playChargingSound = false,
     this.isIOS27Style,
     this.brightness,
     this.animationDuration = const Duration(milliseconds: 250),
@@ -75,6 +77,21 @@ class IosBatteryIndicator extends StatefulWidget {
   /// Whether to show a bolt glyph (⚡) overlay when the battery is charging.
   final bool chargingWithBolt;
 
+  /// Whether to play the iOS charging sound ([SystemSoundID.connectedToPower])
+  /// when entering the charging state.
+  ///
+  /// This **only** takes effect when [batteryState] is explicitly provided
+  /// (i.e. manual mode). When [batteryState] is `null` and the system
+  /// monitors the battery automatically, the sound is never played, regardless
+  /// of this flag.
+  ///
+  /// The sound is played via the [ios_system_sound](https://pub.dev/packages/ios_system_sound)
+  /// package and is only supported on iOS — it has no effect on the web or
+  /// other platforms.
+  ///
+  /// Defaults to `false`.
+  final bool playChargingSound;
+
   /// Whether to render the battery indicator in the iOS 27 style.
   final bool? isIOS27Style;
 
@@ -101,9 +118,11 @@ class IosBatteryIndicator extends StatefulWidget {
 
 class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   final _battery = Battery();
+  final _sound = IosSystemSound();
 
   int _systemBatteryLevel = 0;
   BatteryState? _systemBatteryState;
+  BatteryState? _previousBatteryState;
   StreamSubscription<BatteryState>? _batteryStateSubscription;
   Timer? _batteryLevelTimer;
 
@@ -163,6 +182,20 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         : theme.dischargingTrackColor;
   }
 
+  /// Plays the iOS charging sound when the battery state transitions to
+  /// [BatteryState.charging] and [IosBatteryIndicator.playChargingSound] is
+  /// `true`. Only fires on iOS, not on the web or other platforms.
+  void _playChargingSoundIfNeeded(BatteryState? newState) {
+    if (widget.playChargingSound &&
+        newState == BatteryState.charging &&
+        _previousBatteryState != BatteryState.charging &&
+        !kIsWeb &&
+        Platform.isIOS) {
+      _sound.play(SystemSoundID.connectedToPower);
+    }
+    _previousBatteryState = newState;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -189,6 +222,12 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         (widget.batteryState == null && oldWidget.batteryState != null)) {
       _initBattery();
     }
+
+    // Play charging sound when the external batteryState changes to charging.
+    if (widget.batteryState != null &&
+        widget.batteryState != oldWidget.batteryState) {
+      _playChargingSoundIfNeeded(widget.batteryState);
+    }
   }
 
   Future<void> _initBattery() async {
@@ -211,6 +250,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
     if (widget.batteryState != null) {
       _systemBatteryState = widget.batteryState!;
+      _playChargingSoundIfNeeded(widget.batteryState);
     } else {
       _systemBatteryState = await _battery.batteryState;
       widget.onBatteryStateChanged?.call(_systemBatteryState!);

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -26,6 +28,8 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
   bool _showBatteryPercentage = false;
 
   bool _chargingWithBolt = true;
+
+  bool _playChargingSound = true;
 
   bool _isIOS27Style = false;
 
@@ -94,6 +98,7 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
             isInBatterySaveMode: _isInBatterySaveMode,
             showBatteryPercentage: _showBatteryPercentage,
             chargingWithBolt: _chargingWithBolt,
+            playChargingSound: _playChargingSound,
             isIOS27Style: _isIOS27Style,
             brightness: _brightness,
             lowBatteryThreshold: _lowBatteryThreshold,
@@ -201,7 +206,17 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
                 onChanged: (v) => setState(() => _showBatteryPercentage = v),
               ),
             ),
-            if (_batteryState == .charging)
+            if (!_useSystemBattery && !kIsWeb && Platform.isIOS)
+              CupertinoListTile(
+                leading: const Icon(CupertinoIcons.speaker_2_fill),
+                title: const Text('Play Charging Sound'),
+                subtitle: const Text('Only plays when charging'),
+                trailing: CupertinoSwitch(
+                  value: _playChargingSound,
+                  onChanged: (v) => setState(() => _playChargingSound = v),
+                ),
+              ),
+            if (_batteryState == .charging && !_useSystemBattery)
               CupertinoListTile(
                 leading: const Icon(CupertinoIcons.bolt_fill),
                 title: const Text('Show Bolt When Charging'),

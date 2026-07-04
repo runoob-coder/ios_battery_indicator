@@ -1,6 +1,6 @@
 name: ios_battery_indicator
 description: "A Flutter widget that replicates the native iOS battery indicator, including support for iOS 27 style and automatic system battery monitoring."
-version: 1.1.0
+version: 1.2.0
 homepage: https://runoob-coder.github.io/ios_battery_indicator/
 repository: https://github.com/runoob-coder/ios_battery_indicator
 issue_tracker: https://github.com/runoob-coder/ios_battery_indicator/issues
@@ -45,6 +45,7 @@ dependencies:
   device_info_plus: ^13.2.0
   version: ^3.0.2
   cutout: ^1.0.2
+  ios_system_sound: ^0.0.1
 
 dev_dependencies:
   flutter_test:

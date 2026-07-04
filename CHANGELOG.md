@@ -1,3 +1,7 @@
+## 1.2.0
+
+- 🔊 **New `playChargingSound` parameter** — optionally play the native iOS charging sound (`connectedToPower`) when entering the charging state in manual mode. Uses the [ios_system_sound](https://pub.dev/packages/ios_system_sound) package and is only supported on iOS. Disabled by default.
+
 ## 1.1.0
 
 - 📡 **New callbacks** — added `onBatteryLevelChanged` and `onBatteryStateChanged` to receive real-time system battery updates in auto mode

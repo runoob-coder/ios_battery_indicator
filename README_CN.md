@@ -26,6 +26,7 @@ Language: [English](README.md) | 中文
 - **省电模式** — 低功耗模式激活时，电池轨道变为黄色。
 - **亮色 / 深色模式** — 自动适配环境的 `Brightness`，也可通过 `brightness` 属性强制指定。
 - **流畅动画** — 填充进度、颜色变化、充电闪电图标切换以及基础/百分比显示之间的交叉淡入淡出，所有动画时长均可通过 `animationDuration` 配置。
+- **充电音效** — 在手动模式下进入充电状态时，可选择播放 iOS 原生充电音效（`connectedToPower`），仅限 iOS 平台支持。
 
 ## 🚀 快速开始
 
@@ -71,6 +72,21 @@ IosBatteryIndicator(
   chargingWithBolt: false,        // 充电时隐藏闪电图标
 );
 ```
+
+### 🔊 充电音效（仅 iOS）
+
+在手动模式下，将电池状态设置为 `BatteryState.charging` 时可播放 iOS 原生充电音效：
+
+```dart
+IosBatteryIndicator(
+  batteryState: BatteryState.charging,
+  playChargingSound: true,   // 播放 iOS 充电音效
+);
+```
+
+> [!NOTE]
+> 此功能依赖 [ios_system_sound](https://pub.dev/packages/ios_system_sound)
+> 且仅支持 iOS 平台。在 Web 或其他平台上无效，自动模式（`batteryState` 为 `null`）下不播放。
 
 ### 🎨 样式设置
 
@@ -146,6 +162,7 @@ MaterialApp(
 | `isInBatterySaveMode` | `bool?` | `null` | 低功耗模式。为 `null` 时从系统读取。 |
 | `lowBatteryThreshold` | `int` | `20` | 低电量阈值（10–30），低于此值时指示器变红。 |
 | `chargingWithBolt` | `bool` | `true` | 充电时是否显示闪电图标。 |
+| `playChargingSound` | `bool` | `false` | 手动模式下播放 iOS 充电音效（仅 iOS）。 |
 | `isIOS27Style` | `bool?` | `null` | 强制 iOS 27 风格。为 `null` 时自动检测 iOS 版本。 |
 | `brightness` | `Brightness?` | `null` | 强制亮色或深色。为 `null` 时使用环境亮度。 |
 | `animationDuration` | `Duration` | `Duration(milliseconds: 250)` | 电池指示器动画时长（填充、颜色、闪电图标等）。 |
