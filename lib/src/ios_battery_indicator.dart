@@ -5,6 +5,7 @@ import 'package:battery_plus/battery_plus.dart';
 import 'package:cutout/cutout.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:version/version.dart';
 
@@ -163,11 +164,24 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     }
   }
 
+  @override
+  void didUpdateWidget(covariant IosBatteryIndicator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.batteryLevel == null && oldWidget.batteryLevel != null) {
+      _initBattery();
+      return;
+    }
+    if (widget.batteryState == null && oldWidget.batteryState != null) {
+      _initBattery();
+    }
+  }
+
   Future<void> _initBattery() async {
     if (widget.batteryLevel != null) {
       _systemBatteryLevel = widget.batteryLevel!;
     } else {
       _systemBatteryLevel = await _battery.batteryLevel;
+      _batteryLevelTimer?.cancel();
       _batteryLevelTimer = Timer.periodic(const Duration(seconds: 30), (
         _,
       ) async {
@@ -181,6 +195,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     } else {
       _systemBatteryState = await _battery.batteryState;
 
+      _batteryStateSubscription?.cancel();
       _batteryStateSubscription = _battery.onBatteryStateChanged.listen((
         state,
       ) async {
@@ -192,7 +207,11 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
         /// When transitioning from charging to discharging, defer the update
         /// by 1 second to avoid a brief flicker of the bolt icon on unplug.
-        if (_systemBatteryState == .charging && state == .discharging) {
+        /// Only applies on iOS (not Web).
+        if (!kIsWeb &&
+            Platform.isIOS &&
+            _systemBatteryState == .charging &&
+            state == .discharging) {
           Future.delayed(const Duration(seconds: 1), () {
             if (!mounted) return;
             setState(() => _systemBatteryState = state);
@@ -214,7 +233,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   }
 
   Future<void> _checkIosVersion() async {
-    if (Platform.isIOS) {
+    if (!kIsWeb && Platform.isIOS) {
       IosDeviceInfo iosInfo = await DeviceInfoPlugin().iosInfo;
       setState(() {
         _systemIsIOS27Style = Version.parse(iosInfo.systemVersion).major >= 27;
