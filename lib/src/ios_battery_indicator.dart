@@ -53,6 +53,10 @@ class IosBatteryIndicator extends StatefulWidget {
 
   /// The battery level (0–100). When `null`, the level is read from the
   /// system at runtime via [Battery].
+  ///
+  /// Note that when the resolved battery state is [BatteryState.full], the
+  /// level is unconditionally treated as 100 — even if a different manual
+  /// value is supplied here. See [batteryState].
   final int? batteryLevel;
 
   /// The battery state (charging, discharging, etc.). When `null`, the state
@@ -132,7 +136,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   // ---- resolution getters: widget prop takes priority, system value as fallback ----
 
   int get _batteryLevel {
-    if (_batteryState == BatteryState.full) return 100;
+    if (_batteryState == .full) return 100;
     return widget.batteryLevel ?? _systemBatteryLevel;
   }
 
@@ -187,8 +191,8 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   /// `true`. Only fires on iOS, not on the web or other platforms.
   void _playChargingSoundIfNeeded(BatteryState? newState) {
     if (widget.playChargingSound &&
-        newState == BatteryState.charging &&
-        _previousBatteryState != BatteryState.charging &&
+        newState == .charging &&
+        _previousBatteryState != .charging &&
         !kIsWeb &&
         Platform.isIOS) {
       _sound.play(SystemSoundID.connectedToPower);
