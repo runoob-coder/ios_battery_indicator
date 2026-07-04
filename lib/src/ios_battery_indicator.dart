@@ -247,7 +247,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       );
     }
 
-    return AnimatedTheme(
+    Widget child = AnimatedTheme(
       duration: widget.themeAnimationDuration,
       data: themeData,
       child: Builder(
@@ -290,12 +290,18 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             );
           }
 
-          return DefaultTextStyle(
-            style: const TextStyle(height: 1, fontWeight: .w500),
-            child: child,
-          );
+          return child;
         },
       ),
+    );
+
+    return DefaultTextStyle.merge(
+      style: const TextStyle(height: 1, fontWeight: .w500),
+      textHeightBehavior: const TextHeightBehavior(
+        applyHeightToFirstAscent: false,
+        applyHeightToLastDescent: false,
+      ),
+      child: child,
     );
   }
 
@@ -350,40 +356,34 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     );
 
     if (_isCharging) {
-      child = SizedBox(
-        width: 25,
-        height: 13,
-        child: Stack(
-          alignment: .center,
-          children: [
-            Cutout(
-              alignment: .center,
-              maskChild: FittedBox(
-                fit: .scaleDown,
-                child: _buildBolt(
-                  context,
-                  style: TextStyle(
-                    height: 1,
-                    fontSize: 13,
-                    foreground: Paint()
-                      ..style = PaintingStyle.stroke
-                      ..strokeWidth = 2,
-                  ),
-                ),
-              ),
-              child: child,
-            ),
-            FittedBox(
+      child = Stack(
+        alignment: .center,
+        children: [
+          Cutout(
+            alignment: .center,
+            maskChild: FittedBox(
               fit: .scaleDown,
               child: _buildBolt(
                 context,
-                color: batteryIndicatorTheme.contentColor,
-                fontSize: 13,
-                style: const TextStyle(height: 1),
+                style: TextStyle(
+                  fontSize: 13,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 2,
+                ),
               ),
             ),
-          ],
-        ),
+            child: child,
+          ),
+          FittedBox(
+            fit: .scaleDown,
+            child: _buildBolt(
+              context,
+              color: batteryIndicatorTheme.contentColor,
+              fontSize: 13,
+            ),
+          ),
+        ],
       );
     }
 
@@ -418,8 +418,8 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             : !_isCharging
             ? batteryIndicatorTheme.contentAntiColor
             : CupertinoColors.white,
-        height: 1,
         fontSize: 12,
+        letterSpacing: .1,
         fontWeight: .bold,
       ),
     );
@@ -451,10 +451,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             ),
           ),
           if (_usePlainStyle)
-            FittedBox(
-              fit: .scaleDown,
-              child: Padding(
-                padding: const .all(.5),
+            Transform.scale(
+              scale: 1.05,
+              child: FittedBox(
+                fit: .fitWidth,
                 child: Row(
                   mainAxisAlignment: .center,
                   spacing: 1,
@@ -471,11 +471,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                             ? _buildBolt(
                                 context,
                                 key: const ValueKey('bolt'),
-                                fontSize: 9.6,
+                                fontSize: 10,
                                 color: _isInBatterySaveMode
                                     ? CupertinoColors.black
                                     : CupertinoColors.white,
-                                style: const TextStyle(height: 1),
                               )
                             : const SizedBox.shrink(key: ValueKey('empty')),
                       ),
@@ -492,7 +491,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     if (!_usePlainStyle) {
       child = Cutout(
         alignment: .center,
-        maskChild: FittedBox(fit: .scaleDown, child: batteryLevelText),
+        maskChild: Transform.scale(
+          scale: 1.1,
+          child: FittedBox(fit: .scaleDown, child: batteryLevelText),
+        ),
         child: child,
       );
     }
@@ -502,7 +504,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         shape: RoundedSuperellipseBorder(borderRadius: .all(.circular(4))),
       ),
       child: SizedBox(
-        width: 24,
+        width: 25,
         height: 13,
         child: AnimatedSwitcher(
           duration: _batteryState == .discharging && _batteryLevel == 100
@@ -573,7 +575,6 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       style: TextStyle(
         fontFamily: CupertinoIcons.iconFont,
         package: CupertinoIcons.iconFontPackage,
-        height: 1,
       ).merge(style).copyWith(fontSize: fontSize, color: color),
     );
   }
