@@ -19,13 +19,14 @@ class IosBatteryIndicator extends StatefulWidget {
     this.width,
     this.batteryLevel,
     this.batteryState,
-    this.isInBatterySaveMode,
     this.showBatteryPercentage = true,
+    this.isInBatterySaveMode,
+    this.lowBatteryThreshold = 20,
     this.chargingWithBolt = true,
     this.isIOS27Style,
     this.brightness,
+    this.animationDuration = const Duration(milliseconds: 250),
     this.themeAnimationDuration = kThemeAnimationDuration,
-    this.lowBatteryThreshold = 20,
   }) : assert(
          batteryLevel == null || (batteryLevel >= 0 && batteryLevel <= 100),
          'batteryLevel must be between 0 and 100',
@@ -57,10 +58,16 @@ class IosBatteryIndicator extends StatefulWidget {
   /// read from the system.
   final BatteryState? batteryState;
 
-  final bool? isInBatterySaveMode;
-
   /// Whether to render the battery percentage label inside the indicator.
   final bool showBatteryPercentage;
+
+  /// Whether the device is in Low Power Mode / Battery Saver mode.
+  /// When `null`, the value is read from the system at runtime.
+  final bool? isInBatterySaveMode;
+
+  /// The threshold (10–30) below which the battery is considered low.
+  /// iPhone default: 20, Mac default: 10.
+  final int lowBatteryThreshold;
 
   /// Whether to show a bolt glyph (⚡) overlay when the battery is charging.
   final bool chargingWithBolt;
@@ -71,12 +78,11 @@ class IosBatteryIndicator extends StatefulWidget {
   /// The brightness of the indicator.
   final Brightness? brightness;
 
+  /// The duration of battery indicator animations (fill level, bolt, etc.).
+  final Duration animationDuration;
+
   /// The duration of the theme animation.
   final Duration themeAnimationDuration;
-
-  /// The threshold (10–30) below which the battery is considered low.
-  /// iPhone default: 20, Mac default: 10.
-  final int lowBatteryThreshold;
 
   @override
   State<IosBatteryIndicator> createState() => _IosBatteryIndicatorState();
@@ -254,7 +260,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                 /// Battery content with a crossfade transition between basic
                 /// and percentage modes.
                 AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
+                  duration: widget.animationDuration,
                   switchInCurve: Curves.easeIn,
                   switchOutCurve: Curves.easeOut,
                   transitionBuilder: (child, animation) =>
@@ -315,10 +321,20 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       ),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: FractionallySizedBox(
-          widthFactor: (_batteryLevel / 100).clamp(0.05, 1.0),
-          heightFactor: 1,
-          child: Container(
+        child: TweenAnimationBuilder<double>(
+          tween: Tween<double>(end: (_batteryLevel / 100).clamp(.05, 1)),
+          duration: widget.animationDuration,
+          curve: Curves.easeOutCubic,
+          builder: (context, value, child) {
+            return FractionallySizedBox(
+              widthFactor: value,
+              heightFactor: 1,
+              child: child,
+            );
+          },
+          child: AnimatedContainer(
+            duration: widget.animationDuration,
+            curve: Curves.easeOutCubic,
             decoration: _isIOS27Style
                 ? null
                 : ShapeDecoration(
@@ -379,7 +395,14 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       );
     }
 
-    return child;
+    return AnimatedSwitcher(
+      duration: widget.animationDuration,
+      switchInCurve: Curves.easeIn,
+      switchOutCurve: Curves.easeOut,
+      transitionBuilder: (child, animation) =>
+          FadeTransition(opacity: animation, child: child),
+      child: child,
+    );
   }
 
   /// Battery icon with a percentage label and no border.
@@ -409,40 +432,55 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         children: [
           Align(
             alignment: .centerLeft,
-            child: FractionallySizedBox(
-              widthFactor: (_batteryLevel / 100).clamp(0.05, 1.0),
-              heightFactor: 1,
-              child: ColoredBox(color: _trackColor(batteryIndicatorTheme)),
+            child: TweenAnimationBuilder<double>(
+              tween: Tween<double>(end: (_batteryLevel / 100).clamp(.05, 1)),
+              duration: widget.animationDuration,
+              curve: Curves.easeOutCubic,
+              builder: (context, value, child) {
+                return FractionallySizedBox(
+                  widthFactor: value,
+                  heightFactor: 1,
+                  child: child,
+                );
+              },
+              child: AnimatedContainer(
+                duration: widget.animationDuration,
+                curve: Curves.easeOutCubic,
+                color: _trackColor(batteryIndicatorTheme),
+              ),
             ),
           ),
           if (_usePlainStyle)
             FittedBox(
               fit: .scaleDown,
-              child: Row(
-                mainAxisAlignment: .center,
-                spacing: 1,
-                children: [
-                  batteryLevelText,
+              child: Padding(
+                padding: const .all(.5),
+                child: Row(
+                  mainAxisAlignment: .center,
+                  spacing: 1,
+                  children: [
+                    batteryLevelText,
 
-                  /// Bolt overlay — shown when charging and not full.
-                  if (_isCharging || _isCriticallyLow)
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      switchInCurve: Curves.easeIn,
-                      switchOutCurve: Curves.easeOut,
-                      child: _showBolt
-                          ? _buildBolt(
-                              context,
-                              key: const ValueKey('bolt'),
-                              fontSize: 9.6,
-                              color: _isInBatterySaveMode
-                                  ? CupertinoColors.black
-                                  : CupertinoColors.white,
-                              style: const TextStyle(height: 1),
-                            )
-                          : const SizedBox.shrink(key: ValueKey('empty')),
-                    ),
-                ],
+                    /// Bolt overlay — shown when charging and not full.
+                    if (_isCharging || _isCriticallyLow)
+                      AnimatedSwitcher(
+                        duration: widget.animationDuration,
+                        switchInCurve: Curves.easeIn,
+                        switchOutCurve: Curves.easeOut,
+                        child: _showBolt
+                            ? _buildBolt(
+                                context,
+                                key: const ValueKey('bolt'),
+                                fontSize: 9.6,
+                                color: _isInBatterySaveMode
+                                    ? CupertinoColors.black
+                                    : CupertinoColors.white,
+                                style: const TextStyle(height: 1),
+                              )
+                            : const SizedBox.shrink(key: ValueKey('empty')),
+                      ),
+                  ],
+                ),
               ),
             ),
         ],
@@ -454,7 +492,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     if (!_usePlainStyle) {
       child = Cutout(
         alignment: .center,
-        maskChild: batteryLevelText,
+        maskChild: FittedBox(fit: .scaleDown, child: batteryLevelText),
         child: child,
       );
     }
@@ -463,7 +501,20 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       clipper: ShapeBorderClipper(
         shape: RoundedSuperellipseBorder(borderRadius: .all(.circular(4))),
       ),
-      child: SizedBox(width: 24, height: 13, child: child),
+      child: SizedBox(
+        width: 24,
+        height: 13,
+        child: AnimatedSwitcher(
+          duration: _batteryState == .discharging && _batteryLevel == 100
+              ? .zero
+              : widget.animationDuration,
+          switchInCurve: Curves.easeIn,
+          switchOutCurve: Curves.easeOut,
+          transitionBuilder: (child, animation) =>
+              FadeTransition(opacity: animation, child: child),
+          child: child,
+        ),
+      ),
     );
   }
 
@@ -491,7 +542,9 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         children: [
           Positioned(
             right: 0,
-            child: Container(
+            child: AnimatedContainer(
+              duration: widget.animationDuration,
+              curve: Curves.easeOutCubic,
               width: circleDiameter,
               height: circleDiameter,
               decoration: BoxDecoration(color: color, shape: .circle),

@@ -33,8 +33,9 @@ Language: English | [中文](README_CN.md)
 - **Battery save mode** — the track turns yellow when low-power mode is active.
 - **Light / Dark mode** — automatically adapts to the ambient `Brightness`, or
   force a specific brightness via the `brightness` property.
-- **Smooth animations** — `AnimatedSwitcher` transitions between basic and
-  percentage display, and `AnimatedTheme` for theme changes.
+- **Smooth animations** — animated fill level, color changes, charging bolt
+  transitions, and crossfade between basic and percentage display. All
+  animation durations are configurable via `animationDuration`.
 
 ## 🚀 Getting started
 
@@ -91,6 +92,7 @@ IosBatteryIndicator(
   isIOS27Style: true,            // force iOS 27 borderless style
   brightness: Brightness.dark,   // force dark mode colors
   lowBatteryThreshold: 15,       // turn red when ≤ 15%
+  animationDuration: const Duration(milliseconds: 500),  // slow down animations
 );
 ```
 
@@ -140,13 +142,14 @@ For Cupertino apps, wrap the indicator in a `Theme` widget or use
 | `width`                  | `double?`       | `null`                    | Preferred width. Mutually exclusive with `height`.                 |
 | `batteryLevel`           | `int?`          | `null`                    | Battery level 0–100. When `null`, read from the system.            |
 | `batteryState`           | `BatteryState?` | `null`                    | Charging / discharging / full. When `null`, read from the system.  |
-| `isInBatterySaveMode`    | `bool?`         | `null`                    | Low-power mode. When `null`, read from the system.                 |
 | `showBatteryPercentage`  | `bool`          | `true`                    | Show the percentage number inside the indicator.                   |
+| `isInBatterySaveMode`    | `bool?`         | `null`                    | Low-power mode. When `null`, read from the system.                 |
+| `lowBatteryThreshold`    | `int`           | `20`                      | Low Battery Threshold (10–30) below which the indicator turns red. |
 | `chargingWithBolt`       | `bool`          | `true`                    | Show a bolt icon when charging.                                    |
 | `isIOS27Style`           | `bool?`         | `null`                    | Force iOS 27 style. When `null`, auto-detect the iOS version.      |
 | `brightness`             | `Brightness?`   | `null`                    | Force light or dark colors. When `null`, use ambient brightness.   |
+| `animationDuration`      | `Duration`      | `Duration(milliseconds: 250)` | Duration for battery indicator animations (fill, colors, bolt). |
 | `themeAnimationDuration` | `Duration`      | `kThemeAnimationDuration` | Animation duration for theme transitions.                          |
-| `lowBatteryThreshold`    | `int`           | `20`                      | Low Battery Threshold (10–30) below which the indicator turns red. |
 
 ### 🎨 `BatteryIndicatorTheme`
 

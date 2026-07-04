@@ -24,6 +24,7 @@ Language: [English](README.md) | 中文
 - **低电量警告** — 电量低于可配置阈值（10–30，默认 20）时，指示器变为红色。
 - **省电模式** — 低功耗模式激活时，电池轨道变为黄色。
 - **亮色 / 深色模式** — 自动适配环境的 `Brightness`，也可通过 `brightness` 属性强制指定。
+- **流畅动画** — 填充进度、颜色变化、充电闪电图标切换以及基础/百分比显示之间的交叉淡入淡出，所有动画时长均可通过 `animationDuration` 配置。
 
 ## 🚀 快速开始
 
@@ -77,6 +78,7 @@ IosBatteryIndicator(
   isIOS27Style: true,             // 强制 iOS 27 无边框风格
   brightness: Brightness.dark,    // 强制深色模式颜色
   lowBatteryThreshold: 15,        // 电量 ≤ 15% 时变红
+  animationDuration: const Duration(milliseconds: 500),  // 放慢动画速度
 );
 ```
 
@@ -118,19 +120,20 @@ MaterialApp(
 
 ### 🧩 `IosBatteryIndicator`
 
-| 属性 | 类型 | 默认值 | 描述                                  |
-| --- | --- | --- |-------------------------------------|
-| `height` | `double?` | `null` | 首选高度，与 `width` 互斥。                  |
-| `width` | `double?` | `null` | 首选宽度，与 `height` 互斥。                 |
-| `batteryLevel` | `int?` | `null` | 电池电量 0–100，为 `null` 时从系统读取。         |
-| `batteryState` | `BatteryState?` | `null` | 充电 / 放电 / 已满。为 `null` 时从系统读取。       |
-| `isInBatterySaveMode` | `bool?` | `null` | 低功耗模式。为 `null` 时从系统读取。              |
-| `showBatteryPercentage` | `bool` | `true` | 是否在指示器内显示百分比数字。                     |
-| `chargingWithBolt` | `bool` | `true` | 充电时是否显示闪电图标。                        |
+| 属性 | 类型 | 默认值 | 描述 |
+| --- | --- | --- | --- |
+| `height` | `double?` | `null` | 首选高度，与 `width` 互斥。 |
+| `width` | `double?` | `null` | 首选宽度，与 `height` 互斥。 |
+| `batteryLevel` | `int?` | `null` | 电池电量 0–100，为 `null` 时从系统读取。 |
+| `batteryState` | `BatteryState?` | `null` | 充电 / 放电 / 已满。为 `null` 时从系统读取。 |
+| `showBatteryPercentage` | `bool` | `true` | 是否在指示器内显示百分比数字。 |
+| `isInBatterySaveMode` | `bool?` | `null` | 低功耗模式。为 `null` 时从系统读取。 |
+| `lowBatteryThreshold` | `int` | `20` | 低电量阈值（10–30），低于此值时指示器变红。 |
+| `chargingWithBolt` | `bool` | `true` | 充电时是否显示闪电图标。 |
 | `isIOS27Style` | `bool?` | `null` | 强制 iOS 27 风格。为 `null` 时自动检测 iOS 版本。 |
-| `brightness` | `Brightness?` | `null` | 强制亮色或深色。为 `null` 时使用环境亮度。           |
-| `themeAnimationDuration` | `Duration` | `kThemeAnimationDuration` | 主题切换的动画时长。                          |
-| `lowBatteryThreshold` | `int` | `20` | 低电量阈值（10–30），低于此值时指示器变红。            |
+| `brightness` | `Brightness?` | `null` | 强制亮色或深色。为 `null` 时使用环境亮度。 |
+| `animationDuration` | `Duration` | `Duration(milliseconds: 250)` | 电池指示器动画时长（填充、颜色、闪电图标等）。 |
+| `themeAnimationDuration` | `Duration` | `kThemeAnimationDuration` | 主题切换的动画时长。 |
 
 ### 🎨 `BatteryIndicatorTheme`
 
