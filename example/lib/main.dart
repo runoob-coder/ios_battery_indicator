@@ -106,12 +106,17 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
 
           /// Current status info
           Container(
-            padding: const .symmetric(horizontal: 16, vertical: 8),
+            padding: const .symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: CupertinoColors.tertiarySystemFill,
               borderRadius: .circular(8),
             ),
-            child: Text(_getStatusText()),
+            child: Text(
+              _getStatusText(),
+              style: TextStyle(fontSize: 16),
+              maxLines: 2,
+              textAlign: .center,
+            ),
           ),
         ],
       ),

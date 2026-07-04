@@ -1,3 +1,9 @@
+## 1.2.1
+
+- 🎨 Refine percentage text rendering: increase font size from 12 to 13, remove letter spacing for cleaner appearance
+- 🎨 Adjust bolt icon size from 10 to 9.6 for better visual balance with percentage text
+- 🎨 Remove `Transform.scale` wrappers from percentage text and cutout mask, use `Padding` inset instead for more predictable layout
+
 ## 1.2.0
 
 - 🔊 **New `playChargingSound` parameter** — optionally play the native iOS charging sound (`connectedToPower`) when entering the charging state in manual mode. Uses the [ios_system_sound](https://pub.dev/packages/ios_system_sound) package and is only supported on iOS. Disabled by default.

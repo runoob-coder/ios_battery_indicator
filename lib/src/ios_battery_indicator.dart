@@ -502,8 +502,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             : !_isCharging
             ? batteryIndicatorTheme.contentAntiColor
             : CupertinoColors.white,
-        fontSize: 12,
-        letterSpacing: .1,
+        fontSize: 13,
         fontWeight: .bold,
       ),
     );
@@ -535,10 +534,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             ),
           ),
           if (_usePlainStyle)
-            Transform.scale(
-              scale: 1.05,
-              child: FittedBox(
-                fit: .fitWidth,
+            FittedBox(
+              fit: .fitWidth,
+              child: Padding(
+                padding: const .all(.5),
                 child: Row(
                   mainAxisAlignment: .center,
                   spacing: 1,
@@ -555,7 +554,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                             ? _buildBolt(
                                 context,
                                 key: const ValueKey('bolt'),
-                                fontSize: 10,
+                                fontSize: 9.6,
                                 color: _isInBatterySaveMode
                                     ? CupertinoColors.black
                                     : CupertinoColors.white,
@@ -575,10 +574,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     if (!_usePlainStyle) {
       child = Cutout(
         alignment: .center,
-        maskChild: Transform.scale(
-          scale: 1.1,
-          child: FittedBox(fit: .scaleDown, child: batteryLevelText),
-        ),
+        maskChild: FittedBox(fit: .scaleDown, child: batteryLevelText),
         child: child,
       );
     }
