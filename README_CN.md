@@ -94,6 +94,21 @@ IosBatteryIndicator(height: 36);   // 36 逻辑像素高，宽度自适应
 IosBatteryIndicator(width: 40);   // 40 逻辑像素宽，高度自适应
 ```
 
+### 📡 回调
+
+在自动模式下接收系统电池实时更新：
+
+```dart
+IosBatteryIndicator(
+  onBatteryLevelChanged: (level) => print('电量: $level%'),
+  onBatteryStateChanged: (state) => print('状态: $state'),
+);
+```
+
+> [!NOTE]
+> 回调仅在 `batteryLevel` / `batteryState` 为 `null`（系统模式）时触发。
+> 手动传入值时请使用自己的状态管理。
+
 ### 🖌️ 自定义主题
 
 可通过 `ThemeData.extensions` 提供 `BatteryIndicatorTheme` 来自定义颜色：
@@ -134,6 +149,8 @@ MaterialApp(
 | `brightness` | `Brightness?` | `null` | 强制亮色或深色。为 `null` 时使用环境亮度。 |
 | `animationDuration` | `Duration` | `Duration(milliseconds: 250)` | 电池指示器动画时长（填充、颜色、闪电图标等）。 |
 | `themeAnimationDuration` | `Duration` | `kThemeAnimationDuration` | 主题切换的动画时长。 |
+| `onBatteryLevelChanged` | `ValueChanged<int>?` | `null` | 系统电量变化回调（仅系统模式）。 |
+| `onBatteryStateChanged` | `ValueChanged<BatteryState>?` | `null` | 系统充电状态变化回调（仅系统模式）。 |
 
 ### 🎨 `BatteryIndicatorTheme`
 

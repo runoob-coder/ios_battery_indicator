@@ -1,8 +1,12 @@
+## 1.1.0
+
+- 📡 **New callbacks** — added `onBatteryLevelChanged` and `onBatteryStateChanged` to receive real-time system battery updates in auto mode
+- 🐛 Fix percentage text vertical misalignment by applying `TextHeightBehavior` to suppress extra ascent/descent
+
 ## 1.0.3
 
 - 🎬 Added `animationDuration` parameter to control all indicator animations, including fill progress, color changes, bolt icon, and crossfade transitions
 - 🎨 Fix cutout percentage text overflow by wrapping `maskChild` with `FittedBox` for proper scaling
-
 
 ## 1.0.2
 

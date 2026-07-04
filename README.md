@@ -108,6 +108,22 @@ IosBatteryIndicator(height: 36); // 36 logical pixels tall, width auto
 IosBatteryIndicator(width: 40); // 40 logical pixels wide, height auto
 ```
 
+### 📡 Callbacks
+
+Receive real-time system battery updates when in auto mode:
+
+```dart
+IosBatteryIndicator(
+  onBatteryLevelChanged: (level) => print('Battery: $level%'),
+  onBatteryStateChanged: (state) => print('State: $state'),
+);
+```
+
+> [!NOTE]
+> These callbacks only fire when `batteryLevel` / `batteryState` is
+> `null` (system mode). When providing manual values, use your own state
+> management instead.
+
 ### 🖌️ Custom theme
 
 You can customize the colors by providing a `BatteryIndicatorTheme` via
@@ -150,6 +166,8 @@ For Cupertino apps, wrap the indicator in a `Theme` widget or use
 | `brightness`             | `Brightness?`   | `null`                    | Force light or dark colors. When `null`, use ambient brightness.   |
 | `animationDuration`      | `Duration`      | `Duration(milliseconds: 250)` | Duration for battery indicator animations (fill, colors, bolt). |
 | `themeAnimationDuration` | `Duration`      | `kThemeAnimationDuration` | Animation duration for theme transitions.                          |
+| `onBatteryLevelChanged`  | `ValueChanged<int>?` | `null`               | Called when system battery level changes (system mode only).       |
+| `onBatteryStateChanged`  | `ValueChanged<BatteryState>?` | `null`         | Called when system battery state changes (system mode only).       |
 
 ### 🎨 `BatteryIndicatorTheme`
 

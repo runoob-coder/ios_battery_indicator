@@ -339,7 +339,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       ),
     );
 
-    return DefaultTextStyle.merge(
+    return DefaultTextStyle(
       style: const TextStyle(height: 1, fontWeight: .w500),
       textHeightBehavior: const TextHeightBehavior(
         applyHeightToFirstAscent: false,
