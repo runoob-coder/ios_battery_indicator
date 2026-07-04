@@ -28,6 +28,8 @@ class IosBatteryIndicator extends StatefulWidget {
     this.brightness,
     this.animationDuration = const Duration(milliseconds: 250),
     this.themeAnimationDuration = kThemeAnimationDuration,
+    this.onBatteryLevelChanged,
+    this.onBatteryStateChanged,
   }) : assert(
          batteryLevel == null || (batteryLevel >= 0 && batteryLevel <= 100),
          'batteryLevel must be between 0 and 100',
@@ -84,6 +86,14 @@ class IosBatteryIndicator extends StatefulWidget {
 
   /// The duration of the theme animation.
   final Duration themeAnimationDuration;
+
+  /// Called when the system battery level changes.
+  /// Only fires when [batteryLevel] is `null` (system mode).
+  final ValueChanged<int>? onBatteryLevelChanged;
+
+  /// Called when the system battery state changes.
+  /// Only fires when [batteryState] is `null` (system mode).
+  final ValueChanged<BatteryState>? onBatteryStateChanged;
 
   @override
   State<IosBatteryIndicator> createState() => _IosBatteryIndicatorState();
@@ -167,11 +177,16 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   @override
   void didUpdateWidget(covariant IosBatteryIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.batteryLevel == null && oldWidget.batteryLevel != null) {
-      _initBattery();
-      return;
+    // System → manual: cancel system monitoring.
+    if ((widget.batteryLevel != null && oldWidget.batteryLevel == null) ||
+        (widget.batteryState != null && oldWidget.batteryState == null)) {
+      _batteryLevelTimer?.cancel();
+      _batteryStateSubscription?.cancel();
     }
-    if (widget.batteryState == null && oldWidget.batteryState != null) {
+    // Manual → system: restart system monitoring.
+    // _initBattery() handles both level and state, so only call it once.
+    if ((widget.batteryLevel == null && oldWidget.batteryLevel != null) ||
+        (widget.batteryState == null && oldWidget.batteryState != null)) {
       _initBattery();
     }
   }
@@ -181,12 +196,16 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       _systemBatteryLevel = widget.batteryLevel!;
     } else {
       _systemBatteryLevel = await _battery.batteryLevel;
+      widget.onBatteryLevelChanged?.call(_systemBatteryLevel);
       _batteryLevelTimer?.cancel();
       _batteryLevelTimer = Timer.periodic(const Duration(seconds: 30), (
         _,
       ) async {
         final level = await _battery.batteryLevel;
-        if (mounted) setState(() => _systemBatteryLevel = level);
+        if (mounted) {
+          setState(() => _systemBatteryLevel = level);
+          widget.onBatteryLevelChanged?.call(level);
+        }
       });
     }
 
@@ -194,6 +213,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       _systemBatteryState = widget.batteryState!;
     } else {
       _systemBatteryState = await _battery.batteryState;
+      widget.onBatteryStateChanged?.call(_systemBatteryState!);
 
       _batteryStateSubscription?.cancel();
       _batteryStateSubscription = _battery.onBatteryStateChanged.listen((
@@ -202,7 +222,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         /// Sync the latest battery level when the state changes.
         if (widget.batteryLevel == null) {
           final level = await _battery.batteryLevel;
-          if (mounted) setState(() => _systemBatteryLevel = level);
+          if (mounted) {
+            setState(() => _systemBatteryLevel = level);
+            widget.onBatteryLevelChanged?.call(level);
+          }
         }
 
         /// When transitioning from charging to discharging, defer the update
@@ -215,9 +238,11 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
           Future.delayed(const Duration(seconds: 1), () {
             if (!mounted) return;
             setState(() => _systemBatteryState = state);
+            widget.onBatteryStateChanged?.call(state);
           });
         } else {
           setState(() => _systemBatteryState = state);
+          widget.onBatteryStateChanged?.call(state);
         }
       });
     }

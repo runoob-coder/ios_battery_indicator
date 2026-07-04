@@ -86,6 +86,11 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
             height: _widgetSize,
             batteryLevel: _useSystemBattery ? null : _batteryLevel.round(),
             batteryState: _useSystemBattery ? null : _batteryState,
+            // Only fires when batteryLevel/batteryState is null (system mode).
+            onBatteryLevelChanged: (level) =>
+                setState(() => _batteryLevel = level.toDouble()),
+            onBatteryStateChanged: (state) =>
+                setState(() => _batteryState = state),
             isInBatterySaveMode: _isInBatterySaveMode,
             showBatteryPercentage: _showBatteryPercentage,
             chargingWithBolt: _chargingWithBolt,
