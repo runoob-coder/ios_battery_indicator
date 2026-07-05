@@ -1,3 +1,7 @@
+## 1.2.3
+
+- 📦 Add `platforms` declaration to `pubspec.yaml` for all supported platforms
+
 ## 1.2.2
 
 - 🎨 Refine battery indicator layout and fill animation for smoother, more polished appearance
