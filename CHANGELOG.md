@@ -1,3 +1,9 @@
+## 1.2.2
+
+- 🎨 Refine battery indicator layout and fill animation for smoother, more polished appearance
+- 🐛 Fix `chargingWithBolt` display logic
+- 🧹 Simplify positive pole color logic by delegating to `_trackColor(theme)`
+
 ## 1.2.1
 
 - 🎨 Refine percentage text rendering: increase font size from 12 to 13, remove letter spacing for cleaner appearance
