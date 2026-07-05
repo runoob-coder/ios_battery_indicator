@@ -186,6 +186,13 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         : theme.dischargingTrackColor;
   }
 
+  // ---- layout constants ----
+
+  static const double _batteryWidth = 25;
+  static const double _batteryHeight = 13;
+  static const BorderRadius _outerBorderRadius = .all(Radius.circular(4));
+  static const BorderRadius _innerBorderRadius = .all(Radius.circular(2));
+
   /// Plays the iOS charging sound when the battery state transitions to
   /// [BatteryState.charging] and [IosBatteryIndicator.playChargingSound] is
   /// `true`. Only fires on iOS, not on the web or other platforms.
@@ -396,50 +403,38 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   /// Basic battery icon (no percentage label).
   /// iOS 27 style renders without a border.
   Widget _buildBattery(BuildContext context) {
-    final batteryIndicatorTheme = _theme(context);
+    final theme = _theme(context);
 
-    Widget child;
+    final fillChild = AnimatedContainer(
+      duration: widget.animationDuration,
+      curve: Curves.easeOutCubic,
+      decoration: _isIOS27Style
+          ? null
+          : ShapeDecoration(
+              shape: const RoundedSuperellipseBorder(
+                borderRadius: _innerBorderRadius,
+              ),
+              color: _trackColor(theme),
+            ),
+      color: _isIOS27Style ? _trackColor(theme) : null,
+    );
 
-    child = Container(
-      width: 25,
-      height: 13,
+    Widget child = Container(
+      width: _batteryWidth,
+      height: _batteryHeight,
       padding: _isIOS27Style ? .zero : const .all(1),
       decoration: ShapeDecoration(
-        color: _isIOS27Style ? batteryIndicatorTheme.bgColor : null,
+        color: _isIOS27Style ? theme.bgColor : null,
         shape: RoundedSuperellipseBorder(
-          borderRadius: const .all(.circular(4)),
+          borderRadius: _outerBorderRadius,
           side: _isIOS27Style
               ? .none
-              : BorderSide(color: batteryIndicatorTheme.bgColor, width: 1),
+              : BorderSide(color: theme.bgColor, width: 1),
         ),
       ),
       child: Align(
-        alignment: Alignment.centerLeft,
-        child: TweenAnimationBuilder<double>(
-          tween: Tween<double>(end: (_batteryLevel / 100).clamp(.05, 1)),
-          duration: widget.animationDuration,
-          curve: Curves.easeOutCubic,
-          builder: (context, value, child) {
-            return FractionallySizedBox(
-              widthFactor: value,
-              heightFactor: 1,
-              child: child,
-            );
-          },
-          child: AnimatedContainer(
-            duration: widget.animationDuration,
-            curve: Curves.easeOutCubic,
-            decoration: _isIOS27Style
-                ? null
-                : ShapeDecoration(
-                    shape: const RoundedSuperellipseBorder(
-                      borderRadius: .all(.circular(2)),
-                    ),
-                    color: _trackColor(batteryIndicatorTheme),
-                  ),
-            color: _isIOS27Style ? _trackColor(batteryIndicatorTheme) : null,
-          ),
-        ),
+        alignment: .centerLeft,
+        child: _buildFillAnimation(fillChild),
       ),
     );
 
@@ -456,7 +451,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                 style: TextStyle(
                   fontSize: 13,
                   foreground: Paint()
-                    ..style = PaintingStyle.stroke
+                    ..style = .stroke
                     ..strokeWidth = 2,
                 ),
               ),
@@ -465,37 +460,27 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
           ),
           FittedBox(
             fit: .scaleDown,
-            child: _buildBolt(
-              context,
-              color: batteryIndicatorTheme.contentColor,
-              fontSize: 13,
-            ),
+            child: _buildBolt(context, color: theme.contentColor, fontSize: 13),
           ),
         ],
       );
     }
 
-    if (_isIOS27Style) {
-      const shape = RoundedSuperellipseBorder(borderRadius: .all(.circular(4)));
-      return ClipPath(
-        clipper: ShapeBorderClipper(shape: shape),
-        child: child,
-      );
-    }
-
-    return AnimatedSwitcher(
-      duration: widget.animationDuration,
-      switchInCurve: Curves.easeIn,
-      switchOutCurve: Curves.easeOut,
-      transitionBuilder: (child, animation) =>
-          FadeTransition(opacity: animation, child: child),
-      child: child,
-    );
+    return _isIOS27Style
+        ? _clipBatteryShape(child)
+        : AnimatedSwitcher(
+            duration: widget.animationDuration,
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            transitionBuilder: (child, animation) =>
+                FadeTransition(opacity: animation, child: child),
+            child: child,
+          );
   }
 
   /// Battery icon with a percentage label and no border.
   Widget _buildBatteryWithPercentage(BuildContext context) {
-    final batteryIndicatorTheme = _theme(context);
+    final theme = _theme(context);
 
     final batteryLevelText = Text(
       _batteryLevel.toString(),
@@ -504,7 +489,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         color: _isInBatterySaveMode
             ? CupertinoColors.black
             : !_isCharging
-            ? batteryIndicatorTheme.contentAntiColor
+            ? theme.contentAntiColor
             : CupertinoColors.white,
         fontSize: 13,
         fontWeight: .bold,
@@ -512,28 +497,18 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     );
 
     Widget child = Container(
-      color: batteryIndicatorTheme.bgColor,
+      color: theme.bgColor,
       alignment: .center,
       child: Stack(
         alignment: .center,
         children: [
           Align(
             alignment: .centerLeft,
-            child: TweenAnimationBuilder<double>(
-              tween: Tween<double>(end: (_batteryLevel / 100).clamp(.05, 1)),
-              duration: widget.animationDuration,
-              curve: Curves.easeOutCubic,
-              builder: (context, value, child) {
-                return FractionallySizedBox(
-                  widthFactor: value,
-                  heightFactor: 1,
-                  child: child,
-                );
-              },
-              child: AnimatedContainer(
+            child: _buildFillAnimation(
+              AnimatedContainer(
                 duration: widget.animationDuration,
                 curve: Curves.easeOutCubic,
-                color: _trackColor(batteryIndicatorTheme),
+                color: _trackColor(theme),
               ),
             ),
           ),
@@ -547,24 +522,17 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                   Transform.scale(scale: 1.1, child: batteryLevelText),
 
                   /// Bolt overlay — shown when charging and not full.
-                  if (_isCharging || _isCriticallyLow)
-                    AnimatedSwitcher(
-                      duration: widget.animationDuration,
-                      switchInCurve: Curves.easeIn,
-                      switchOutCurve: Curves.easeOut,
-                      child: _showBolt
-                          ? Transform.scale(
-                              scale: 1.25,
-                              child: _buildBolt(
-                                context,
-                                key: const ValueKey('bolt'),
-                                fontSize: 9.4,
-                                color: _isInBatterySaveMode
-                                    ? CupertinoColors.black
-                                    : CupertinoColors.white,
-                              ),
-                            )
-                          : const SizedBox.shrink(key: ValueKey('empty')),
+                  if (_isCharging && _showBolt)
+                    Transform.scale(
+                      scale: 1.25,
+                      child: _buildBolt(
+                        context,
+                        key: const ValueKey('bolt'),
+                        fontSize: 9.4,
+                        color: _isInBatterySaveMode
+                            ? CupertinoColors.black
+                            : CupertinoColors.white,
+                      ),
                     ),
                 ],
               ),
@@ -586,24 +554,16 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       );
     }
 
-    return ClipPath(
-      clipper: ShapeBorderClipper(
-        shape: RoundedSuperellipseBorder(borderRadius: .all(.circular(4))),
+    return _clipBatteryShape(
+      AnimatedSwitcher(
+        duration: widget.animationDuration,
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+        transitionBuilder: (child, animation) =>
+            FadeTransition(opacity: animation, child: child),
+        child: child,
       ),
-      child: SizedBox(
-        width: 25,
-        height: 13,
-        child: AnimatedSwitcher(
-          duration: _batteryState == .discharging && _batteryLevel == 100
-              ? .zero
-              : widget.animationDuration,
-          switchInCurve: Curves.easeIn,
-          switchOutCurve: Curves.easeOut,
-          transitionBuilder: (child, animation) =>
-              FadeTransition(opacity: animation, child: child),
-          child: child,
-        ),
-      ),
+      constrainSize: true,
     );
   }
 
@@ -642,6 +602,45 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         ],
       ),
     );
+  }
+
+  // ---- reusable builders ----
+
+  /// Animates the fill level of [fillChild] from 0 to the current battery
+  /// level using a [TweenAnimationBuilder] with an ease-out-cubic curve.
+  Widget _buildFillAnimation(Widget fillChild) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(end: (_batteryLevel / 100).clamp(0.05, 1)),
+      duration: widget.animationDuration,
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) {
+        return FractionallySizedBox(
+          widthFactor: value,
+          heightFactor: 1,
+          child: child,
+        );
+      },
+      child: fillChild,
+    );
+  }
+
+  /// Clips [child] with the battery's rounded superellipse shape.
+  /// When [constrainSize] is true, also constrains to [_batteryWidth] x
+  /// [_batteryHeight].
+  Widget _clipBatteryShape(Widget child, {bool constrainSize = false}) {
+    const shape = RoundedSuperellipseBorder(borderRadius: _outerBorderRadius);
+    final clipped = ClipPath(
+      clipper: ShapeBorderClipper(shape: shape),
+      child: child,
+    );
+    if (constrainSize) {
+      return SizedBox(
+        width: _batteryWidth,
+        height: _batteryHeight,
+        child: clipped,
+      );
+    }
+    return clipped;
   }
 
   /// Builds a [Text] widget rendering the Cupertino bolt (⚡) glyph.
