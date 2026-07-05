@@ -540,33 +540,33 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
           if (_usePlainStyle)
             FittedBox(
               fit: .fitWidth,
-              child: Padding(
-                padding: const .all(.5),
-                child: Row(
-                  mainAxisAlignment: .center,
-                  spacing: 1,
-                  children: [
-                    batteryLevelText,
+              child: Row(
+                mainAxisAlignment: .center,
+                spacing: 2,
+                children: [
+                  Transform.scale(scale: 1.1, child: batteryLevelText),
 
-                    /// Bolt overlay — shown when charging and not full.
-                    if (_isCharging || _isCriticallyLow)
-                      AnimatedSwitcher(
-                        duration: widget.animationDuration,
-                        switchInCurve: Curves.easeIn,
-                        switchOutCurve: Curves.easeOut,
-                        child: _showBolt
-                            ? _buildBolt(
+                  /// Bolt overlay — shown when charging and not full.
+                  if (_isCharging || _isCriticallyLow)
+                    AnimatedSwitcher(
+                      duration: widget.animationDuration,
+                      switchInCurve: Curves.easeIn,
+                      switchOutCurve: Curves.easeOut,
+                      child: _showBolt
+                          ? Transform.scale(
+                              scale: 1.25,
+                              child: _buildBolt(
                                 context,
                                 key: const ValueKey('bolt'),
-                                fontSize: 9.6,
+                                fontSize: 9.4,
                                 color: _isInBatterySaveMode
                                     ? CupertinoColors.black
                                     : CupertinoColors.white,
-                              )
-                            : const SizedBox.shrink(key: ValueKey('empty')),
-                      ),
-                  ],
-                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(key: ValueKey('empty')),
+                    ),
+                ],
               ),
             ),
         ],
@@ -578,7 +578,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     if (!_usePlainStyle) {
       child = Cutout(
         alignment: .center,
-        maskChild: FittedBox(fit: .scaleDown, child: batteryLevelText),
+        maskChild: Transform.scale(
+          scale: 1.1,
+          child: FittedBox(fit: .scaleDown, child: batteryLevelText),
+        ),
         child: child,
       );
     }
