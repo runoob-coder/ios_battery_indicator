@@ -569,20 +569,16 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
   /// Positive pole (small circle on the right).
   Widget _buildPositivePole(BuildContext context) {
-    final batteryIndicatorTheme = _theme(context);
+    final theme = _theme(context);
 
     const double circleDiameter = 4.2;
     const double visibleWidth = circleDiameter / 3;
 
     /// adaptive color when full but not charging
-    Color color = batteryIndicatorTheme.bgColor;
-    if (_isFull && (widget.showBatteryPercentage || _isIOS27Style)) {
-      color = _isInBatterySaveMode
-          ? CupertinoColors.systemYellow
-          : _isCharging
-          ? CupertinoColors.activeGreen
-          : batteryIndicatorTheme.dischargingTrackColor;
-    }
+    final Color color =
+        _isFull && (widget.showBatteryPercentage || _isIOS27Style)
+        ? _trackColor(theme)
+        : theme.bgColor;
 
     return SizedBox(
       width: visibleWidth,
