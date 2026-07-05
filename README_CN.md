@@ -69,7 +69,7 @@ IosBatteryIndicator(
 ```dart
 IosBatteryIndicator(
   showBatteryPercentage: false,   // 隐藏百分比数字
-  chargingWithBolt: false,        // 充电时隐藏闪电图标
+  chargingWithBolt: false,        // 充电时隐藏闪电图标（仅在显示百分比时有效）
 );
 ```
 
@@ -161,7 +161,7 @@ MaterialApp(
 | `showBatteryPercentage` | `bool` | `true` | 是否在指示器内显示百分比数字。 |
 | `isInBatterySaveMode` | `bool?` | `null` | 低功耗模式。为 `null` 时从系统读取。 |
 | `lowBatteryThreshold` | `int` | `20` | 低电量阈值（10–30），低于此值时指示器变红。 |
-| `chargingWithBolt` | `bool` | `true` | 充电时是否显示闪电图标。 |
+| `chargingWithBolt` | `bool` | `true` | 充电时是否显示闪电图标。仅在 `showBatteryPercentage` 为 `true` 时生效。 |
 | `playChargingSound` | `bool` | `false` | 手动模式下播放 iOS 充电音效（仅 iOS）。 |
 | `isIOS27Style` | `bool?` | `null` | 强制 iOS 27 风格。为 `null` 时自动检测 iOS 版本。 |
 | `brightness` | `Brightness?` | `null` | 强制亮色或深色。为 `null` 时使用环境亮度。 |

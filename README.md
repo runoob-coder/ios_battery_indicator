@@ -87,7 +87,7 @@ IosBatteryIndicator(
 ```dart
 IosBatteryIndicator(
   showBatteryPercentage: false, // hide the percentage number
-  chargingWithBolt: false,      // hide the bolt when charging
+  chargingWithBolt: false,      // hide the bolt (only when showing percentage)
 );
 ```
 
@@ -184,7 +184,7 @@ For Cupertino apps, wrap the indicator in a `Theme` widget or use
 | `showBatteryPercentage`  | `bool`          | `true`                    | Show the percentage number inside the indicator.                   |
 | `isInBatterySaveMode`    | `bool?`         | `null`                    | Low-power mode. When `null`, read from the system.                 |
 | `lowBatteryThreshold`    | `int`           | `20`                      | Low Battery Threshold (10–30) below which the indicator turns red. |
-| `chargingWithBolt`       | `bool`          | `true`                    | Show a bolt icon when charging.                                    |
+| `chargingWithBolt`       | `bool`          | `true`                    | Show a bolt icon when charging. Only effective when `showBatteryPercentage` is `true`. |
 | `playChargingSound`      | `bool`          | `false`                   | Play iOS charging sound in manual mode (iOS only).                 |
 | `isIOS27Style`           | `bool?`         | `null`                    | Force iOS 27 style. When `null`, auto-detect the iOS version.      |
 | `brightness`             | `Brightness?`   | `null`                    | Force light or dark colors. When `null`, use ambient brightness.   |

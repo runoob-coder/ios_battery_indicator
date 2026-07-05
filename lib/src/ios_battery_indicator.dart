@@ -79,6 +79,10 @@ class IosBatteryIndicator extends StatefulWidget {
   final int lowBatteryThreshold;
 
   /// Whether to show a bolt glyph (⚡) overlay when the battery is charging.
+  ///
+  /// Only has effect when [showBatteryPercentage] is `true` (the default),
+  /// because the bolt is rendered inside the percentage display area. In basic
+  /// mode the indicator uses a plain fill bar without text or bolt overlay.
   final bool chargingWithBolt;
 
   /// Whether to play the iOS charging sound ([SystemSoundID.connectedToPower])

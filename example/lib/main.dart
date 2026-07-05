@@ -221,7 +221,9 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
                   onChanged: (v) => setState(() => _playChargingSound = v),
                 ),
               ),
-            if (_batteryState == .charging && !_useSystemBattery)
+            if (_batteryState == .charging &&
+                !_useSystemBattery &&
+                _showBatteryPercentage)
               CupertinoListTile(
                 leading: const Icon(CupertinoIcons.bolt_fill),
                 title: const Text('Show Bolt When Charging'),
