@@ -157,9 +157,9 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
   bool get _isCriticallyLow => _batteryLevel <= widget.lowBatteryThreshold;
 
-  /// Returns `true` when the battery is full, charging, or critically low.
+  /// Returns `true` when the battery is charging, or critically low.
   /// In these states a solid color fill is used (no cutout).
-  bool get _usePlainStyle => _isFull || _isCharging || _isCriticallyLow;
+  bool get _usePlainStyle => _isCharging || _isCriticallyLow;
 
   /// Returns `true` when the bolt overlay should be shown.
   bool get _showBolt => _isCharging && !_isFull && widget.chargingWithBolt;
@@ -488,11 +488,11 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       style: TextStyle(
         color: _isInBatterySaveMode
             ? CupertinoColors.black
-            : !_isCharging
-            ? theme.contentAntiColor
             : CupertinoColors.white,
         fontSize: 13,
-        fontWeight: .bold,
+        fontFeatures: [const .tabularFigures()],
+        letterSpacing: -.2,
+        fontWeight: .w800,
       ),
     );
 
@@ -519,7 +519,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                 mainAxisAlignment: .center,
                 spacing: 2,
                 children: [
-                  Transform.scale(scale: 1.1, child: batteryLevelText),
+                  Transform.scale(
+                    scale: _batteryLevel == 100 ? 1 : 1.1,
+                    child: batteryLevelText,
+                  ),
 
                   /// Bolt overlay — shown when charging and not full.
                   if (_isCharging && _showBolt)
@@ -542,12 +545,12 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     );
 
     /// Cutout style: punch the percentage text through the fill.
-    /// Skip cutout when using plain style (full / charging / critically low).
+    /// Skip cutout when using plain style (charging / critically low).
     if (!_usePlainStyle) {
       child = Cutout(
         alignment: .center,
         maskChild: Transform.scale(
-          scale: 1.1,
+          scale: _batteryLevel == 100 ? 1 : 1.1,
           child: FittedBox(fit: .scaleDown, child: batteryLevelText),
         ),
         child: child,
@@ -571,7 +574,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   Widget _buildPositivePole(BuildContext context) {
     final theme = _theme(context);
 
-    const double circleDiameter = 4.2;
+    const double circleDiameter = 3.9;
     const double visibleWidth = circleDiameter / 3;
 
     /// adaptive color when full but not charging
@@ -606,7 +609,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   /// level using a [TweenAnimationBuilder] with an ease-out-cubic curve.
   Widget _buildFillAnimation(Widget fillChild) {
     return TweenAnimationBuilder<double>(
-      tween: Tween<double>(end: (_batteryLevel / 100).clamp(0.05, 1)),
+      tween: Tween<double>(end: (_batteryLevel / 100).clamp(0.02, 1)),
       duration: widget.animationDuration,
       curve: Curves.easeOutCubic,
       builder: (context, value, child) {

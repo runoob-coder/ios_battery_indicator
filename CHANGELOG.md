@@ -1,3 +1,11 @@
+## 1.2.5
+
+- 🎨 Restore cutout percentage style when battery is full — plain fill now only applies when charging or critically low
+- 🎨 Use `FontFeature.tabularFigures()` for percentage text to prevent digit-width jitter
+- 🎨 Shrink positive pole diameter from 4.2 to 3.9 for better visual proportion
+- 🎨 Prevent "100" text overflow by reducing scale when battery is full
+- 🎨 Reduce minimum fill bar from 5% to 2% for more accurate low-level display
+
 ## 1.2.4
 
 - 📝 Fix screenshot images and language link in README — use absolute GitHub URLs so they render correctly on pub.dev
