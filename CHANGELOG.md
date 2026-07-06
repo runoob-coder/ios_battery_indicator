@@ -1,3 +1,7 @@
+## 1.2.4
+
+- 📝 Fix screenshot images and language link in README — use absolute GitHub URLs so they render correctly on pub.dev
+
 ## 1.2.3
 
 - 📦 Add `platforms` declaration to `pubspec.yaml` for all supported platforms
