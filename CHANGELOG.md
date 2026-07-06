@@ -1,3 +1,7 @@
+## 1.2.6
+
+- 🎬 Unify crossfade animation for both iOS 27 and non-iOS 27 styles in basic battery mode
+
 ## 1.2.5
 
 - 🎨 Restore cutout percentage style when battery is full — plain fill now only applies when charging or critically low

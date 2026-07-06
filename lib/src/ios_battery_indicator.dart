@@ -466,16 +466,21 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       );
     }
 
-    return _isIOS27Style
-        ? _clipBatteryShape(child)
-        : AnimatedSwitcher(
-            duration: widget.animationDuration,
-            switchInCurve: Curves.easeIn,
-            switchOutCurve: Curves.easeOut,
-            transitionBuilder: (child, animation) =>
-                FadeTransition(opacity: animation, child: child),
-            child: child,
-          );
+    return AnimatedSwitcher(
+      duration: widget.animationDuration,
+      switchInCurve: Curves.easeIn,
+      switchOutCurve: Curves.easeOut,
+      child: _isIOS27Style
+          ? KeyedSubtree(
+              key: ValueKey((
+                _isCharging,
+                _isCriticallyLow,
+                widget.chargingWithBolt,
+              )),
+              child: _clipBatteryShape(child),
+            )
+          : child,
+    );
   }
 
   /// Battery icon with a percentage label and no border.
@@ -610,7 +615,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   Widget _buildFillAnimation(Widget fillChild) {
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(end: (_batteryLevel / 100).clamp(0.02, 1)),
-      duration: widget.animationDuration,
+      duration: widget.animationDuration * .5,
       curve: Curves.easeOutCubic,
       builder: (context, value, child) {
         return FractionallySizedBox(
