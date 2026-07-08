@@ -479,7 +479,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
               )),
               child: _clipBatteryShape(child),
             )
-          : child,
+          : KeyedSubtree(
+              key: ValueKey((_isCharging, widget.chargingWithBolt)),
+              child: child,
+            ),
     );
   }
 
