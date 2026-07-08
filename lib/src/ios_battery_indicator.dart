@@ -434,7 +434,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       ),
       child: Align(
         alignment: .centerLeft,
-        child: _buildFillAnimation(fillChild),
+        child: _buildFillAnimation(fillChild, dynamicHeight: !_isIOS27Style),
       ),
     );
 
@@ -612,15 +612,24 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
   /// Animates the fill level of [fillChild] from 0 to the current battery
   /// level using a [TweenAnimationBuilder] with an ease-out-cubic curve.
-  Widget _buildFillAnimation(Widget fillChild) {
+  Widget _buildFillAnimation(Widget fillChild, {bool dynamicHeight = false}) {
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(end: (_batteryLevel / 100).clamp(0.02, 1)),
       duration: widget.animationDuration * .5,
       curve: Curves.easeOutCubic,
       builder: (context, value, child) {
+        // Only reduce height dynamically for the classic (non-iOS27) icon
+        // style when battery is low (< 20%), so the fill matches the corners.
+        // Uses an easeOutQuad curve so 10% already reaches ~0.9 height.
+        final heightFactor = dynamicHeight && value <= 0.20
+            ? () {
+                final t = value / 0.20;
+                return 0.60 + 0.40 * (2 * t - t * t);
+              }()
+            : 1.0;
         return FractionallySizedBox(
           widthFactor: value,
-          heightFactor: 1,
+          heightFactor: heightFactor,
           child: child,
         );
       },
