@@ -497,7 +497,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         fontSize: 13,
         fontFeatures: [const .tabularFigures()],
         letterSpacing: -.2,
-        fontWeight: .w800,
+        fontWeight: _batteryLevel == 100 ? .w800 : .w700,
       ),
     );
 
