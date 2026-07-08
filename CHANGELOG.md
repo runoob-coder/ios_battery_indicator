@@ -1,3 +1,9 @@
+## 1.2.7
+
+- 🎨 Shrink fill bar height at low battery (< 20%) in classic style to match corner radius
+- 🐛 Fix `AnimatedSwitcher` key for classic style so charging/bolt transitions animate
+- ✨ Use `w800` font weight at 100%, `w700` otherwise, for percentage text
+
 ## 1.2.6
 
 - 🎬 Unify crossfade animation for both iOS 27 and non-iOS 27 styles in basic battery mode
