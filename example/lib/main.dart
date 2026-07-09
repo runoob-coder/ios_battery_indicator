@@ -91,6 +91,7 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
           IosBatteryIndicator(
             height: _widgetSize,
             batteryLevel: _useSystemBattery ? null : _batteryLevel.round(),
+            batteryLevelPollInterval: const Duration(seconds: 10),
             batteryState: _useSystemBattery ? null : _batteryState,
             // Only fires when batteryLevel/batteryState is null (system mode).
             onBatteryLevelChanged: (level) =>

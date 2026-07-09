@@ -67,8 +67,15 @@ The simplest usage — the widget reads everything from the device:
 IosBatteryIndicator();
 ```
 
+You can configure how often the system battery level is polled (default 30s):
+
+```dart
+IosBatteryIndicator(
+  batteryLevelPollInterval: const Duration(seconds: 15), // level poll interval (default 30s)
+);
+```
+
 - Battery percentage display is enabled by default.
-- Poll the system battery level every 30 seconds.
 - Listen to `Battery.onBatteryStateChanged` for real-time state updates.
 - Automatically detect iOS 27+ and render the borderless style.
 
@@ -200,6 +207,7 @@ For Cupertino apps, wrap the indicator in a `Theme` widget or use
 | `height`                 | `double?`       | `null`                    | Preferred height. Mutually exclusive with `width`.                 |
 | `width`                  | `double?`       | `null`                    | Preferred width. Mutually exclusive with `height`.                 |
 | `batteryLevel`           | `int?`          | `null`                    | Battery level 0–100. When `null`, read from the system.            |
+| `batteryLevelPollInterval` | `Duration`   | `30s`                     | Interval between battery-level polls in system mode.               |
 | `batteryState`           | `BatteryState?` | `null`                    | Charging / discharging / full. When `null`, read from the system.  |
 | `showBatteryPercentage`  | `bool`          | `true`                    | Show the percentage number inside the indicator.                   |
 | `isInBatterySaveMode`    | `bool?`         | `null`                    | Low-power mode. When `null`, read from the system.                 |

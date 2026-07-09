@@ -25,6 +25,7 @@ class IosBatteryIndicator extends StatefulWidget {
     this.isInBatterySaveMode,
     this.monitorBatterySaveMode = false,
     this.saveModePollInterval = const Duration(seconds: 30),
+    this.batteryLevelPollInterval = const Duration(seconds: 30),
     this.lowBatteryThreshold = 20,
     this.chargingWithBolt = true,
     this.playChargingSound = false,
@@ -99,6 +100,13 @@ class IosBatteryIndicator extends StatefulWidget {
   /// Defaults to 30 seconds. Only used in system mode (`isInBatterySaveMode` is
   /// `null`). Has no effect when [monitorBatterySaveMode] is `false`.
   final Duration saveModePollInterval;
+
+  /// The interval at which the system battery level is polled in system mode
+  /// (`batteryLevel` is `null`).
+  ///
+  /// Defaults to 30 seconds. Has no effect when [batteryLevel] is explicitly
+  /// provided (manual mode).
+  final Duration batteryLevelPollInterval;
 
   /// The threshold (10–30) below which the battery is considered low.
   /// iPhone default: 20, Mac default: 10.
@@ -287,7 +295,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       _systemBatteryLevel = await _battery.batteryLevel;
       widget.onBatteryLevelChanged?.call(_systemBatteryLevel);
       _batteryLevelTimer?.cancel();
-      _batteryLevelTimer = Timer.periodic(const Duration(seconds: 30), (
+      _batteryLevelTimer = Timer.periodic(widget.batteryLevelPollInterval, (
         _,
       ) async {
         final level = await _battery.batteryLevel;

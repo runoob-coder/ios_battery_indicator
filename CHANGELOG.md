@@ -1,3 +1,7 @@
+## 1.4.0
+
+- ✨ Add configurable `batteryLevelPollInterval` for the battery-level poll in system mode (default 30s)
+
 ## 1.3.0
 
 - ✨ Add `monitorBatterySaveMode` to poll Low Power Mode at runtime when `isInBatterySaveMode` is `null`, with configurable `saveModePollInterval` (default 30s)

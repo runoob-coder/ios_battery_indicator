@@ -49,8 +49,15 @@ Language: [English](README.md) | 中文
 IosBatteryIndicator();
 ```
 
+可配置系统电量轮询间隔（默认 30 秒）：
+
+```dart
+IosBatteryIndicator(
+  batteryLevelPollInterval: const Duration(seconds: 15), // 电量轮询间隔（默认 30 秒）
+);
+```
+
 - 默认开启电池百分比显示。
-- 每 30 秒轮询一次系统电池电量。
 - 监听 `Battery.onBatteryStateChanged` 以获取实时状态更新。
 - 自动检测 iOS 27+ 并渲染无边框风格。
 
@@ -173,6 +180,7 @@ MaterialApp(
 | `height` | `double?` | `null` | 首选高度，与 `width` 互斥。 |
 | `width` | `double?` | `null` | 首选宽度，与 `height` 互斥。 |
 | `batteryLevel` | `int?` | `null` | 电池电量 0–100，为 `null` 时从系统读取。 |
+| `batteryLevelPollInterval` | `Duration` | `30s` | 系统模式下电量轮询间隔。 |
 | `batteryState` | `BatteryState?` | `null` | 充电 / 放电 / 已满。为 `null` 时从系统读取。 |
 | `showBatteryPercentage` | `bool` | `true` | 是否在指示器内显示百分比数字。 |
 | `isInBatterySaveMode` | `bool?` | `null` | 低功耗模式。为 `null` 时从系统读取。 |
