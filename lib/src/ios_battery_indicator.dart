@@ -23,6 +23,8 @@ class IosBatteryIndicator extends StatefulWidget {
     this.batteryState,
     this.showBatteryPercentage = true,
     this.isInBatterySaveMode,
+    this.monitorBatterySaveMode = false,
+    this.saveModePollInterval = const Duration(seconds: 30),
     this.lowBatteryThreshold = 20,
     this.chargingWithBolt = true,
     this.playChargingSound = false,
@@ -43,6 +45,10 @@ class IosBatteryIndicator extends StatefulWidget {
        assert(
          lowBatteryThreshold >= 10 && lowBatteryThreshold <= 30,
          'lowBatteryThreshold must be between 10 and 30',
+       ),
+       assert(
+         !monitorBatterySaveMode || isInBatterySaveMode == null,
+         'isInBatterySaveMode must be null when monitorBatterySaveMode is true',
        );
 
   /// The preferred height of the indicator. Mutually exclusive with [width].
@@ -73,6 +79,26 @@ class IosBatteryIndicator extends StatefulWidget {
   /// Whether the device is in Low Power Mode / Battery Saver mode.
   /// When `null`, the value is read from the system at runtime.
   final bool? isInBatterySaveMode;
+
+  /// Whether to continuously poll the system Low Power Mode / Battery Saver
+  /// state while [isInBatterySaveMode] is `null` (system mode).
+  ///
+  /// When `false` (the default), the save-mode state is read once when the
+  /// widget is initialized. When `true`, it is re-checked on a periodic timer
+  /// (see [saveModePollInterval], default 30 seconds) so that toggling Low
+  /// Power Mode at runtime is reflected in the indicator.
+  ///
+  /// This has no effect when [isInBatterySaveMode] is explicitly provided. It
+  /// is only supported on Android, iOS, macOS and Windows — it has no effect
+  /// on web or other platforms.
+  final bool monitorBatterySaveMode;
+
+  /// The interval at which the system Low Power Mode / Battery Saver state is
+  /// polled when [monitorBatterySaveMode] is `true`.
+  ///
+  /// Defaults to 30 seconds. Only used in system mode (`isInBatterySaveMode` is
+  /// `null`). Has no effect when [monitorBatterySaveMode] is `false`.
+  final Duration saveModePollInterval;
 
   /// The threshold (10–30) below which the battery is considered low.
   /// iPhone default: 20, Mac default: 10.
@@ -129,6 +155,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   BatteryState? _previousBatteryState;
   StreamSubscription<BatteryState>? _batteryStateSubscription;
   Timer? _batteryLevelTimer;
+  Timer? _batterySaveModeTimer;
 
   bool _systemIsIOS27Style = false;
   bool _systemIsInBatterySaveMode = false;
@@ -223,15 +250,27 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     super.didUpdateWidget(oldWidget);
     // System → manual: cancel system monitoring.
     if ((widget.batteryLevel != null && oldWidget.batteryLevel == null) ||
-        (widget.batteryState != null && oldWidget.batteryState == null)) {
+        (widget.batteryState != null && oldWidget.batteryState == null) ||
+        (widget.isInBatterySaveMode != null &&
+            oldWidget.isInBatterySaveMode == null)) {
       _batteryLevelTimer?.cancel();
       _batteryStateSubscription?.cancel();
+      _batterySaveModeTimer?.cancel();
     }
     // Manual → system: restart system monitoring.
-    // _initBattery() handles both level and state, so only call it once.
+    // _initBattery() handles level, state and save mode, so only call it once.
     if ((widget.batteryLevel == null && oldWidget.batteryLevel != null) ||
-        (widget.batteryState == null && oldWidget.batteryState != null)) {
+        (widget.batteryState == null && oldWidget.batteryState != null) ||
+        (widget.isInBatterySaveMode == null &&
+            oldWidget.isInBatterySaveMode != null)) {
       _initBattery();
+    }
+
+    // Start save-mode polling when the flag is enabled at runtime (system mode).
+    if (widget.monitorBatterySaveMode &&
+        !oldWidget.monitorBatterySaveMode &&
+        widget.isInBatterySaveMode == null) {
+      _startSaveModePolling();
     }
 
     // Play charging sound when the external batteryState changes to charging.
@@ -300,9 +339,14 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
     if (widget.isInBatterySaveMode != null) {
       _systemIsInBatterySaveMode = widget.isInBatterySaveMode!;
-    } else {
-      bool isInBatterySaveMode = await _battery.isInBatterySaveMode;
+    } else if (_supportsSaveModePolling) {
+      final isInBatterySaveMode = await _battery.isInBatterySaveMode;
       setState(() => _systemIsInBatterySaveMode = isInBatterySaveMode);
+      // When monitoring is enabled, re-poll the save-mode state on the
+      // configured interval so runtime toggles are reflected.
+      if (widget.monitorBatterySaveMode) {
+        _startSaveModePolling();
+      }
     }
 
     setState(() {});
@@ -317,10 +361,31 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     }
   }
 
+  /// Whether system Low Power Mode / Battery Saver polling is supported.
+  /// Only Android, iOS, macOS and Windows are supported; web and Linux are not.
+  bool get _supportsSaveModePolling => !kIsWeb && !Platform.isLinux;
+
+  /// Polls the system Low Power Mode / Battery Saver state at the interval
+  /// configured via [IosBatteryIndicator.saveModePollInterval], updating
+  /// [_systemIsInBatterySaveMode] so runtime toggles are reflected.
+  /// Only meaningful when [IosBatteryIndicator.monitorBatterySaveMode] is
+  /// `true` and [IosBatteryIndicator.isInBatterySaveMode] is `null`.
+  void _startSaveModePolling() {
+    if (!_supportsSaveModePolling) return;
+    _batterySaveModeTimer?.cancel();
+    _batterySaveModeTimer = Timer.periodic(widget.saveModePollInterval, (
+      _,
+    ) async {
+      final enabled = await _battery.isInBatterySaveMode;
+      if (mounted) setState(() => _systemIsInBatterySaveMode = enabled);
+    });
+  }
+
   @override
   void dispose() {
     _batteryLevelTimer?.cancel();
     _batteryStateSubscription?.cancel();
+    _batterySaveModeTimer?.cancel();
     super.dispose();
   }
 

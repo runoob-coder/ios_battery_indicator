@@ -24,6 +24,7 @@ Language: [English](README.md) | 中文
 - **镂空百分比** — 在正常放电模式下，百分比文字通过镂空效果穿透填充区域，呈现精致的外观。
 - **低电量警告** — 电量低于可配置阈值（10–30，默认 20）时，指示器变为红色。
 - **省电模式** — 低功耗模式激活时，电池轨道变为黄色。
+- **省电模式实时监控** — `monitorBatterySaveMode` 轮询系统低功耗模式（仅自动模式；轮询间隔可通过 `saveModePollInterval` 配置，默认 30 秒；仅支持 Android、iOS、macOS 和 Windows，web 及其他平台不支持）。
 - **亮色 / 深色模式** — 自动适配环境的 `Brightness`，也可通过 `brightness` 属性强制指定。
 - **流畅动画** — 填充进度、颜色变化、充电闪电图标切换以及基础/百分比显示之间的交叉淡入淡出，所有动画时长均可通过 `animationDuration` 配置。
 - **充电音效** — 在手动模式下进入充电状态时，可选择播放 iOS 原生充电音效（`connectedToPower`），仅限 iOS 平台支持。
@@ -126,6 +127,21 @@ IosBatteryIndicator(
 > 回调仅在 `batteryLevel` / `batteryState` 为 `null`（系统模式）时触发。
 > 手动传入值时请使用自己的状态管理。
 
+### 🔋 省电模式实时监控
+
+默认情况下，系统低功耗模式仅在组件初始化时读取一次。若希望在用户运行时切换低功耗模式时保持同步，可开启 `monitorBatterySaveMode` —— 该选项仅在 `isInBatterySaveMode` 为 `null`（系统模式）时生效。注意此功能仅支持 Android、iOS、macOS 和 Windows，在 web 及其他平台无效：
+
+```dart
+IosBatteryIndicator(
+  isInBatterySaveMode: null,        // 从系统读取
+  monitorBatterySaveMode: true,      // 定期重新轮询
+  saveModePollInterval: const Duration(seconds: 10), // 轮询间隔（默认 30 秒）
+);
+```
+
+> [!NOTE]
+> 当显式传入 `isInBatterySaveMode` 时，此选项不生效。
+
 ### 🖌️ 自定义主题
 
 可通过 `ThemeData.extensions` 提供 `BatteryIndicatorTheme` 来自定义颜色：
@@ -160,6 +176,8 @@ MaterialApp(
 | `batteryState` | `BatteryState?` | `null` | 充电 / 放电 / 已满。为 `null` 时从系统读取。 |
 | `showBatteryPercentage` | `bool` | `true` | 是否在指示器内显示百分比数字。 |
 | `isInBatterySaveMode` | `bool?` | `null` | 低功耗模式。为 `null` 时从系统读取。 |
+| `monitorBatterySaveMode` | `bool` | `false` | 当 `isInBatterySaveMode` 为 `null` 时轮询系统低功耗模式。仅支持 Android、iOS、macOS 和 Windows（web 及其他平台无效）。 |
+| `saveModePollInterval` | `Duration` | `30s` | 省电模式轮询间隔。 |
 | `lowBatteryThreshold` | `int` | `20` | 低电量阈值（10–30），低于此值时指示器变红。 |
 | `chargingWithBolt` | `bool` | `true` | 充电时是否显示闪电图标。仅在 `batteryState` 为 `.charging` 时生效。 |
 | `playChargingSound` | `bool` | `false` | 手动模式下播放 iOS 充电音效（仅 iOS）。 |

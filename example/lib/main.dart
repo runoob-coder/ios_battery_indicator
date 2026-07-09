@@ -25,6 +25,8 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
 
   bool _isInBatterySaveMode = false;
 
+  bool _monitorBatterySaveMode = false;
+
   bool _showBatteryPercentage = false;
 
   bool _chargingWithBolt = true;
@@ -95,7 +97,13 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
                 setState(() => _batteryLevel = level.toDouble()),
             onBatteryStateChanged: (state) =>
                 setState(() => _batteryState = state),
-            isInBatterySaveMode: _isInBatterySaveMode,
+            // In system mode the save mode is read from the device, so the
+            // monitor switch below takes effect. In manual mode the explicit
+            // value is used instead.
+            isInBatterySaveMode: _useSystemBattery && _monitorBatterySaveMode
+                ? null
+                : _isInBatterySaveMode,
+            monitorBatterySaveMode: _monitorBatterySaveMode,
             showBatteryPercentage: _showBatteryPercentage,
             chargingWithBolt: _chargingWithBolt,
             playChargingSound: _playChargingSound,
@@ -195,6 +203,17 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
                   ),
                 ),
               ),
+            ] else ...[
+              if (!kIsWeb && !Platform.isLinux)
+                CupertinoListTile(
+                  title: const Text('Monitor Battery Save Mode'),
+                  subtitle: const Text('Poll Low Power Mode every 30s'),
+                  trailing: CupertinoSwitch(
+                    value: _monitorBatterySaveMode,
+                    onChanged: (v) =>
+                        setState(() => _monitorBatterySaveMode = v),
+                  ),
+                ),
             ],
           ],
         ),
@@ -230,14 +249,15 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
                   onChanged: (v) => setState(() => _chargingWithBolt = v),
                 ),
               ),
-            CupertinoListTile(
-              leading: const Icon(CupertinoIcons.moon_fill),
-              title: const Text('Battery Save Mode'),
-              trailing: CupertinoSwitch(
-                value: _isInBatterySaveMode,
-                onChanged: (v) => setState(() => _isInBatterySaveMode = v),
+            if (!_monitorBatterySaveMode)
+              CupertinoListTile(
+                leading: const Icon(CupertinoIcons.moon_fill),
+                title: const Text('Battery Save Mode'),
+                trailing: CupertinoSwitch(
+                  value: _isInBatterySaveMode,
+                  onChanged: (v) => setState(() => _isInBatterySaveMode = v),
+                ),
               ),
-            ),
           ],
         ),
 

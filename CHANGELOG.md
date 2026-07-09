@@ -1,3 +1,7 @@
+## 1.3.0
+
+- ✨ Add `monitorBatterySaveMode` to poll Low Power Mode at runtime when `isInBatterySaveMode` is `null`, with configurable `saveModePollInterval` (default 30s)
+
 ## 1.2.7
 
 - 🎨 Shrink fill bar height at low battery (< 20%) in classic style to match corner radius
