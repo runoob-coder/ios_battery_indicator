@@ -1,3 +1,7 @@
+## 1.4.1
+
+- 🐛 Fix percentage text display on macOS
+
 ## 1.4.0
 
 - ✨ Add configurable `batteryLevelPollInterval` for the battery-level poll in system mode (default 30s)

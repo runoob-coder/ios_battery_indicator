@@ -242,6 +242,16 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     _previousBatteryState = newState;
   }
 
+  // ---- platform detection helpers ----
+
+  /// Whether system Low Power Mode / Battery Saver polling is supported.
+  /// Only Android, iOS, macOS and Windows are supported; web and Linux are not.
+  bool get _supportsSaveModePolling => !kIsWeb && !Platform.isLinux;
+
+  /// Whether the current platform is macOS (excluding web, where [Platform]
+  /// is unavailable). Used to work around macOS-specific font metrics.
+  bool get _isMacOS => !kIsWeb && Platform.isMacOS;
+
   @override
   void initState() {
     super.initState();
@@ -369,10 +379,6 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     }
   }
 
-  /// Whether system Low Power Mode / Battery Saver polling is supported.
-  /// Only Android, iOS, macOS and Windows are supported; web and Linux are not.
-  bool get _supportsSaveModePolling => !kIsWeb && !Platform.isLinux;
-
   /// Polls the system Low Power Mode / Battery Saver state at the interval
   /// configured via [IosBatteryIndicator.saveModePollInterval], updating
   /// [_systemIsInBatterySaveMode] so runtime toggles are reflected.
@@ -465,10 +471,12 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
     return DefaultTextStyle(
       style: const TextStyle(height: 1, fontWeight: .w500),
-      textHeightBehavior: const TextHeightBehavior(
-        applyHeightToFirstAscent: false,
-        applyHeightToLastDescent: false,
-      ),
+      textHeightBehavior: _isMacOS
+          ? null
+          : const TextHeightBehavior(
+              applyHeightToFirstAscent: false,
+              applyHeightToLastDescent: false,
+            ),
       child: child,
     );
   }
@@ -596,29 +604,32 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
           if (_usePlainStyle)
             FittedBox(
               fit: .fitWidth,
-              child: Row(
-                mainAxisAlignment: .center,
-                spacing: 2,
-                children: [
-                  Transform.scale(
-                    scale: _batteryLevel == 100 ? 1 : 1.1,
-                    child: batteryLevelText,
-                  ),
-
-                  /// Bolt overlay — shown when charging and not full.
-                  if (_isCharging && _showBolt)
+              child: Padding(
+                padding: _isMacOS ? const .all(.5) : .zero,
+                child: Row(
+                  mainAxisAlignment: .center,
+                  spacing: _isMacOS ? 1 : 2,
+                  children: [
                     Transform.scale(
-                      scale: 1.25,
-                      child: _buildBolt(
-                        context,
-                        key: const ValueKey('bolt'),
-                        fontSize: 9.4,
-                        color: _isInBatterySaveMode
-                            ? CupertinoColors.black
-                            : CupertinoColors.white,
-                      ),
+                      scale: _batteryLevel == 100 || _isMacOS ? 1 : 1.1,
+                      child: batteryLevelText,
                     ),
-                ],
+
+                    /// Bolt overlay — shown when charging and not full.
+                    if (_isCharging && _showBolt)
+                      Transform.scale(
+                        scale: _isMacOS ? 1 : 1.25,
+                        child: _buildBolt(
+                          context,
+                          key: const ValueKey('bolt'),
+                          fontSize: 9.4,
+                          color: _isInBatterySaveMode
+                              ? CupertinoColors.black
+                              : CupertinoColors.white,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
         ],
@@ -631,7 +642,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       child = Cutout(
         alignment: .center,
         maskChild: Transform.scale(
-          scale: _batteryLevel == 100 ? 1 : 1.1,
+          scale: _batteryLevel == 100 || _isMacOS ? 1 : 1.1,
           child: FittedBox(fit: .scaleDown, child: batteryLevelText),
         ),
         child: child,
