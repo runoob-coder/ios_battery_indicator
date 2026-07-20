@@ -410,14 +410,19 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     final brightness = widget.brightness ?? themeData.brightness;
     if (widget.brightness != null ||
         themeData.extension<BatteryIndicatorTheme>() == null) {
+      final indicatorTheme = brightness == Brightness.light
+          ? () {
+              final light = BatteryIndicatorTheme.light();
+              return _isIOS27Style
+                  ? light
+                  : light.copyWith(
+                      bgColor: light.bgColor.withValues(alpha: .38),
+                    );
+            }()
+          : BatteryIndicatorTheme.dark();
       themeData = themeData.copyWith(
         brightness: brightness,
-        extensions: [
-          ...themeData.extensions.values,
-          brightness == Brightness.light
-              ? BatteryIndicatorTheme.light()
-              : BatteryIndicatorTheme.dark(),
-        ],
+        extensions: [...themeData.extensions.values, indicatorTheme],
       );
     }
 
@@ -605,7 +610,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             FittedBox(
               fit: .fitWidth,
               child: Padding(
-                padding: _isMacOS ? const .all(.5) : .zero,
+                padding: _isMacOS || !_isIOS27Style ? const .all(.5) : .zero,
                 child: Row(
                   mainAxisAlignment: .center,
                   spacing: _isMacOS ? 1 : 2,
