@@ -1,3 +1,8 @@
+## 1.4.2
+
+- 🎨 Use `.38` light-theme `bgColor` alpha for non-iOS 27 outline (`.28` for iOS 27 fill)
+- 🎨 Add `.5` inset padding to the classic (non-iOS 27) battery style
+
 ## 1.4.1
 
 - 🐛 Fix percentage text display on macOS

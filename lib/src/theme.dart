@@ -24,7 +24,12 @@ class BatteryIndicatorTheme extends ThemeExtension<BatteryIndicatorTheme> {
 
   factory BatteryIndicatorTheme.light() {
     return BatteryIndicatorTheme(
-      bgColor: CupertinoColors.black.withValues(alpha: .2),
+      /// Battery background color (light theme).
+      ///
+      /// For the iOS 27 style [bgColor] fills the battery body at `.28`. For
+      /// non-iOS 27 styles it is overridden to `.38` and drawn as a 1px outline
+      /// stroke (see `ios_battery_indicator.dart`).
+      bgColor: CupertinoColors.black.withValues(alpha: .28),
       dischargingTrackColor: CupertinoColors.black,
       contentColor: CupertinoColors.black,
       contentAntiColor: CupertinoColors.white,
