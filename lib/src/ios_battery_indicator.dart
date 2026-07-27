@@ -599,7 +599,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       ),
     );
 
-    if (!_isIOS27Style && _isCharging) {
+    if (!_isIOS27Style && _isCharging && !_isFull) {
       batteryLevelText = Transform.scale(scaleX: .9, child: batteryLevelText);
     }
 

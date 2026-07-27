@@ -1,3 +1,7 @@
+## 1.4.4
+
+- 🎨 Don't squeeze the percentage text while charging at 100% (only squeeze when not full)
+
 ## 1.4.3
 
 - 🎨 Taller classic (non-iOS 27) battery — height `14` instead of `13` when the percentage is shown, for better text proportion
