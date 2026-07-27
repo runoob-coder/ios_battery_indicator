@@ -224,9 +224,14 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   // ---- layout constants ----
 
   static const double _batteryWidth = 25;
-  static const double _batteryHeight = 13;
-  static const BorderRadius _outerBorderRadius = .all(Radius.circular(4));
-  static const BorderRadius _innerBorderRadius = .all(Radius.circular(2));
+
+  double get _batteryHeight =>
+      !_isIOS27Style && widget.showBatteryPercentage ? 14 : 13;
+
+  BorderRadius get _outerBorderRadius => .all(.circular(_isIOS27Style ? 4 : 3.2));
+
+  BorderRadius get _innerBorderRadius =>
+      .all(.circular(_isIOS27Style ? 2 : 1.6));
 
   /// Plays the iOS charging sound when the battery state transitions to
   /// [BatteryState.charging] and [IosBatteryIndicator.playChargingSound] is
@@ -497,7 +502,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       decoration: _isIOS27Style
           ? null
           : ShapeDecoration(
-              shape: const RoundedSuperellipseBorder(
+              shape: RoundedSuperellipseBorder(
                 borderRadius: _innerBorderRadius,
               ),
               color: _trackColor(theme),
@@ -535,7 +540,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
               child: _buildBolt(
                 context,
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: _batteryHeight,
                   foreground: Paint()
                     ..style = .stroke
                     ..strokeWidth = 2,
@@ -546,7 +551,11 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
           ),
           FittedBox(
             fit: .scaleDown,
-            child: _buildBolt(context, color: theme.contentColor, fontSize: 13),
+            child: _buildBolt(
+              context,
+              color: theme.contentColor,
+              fontSize: _batteryHeight,
+            ),
           ),
         ],
       );
@@ -576,19 +585,23 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   Widget _buildBatteryWithPercentage(BuildContext context) {
     final theme = _theme(context);
 
-    final batteryLevelText = Text(
+    Widget batteryLevelText = Text(
       _batteryLevel.toString(),
       textAlign: .center,
       style: TextStyle(
         color: _isInBatterySaveMode
             ? CupertinoColors.black
             : CupertinoColors.white,
-        fontSize: 13,
+        fontSize: _batteryHeight,
         fontFeatures: [const .tabularFigures()],
         letterSpacing: -.2,
-        fontWeight: _batteryLevel == 100 ? .w800 : .w700,
+        fontWeight: _batteryLevel == 100 || !_isIOS27Style ? .w800 : .w700,
       ),
     );
+
+    if (!_isIOS27Style && _isCharging) {
+      batteryLevelText = Transform.scale(scaleX: .9, child: batteryLevelText);
+    }
 
     Widget child = Container(
       color: theme.bgColor,
@@ -613,7 +626,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                 padding: _isMacOS || !_isIOS27Style ? const .all(.5) : .zero,
                 child: Row(
                   mainAxisAlignment: .center,
-                  spacing: _isMacOS ? 1 : 2,
+                  spacing: _isMacOS || (!_isIOS27Style && _isCharging) ? 1 : 2,
                   children: [
                     Transform.scale(
                       scale: _batteryLevel == 100 || _isMacOS ? 1 : 1.1,
@@ -733,7 +746,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   /// When [constrainSize] is true, also constrains to [_batteryWidth] x
   /// [_batteryHeight].
   Widget _clipBatteryShape(Widget child, {bool constrainSize = false}) {
-    const shape = RoundedSuperellipseBorder(borderRadius: _outerBorderRadius);
+    final shape = RoundedSuperellipseBorder(borderRadius: _outerBorderRadius);
     final clipped = ClipPath(
       clipper: ShapeBorderClipper(shape: shape),
       child: child,

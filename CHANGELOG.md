@@ -1,3 +1,11 @@
+## 1.4.3
+
+- 🎨 Taller classic (non-iOS 27) battery — height `14` instead of `13` when the percentage is shown, for better text proportion
+- 🎨 Tighten corner radii for the classic style (outer `3.2` / inner `1.6` vs `4` / `2`) to better match the native pre-iOS 27 look
+- 🎨 Scale the percentage text and bolt icon to the battery height for consistent proportions
+- 🎨 Use `w800` font weight for the percentage text in the classic style (previously only at 100%)
+- 🎨 Slightly squeeze the percentage text (`scaleX: .9`) and tighten row spacing while charging in the classic style
+
 ## 1.4.2
 
 - 🎨 Use `.38` light-theme `bgColor` alpha for non-iOS 27 outline (`.28` for iOS 27 fill)
