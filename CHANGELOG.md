@@ -1,3 +1,7 @@
+## 1.4.6
+
+- 🔧 Key the new rounded radius to iOS 26 detection; tidy up `_checkIosVersion`
+
 ## 1.4.5
 
 - 🎨 Use a solid fill in low-power (battery save) mode, matching the charging and critically-low states

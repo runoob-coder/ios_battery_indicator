@@ -165,6 +165,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   Timer? _batteryLevelTimer;
   Timer? _batterySaveModeTimer;
 
+  bool _systemIsIOS26 = false;
   bool _systemIsIOS27Style = false;
   bool _systemIsInBatterySaveMode = false;
 
@@ -231,10 +232,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       !_isIOS27Style && widget.showBatteryPercentage ? 14 : 13;
 
   BorderRadius get _outerBorderRadius =>
-      .all(.circular(_isIOS27Style ? 4 : 3.2));
+      .all(.circular(_systemIsIOS26 ? 4 : 3.2));
 
   BorderRadius get _innerBorderRadius =>
-      .all(.circular(_isIOS27Style ? 2 : 1.6));
+      .all(.circular(_systemIsIOS26 ? 2 : 1.6));
 
   /// Plays the iOS charging sound when the battery state transitions to
   /// [BatteryState.charging] and [IosBatteryIndicator.playChargingSound] is
@@ -266,9 +267,8 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     _initBattery();
     if (widget.isIOS27Style != null) {
       setState(() => _systemIsIOS27Style = widget.isIOS27Style!);
-    } else {
-      _checkIosVersion();
     }
+    _checkIosVersion();
   }
 
   @override
@@ -380,9 +380,14 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
   Future<void> _checkIosVersion() async {
     if (!kIsWeb && Platform.isIOS) {
-      IosDeviceInfo iosInfo = await DeviceInfoPlugin().iosInfo;
+      final iosInfo = await DeviceInfoPlugin().iosInfo;
+      if (!mounted) return;
+      final major = Version.parse(iosInfo.systemVersion).major;
       setState(() {
-        _systemIsIOS27Style = Version.parse(iosInfo.systemVersion).major >= 27;
+        _systemIsIOS26 = major >= 26;
+        if (widget.isIOS27Style == null) {
+          _systemIsIOS27Style = major >= 27;
+        }
       });
     }
   }
