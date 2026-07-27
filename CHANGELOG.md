@@ -1,3 +1,7 @@
+## 1.4.5
+
+- 🎨 Use a solid fill in low-power (battery save) mode, matching the charging and critically-low states
+
 ## 1.4.4
 
 - 🎨 Don't squeeze the percentage text while charging at 100% (only squeeze when not full)

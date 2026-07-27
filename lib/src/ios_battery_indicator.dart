@@ -192,9 +192,11 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
   bool get _isCriticallyLow => _batteryLevel <= widget.lowBatteryThreshold;
 
-  /// Returns `true` when the battery is charging, or critically low.
-  /// In these states a solid color fill is used (no cutout).
-  bool get _usePlainStyle => _isCharging || _isCriticallyLow;
+  /// Returns `true` when a solid color fill should be used instead of the
+  /// cutout-percentage style. This happens while the battery is charging,
+  /// critically low, or in low-power (battery save) mode.
+  bool get _usePlainStyle =>
+      _isCharging || _isCriticallyLow || _isInBatterySaveMode;
 
   /// Returns `true` when the bolt overlay should be shown.
   bool get _showBolt => _isCharging && !_isFull && widget.chargingWithBolt;
@@ -228,7 +230,8 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   double get _batteryHeight =>
       !_isIOS27Style && widget.showBatteryPercentage ? 14 : 13;
 
-  BorderRadius get _outerBorderRadius => .all(.circular(_isIOS27Style ? 4 : 3.2));
+  BorderRadius get _outerBorderRadius =>
+      .all(.circular(_isIOS27Style ? 4 : 3.2));
 
   BorderRadius get _innerBorderRadius =>
       .all(.circular(_isIOS27Style ? 2 : 1.6));
@@ -655,7 +658,8 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     );
 
     /// Cutout style: punch the percentage text through the fill.
-    /// Skip cutout when using plain style (charging / critically low).
+    /// Skip the cutout when using the plain style (charging, critically low,
+    /// or battery save mode) and render a solid fill instead.
     if (!_usePlainStyle) {
       child = Cutout(
         alignment: .center,
