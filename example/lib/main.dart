@@ -308,7 +308,7 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
                 child: CupertinoSlider(
                   value: _widgetSize,
                   min: 10,
-                  max: 100,
+                  max: 150,
                   onChanged: (v) => setState(() => _widgetSize = v),
                 ),
               ),
