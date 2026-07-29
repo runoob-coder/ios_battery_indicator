@@ -226,16 +226,20 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
   // ---- layout constants ----
 
-  static const double _batteryWidth = 25;
+  static const double _batteryPadding = 3;
 
-  double get _batteryHeight =>
-      !_isIOS27Style && widget.showBatteryPercentage ? 14 : 13;
+  double get _batteryWidth => _isIOS27Style ? 75 : 68;
 
-  BorderRadius get _outerBorderRadius =>
-      .all(.circular(_systemIsIOS26 ? 4 : 3.2));
+  double get _batteryHeight => _isIOS27Style
+      ? (widget.showBatteryPercentage ? 41 : 39)
+      : (widget.showBatteryPercentage ? 38 : 36);
+
+  double get _baseOuterRadius => _isIOS27Style || _systemIsIOS26 ? 12 : 9.4;
+
+  BorderRadius get _outerBorderRadius => .all(.circular(_baseOuterRadius));
 
   BorderRadius get _innerBorderRadius =>
-      .all(.circular(_systemIsIOS26 ? 2 : 1.6));
+      .all(.circular(_baseOuterRadius - _batteryPadding - 2));
 
   /// Plays the iOS charging sound when the battery state transitions to
   /// [BatteryState.charging] and [IosBatteryIndicator.playChargingSound] is
@@ -447,7 +451,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
           final child = FittedBox(
             child: Row(
               mainAxisSize: .min,
-              spacing: 1,
+              spacing: 3,
               children: [
                 /// Battery content with a crossfade transition between basic
                 /// and percentage modes.
@@ -488,13 +492,15 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     );
 
     return DefaultTextStyle(
-      style: const TextStyle(height: 1, fontWeight: .w500),
-      textHeightBehavior: _isMacOS
-          ? null
-          : const TextHeightBehavior(
-              applyHeightToFirstAscent: false,
-              applyHeightToLastDescent: false,
-            ),
+      style: const TextStyle(
+        height: 1,
+        fontWeight: .w500,
+        leadingDistribution: .even,
+      ),
+      textHeightBehavior: const TextHeightBehavior(
+        applyHeightToFirstAscent: false,
+        applyHeightToLastDescent: false,
+      ),
       child: child,
     );
   }
@@ -521,14 +527,14 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     Widget child = Container(
       width: _batteryWidth,
       height: _batteryHeight,
-      padding: _isIOS27Style ? .zero : const .all(1),
+      padding: _isIOS27Style ? .zero : .all(_batteryPadding),
       decoration: ShapeDecoration(
         color: _isIOS27Style ? theme.bgColor : null,
         shape: RoundedSuperellipseBorder(
           borderRadius: _outerBorderRadius,
           side: _isIOS27Style
               ? .none
-              : BorderSide(color: theme.bgColor, width: 1),
+              : BorderSide(color: theme.bgColor, width: 3),
         ),
       ),
       child: Align(
@@ -543,15 +549,18 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         children: [
           Cutout(
             alignment: .center,
-            maskChild: FittedBox(
-              fit: .scaleDown,
-              child: _buildBolt(
-                context,
-                style: TextStyle(
-                  fontSize: _batteryHeight,
-                  foreground: Paint()
-                    ..style = .stroke
-                    ..strokeWidth = 2,
+            maskChild: Transform.scale(
+              scale: 1.08,
+              child: FittedBox(
+                fit: .scaleDown,
+                child: _buildBolt(
+                  context,
+                  style: TextStyle(
+                    fontSize: _batteryHeight,
+                    foreground: Paint()
+                      ..style = .stroke
+                      ..strokeWidth = 5,
+                  ),
                 ),
               ),
             ),
@@ -602,8 +611,12 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             : CupertinoColors.white,
         fontSize: _batteryHeight,
         fontFeatures: [const .tabularFigures()],
-        letterSpacing: -.2,
-        fontWeight: _batteryLevel == 100 || !_isIOS27Style ? .w800 : .w700,
+        letterSpacing: -.8,
+        fontWeight: _isMacOS
+            ? .w600
+            : _batteryLevel == 100 || !_isIOS27Style
+            ? .w800
+            : .w700,
       ),
     );
 
@@ -629,33 +642,24 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
           ),
           if (_usePlainStyle)
             FittedBox(
-              fit: .fitWidth,
-              child: Padding(
-                padding: _isMacOS || !_isIOS27Style ? const .all(.5) : .zero,
-                child: Row(
-                  mainAxisAlignment: .center,
-                  spacing: _isMacOS || (!_isIOS27Style && _isCharging) ? 1 : 2,
-                  children: [
-                    Transform.scale(
-                      scale: _batteryLevel == 100 || _isMacOS ? 1 : 1.1,
-                      child: batteryLevelText,
-                    ),
+              fit: .scaleDown,
+              child: Row(
+                mainAxisAlignment: .center,
+                // spacing: _isMacOS ? 0 : 1,
+                children: [
+                  batteryLevelText,
 
-                    /// Bolt overlay — shown when charging and not full.
-                    if (_isCharging && _showBolt)
-                      Transform.scale(
-                        scale: _isMacOS ? 1 : 1.25,
-                        child: _buildBolt(
-                          context,
-                          key: const ValueKey('bolt'),
-                          fontSize: 9.4,
-                          color: _isInBatterySaveMode
-                              ? CupertinoColors.black
-                              : CupertinoColors.white,
-                        ),
-                      ),
-                  ],
-                ),
+                  /// Bolt overlay — shown when charging and not full.
+                  if (_isCharging && _showBolt)
+                    _buildBolt(
+                      context,
+                      key: const ValueKey('bolt'),
+                      fontSize: _batteryHeight * .8,
+                      color: _isInBatterySaveMode
+                          ? CupertinoColors.black
+                          : CupertinoColors.white,
+                    ),
+                ],
               ),
             ),
         ],
@@ -668,10 +672,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     if (!_usePlainStyle) {
       child = Cutout(
         alignment: .center,
-        maskChild: Transform.scale(
-          scale: _batteryLevel == 100 || _isMacOS ? 1 : 1.1,
-          child: FittedBox(fit: .scaleDown, child: batteryLevelText),
-        ),
+        maskChild: FittedBox(fit: .scaleDown, child: batteryLevelText),
         child: child,
       );
     }
@@ -693,8 +694,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   Widget _buildPositivePole(BuildContext context) {
     final theme = _theme(context);
 
-    const double circleDiameter = 3.9;
-    const double visibleWidth = circleDiameter / 3;
+    const double circleDiameter = 13;
 
     /// adaptive color when full but not charging
     final Color color =
@@ -703,7 +703,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         : theme.bgColor;
 
     return SizedBox(
-      width: visibleWidth,
+      width: 4,
       height: circleDiameter,
       child: Stack(
         children: [
@@ -728,17 +728,20 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   /// level using a [TweenAnimationBuilder] with an ease-out-cubic curve.
   Widget _buildFillAnimation(Widget fillChild, {bool dynamicHeight = false}) {
     return TweenAnimationBuilder<double>(
-      tween: Tween<double>(end: (_batteryLevel / 100).clamp(0.02, 1)),
+      tween: Tween<double>(end: (_batteryLevel / 100).clamp(_minFillLevel, 1)),
       duration: widget.animationDuration * .5,
       curve: Curves.easeOutCubic,
       builder: (context, value, child) {
         // Only reduce height dynamically for the classic (non-iOS27) icon
-        // style when battery is low (< 20%), so the fill matches the corners.
-        // Uses an easeOutQuad curve so 10% already reaches ~0.9 height.
-        final heightFactor = dynamicHeight && value <= 0.20
+        // style when battery is low, so the fill stays within the rounded
+        // corners.  Below [_minFillLevel] the fill is at [_minHeightFactor]
+        // height, easing up to full height at [_lowThreshold] (20 %).
+        final heightFactor = dynamicHeight && value <= _lowThreshold
             ? () {
-                final t = value / 0.20;
-                return 0.60 + 0.40 * (2 * t - t * t);
+                final t =
+                    (value - _minFillLevel) / (_lowThreshold - _minFillLevel);
+                return _minHeightFactor +
+                    (1 - _minHeightFactor) * (2 * t - t * t);
               }()
             : 1.0;
         return FractionallySizedBox(
@@ -750,6 +753,17 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       child: fillChild,
     );
   }
+
+  /// Lowest displayed fill level (matches the tween's clamp).
+  static const double _minFillLevel = 0.02;
+
+  /// Battery level below which the fill height starts shrinking; the fill
+  /// reaches full height again at this point (20 % low-battery boundary).
+  static const double _lowThreshold = 0.20;
+
+  /// Height factor applied at the lowest level ([_minFillLevel]) so the fill
+  /// is still clearly visible but shorter than full height.
+  static const double _minHeightFactor = 0.9;
 
   /// Clips [child] with the battery's rounded superellipse shape.
   /// When [constrainSize] is true, also constrains to [_batteryWidth] x

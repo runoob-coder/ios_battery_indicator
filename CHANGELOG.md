@@ -1,3 +1,10 @@
+## 1.4.7
+
+- 🎨 More native-proportioned battery; text, bolt, and positive pole now scale with the indicator size
+- 🎨 Cleaner percentage text and more reliable vertical centering across platforms
+- 🎨 More visible low-battery fill and a clearer charging-bolt cutout effect
+- 🔧 Tighter corner-radius handling for consistent classic and iOS 27 styles
+
 ## 1.4.6
 
 - 🔧 Key the new rounded radius to iOS 26 detection; tidy up `_checkIosVersion`
