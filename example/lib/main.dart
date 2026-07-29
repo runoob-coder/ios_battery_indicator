@@ -104,7 +104,8 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
             isInBatterySaveMode: _useSystemBattery && _monitorBatterySaveMode
                 ? null
                 : _isInBatterySaveMode,
-            monitorBatterySaveMode: _monitorBatterySaveMode,
+            monitorBatterySaveMode:
+                _useSystemBattery && _monitorBatterySaveMode,
             showBatteryPercentage: _showBatteryPercentage,
             chargingWithBolt: _chargingWithBolt,
             playChargingSound: _playChargingSound,
@@ -159,31 +160,32 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
               ),
             ),
             if (!_useSystemBattery) ...[
-              CupertinoListTile(
-                leading: kIsWeb
-                    ? const Icon(CupertinoIcons.battery_full)
-                    : null,
-                title: const Text('Battery Level'),
-                additionalInfo: Text(
-                  '${_batteryLevel.round()}%',
-                  style: TextStyle(
-                    color: _useSystemBattery || _batteryState == .full
-                        ? CupertinoColors.secondaryLabel
-                        : CupertinoColors.activeBlue,
+              if (_batteryState != .full)
+                CupertinoListTile(
+                  leading: kIsWeb
+                      ? const Icon(CupertinoIcons.battery_full)
+                      : null,
+                  title: const Text('Battery Level'),
+                  additionalInfo: Text(
+                    '${_batteryLevel.round()}%',
+                    style: TextStyle(
+                      color: _useSystemBattery
+                          ? CupertinoColors.secondaryLabel
+                          : CupertinoColors.activeBlue,
+                    ),
+                  ),
+                  trailing: SizedBox(
+                    width: kIsWeb ? null : 150,
+                    child: CupertinoSlider(
+                      value: _batteryLevel,
+                      min: 1,
+                      max: 100,
+                      onChanged: _useSystemBattery
+                          ? null
+                          : (v) => setState(() => _batteryLevel = v),
+                    ),
                   ),
                 ),
-                trailing: SizedBox(
-                  width: kIsWeb ? null : 150,
-                  child: CupertinoSlider(
-                    value: _batteryLevel,
-                    min: 1,
-                    max: 100,
-                    onChanged: _useSystemBattery || _batteryState == .full
-                        ? null
-                        : (v) => setState(() => _batteryLevel = v),
-                  ),
-                ),
-              ),
               CupertinoListTile(
                 leading: kIsWeb ? const Icon(CupertinoIcons.bolt) : null,
                 title: const Text('Battery State'),
