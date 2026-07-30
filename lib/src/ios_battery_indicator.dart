@@ -22,6 +22,7 @@ class IosBatteryIndicator extends StatefulWidget {
     this.batteryLevel,
     this.batteryState,
     this.showBatteryPercentage = true,
+    this.fontFeatures = const [.tabularFigures()],
     this.isInBatterySaveMode,
     this.monitorBatterySaveMode = false,
     this.saveModePollInterval = const Duration(seconds: 30),
@@ -76,6 +77,16 @@ class IosBatteryIndicator extends StatefulWidget {
 
   /// Whether to render the battery percentage label inside the indicator.
   final bool showBatteryPercentage;
+
+  /// The font features applied to the battery percentage text.
+  ///
+  /// Defaults to `[FontFeature.tabularFigures()]`, which renders each digit
+  /// with the same width so the label does not shift horizontally as the number
+  /// of digits changes (e.g. `9` → `99` → `100`). Pass `null` to use the font's
+  /// default (proportional) figures, or supply other [FontFeature]s as needed.
+  ///
+  /// Only has an effect when [showBatteryPercentage] is `true`.
+  final List<FontFeature>? fontFeatures;
 
   /// Whether the device is in Low Power Mode / Battery Saver mode.
   /// When `null`, the value is read from the system at runtime.
@@ -610,8 +621,8 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             ? CupertinoColors.black
             : CupertinoColors.white,
         fontSize: _batteryHeight,
-        fontFeatures: [const .tabularFigures()],
-        letterSpacing: -.8,
+        fontFeatures: widget.fontFeatures,
+        letterSpacing: -1.6,
         fontWeight: _isMacOS
             ? .w600
             : _batteryLevel == 100 || !_isIOS27Style

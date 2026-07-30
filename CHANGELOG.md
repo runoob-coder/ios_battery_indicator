@@ -1,3 +1,7 @@
+## 1.5.0
+
+- ✨ Add configurable `fontFeatures` for the battery percentage text (default `const [FontFeature.tabularFigures()]`); only effective when `showBatteryPercentage` is `true`.
+
 ## 1.4.7
 
 - 🎨 More native-proportioned battery; text, bolt, and positive pole now scale with the indicator size

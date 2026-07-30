@@ -24,10 +24,13 @@ Language: [English](README.md) | 中文
 - **镂空百分比** — 在正常放电模式下，百分比文字通过镂空效果穿透填充区域，呈现精致的外观。
 - **低电量警告** — 电量低于可配置阈值（10–30，默认 20）时，指示器变为红色。
 - **省电模式** — 低功耗模式激活时，电池轨道变为黄色。
-- **省电模式实时监控** — `monitorBatterySaveMode` 轮询系统低功耗模式（仅自动模式；轮询间隔可通过 `saveModePollInterval` 配置，默认 30 秒；仅支持 Android、iOS、macOS 和 Windows，web 及其他平台不支持）。
+- **省电模式实时监控** — `monitorBatterySaveMode` 轮询系统低功耗模式（仅自动模式；轮询间隔可通过
+  `saveModePollInterval` 配置，默认 30 秒；仅支持 Android、iOS、macOS 和 Windows，web 及其他平台不支持）。
 - **亮色 / 深色模式** — 自动适配环境的 `Brightness`，也可通过 `brightness` 属性强制指定。
-- **流畅动画** — 填充进度、颜色变化、充电闪电图标切换以及基础/百分比显示之间的交叉淡入淡出，所有动画时长均可通过 `animationDuration` 配置。
-- **充电音效** — 在手动模式下进入充电状态时，可选择播放 iOS 原生充电音效（`connectedToPower`），仅限 iOS 平台支持。
+- **流畅动画** — 填充进度、颜色变化、充电闪电图标切换以及基础/百分比显示之间的交叉淡入淡出，所有动画时长均可通过
+  `animationDuration` 配置。
+- **充电音效** — 在手动模式下进入充电状态时，可选择播放 iOS 原生充电音效（`connectedToPower`），仅限 iOS
+  平台支持。
 
 ## 🚀 快速开始
 
@@ -37,7 +40,8 @@ Language: [English](README.md) | 中文
 
 ### ⚙️ 平台配置
 
-此包依赖 `battery_plus` 和 `device_info_plus`。iOS 和 macOS 无需额外配置。Android 需确保 `android/app/build.gradle.kts` 目标 API 21 或更高（Flutter 默认模板已满足此要求）。
+此包依赖 `battery_plus` 和 `device_info_plus`。iOS 和 macOS 无需额外配置。Android 需确保
+`android/app/build.gradle.kts` 目标 API 21 或更高（Flutter 默认模板已满足此要求）。
 
 ## 📖 使用示例
 
@@ -76,8 +80,9 @@ IosBatteryIndicator(
 
 ```dart
 IosBatteryIndicator(
-  showBatteryPercentage: false,   // 隐藏百分比数字
-  chargingWithBolt: false,        // 充电时隐藏闪电图标
+  showBatteryPercentage: false,  // 隐藏百分比数字
+  fontFeatures: const [.tabularFigures()],  // 默认值：等宽数字（仅 showBatteryPercentage 为 true 时生效）
+  chargingWithBolt: false,  // 充电时隐藏闪电图标
 );
 ```
 
@@ -136,11 +141,13 @@ IosBatteryIndicator(
 
 ### 🔋 省电模式实时监控
 
-默认情况下，系统低功耗模式仅在组件初始化时读取一次。若希望在用户运行时切换低功耗模式时保持同步，可开启 `monitorBatterySaveMode` —— 该选项仅在 `isInBatterySaveMode` 为 `null`（系统模式）时生效。注意此功能仅支持 Android、iOS、macOS 和 Windows，在 web 及其他平台无效：
+默认情况下，系统低功耗模式仅在组件初始化时读取一次。若希望在用户运行时切换低功耗模式时保持同步，可开启
+`monitorBatterySaveMode` —— 该选项仅在 `isInBatterySaveMode` 为 `null`（系统模式）时生效。注意此功能仅支持
+Android、iOS、macOS 和 Windows，在 web 及其他平台无效：
 
 ```dart
 IosBatteryIndicator(
-  isInBatterySaveMode: null,        // 从系统读取
+  isInBatterySaveMode: null,         // 从系统读取
   monitorBatterySaveMode: true,      // 定期重新轮询
   saveModePollInterval: const Duration(seconds: 10), // 轮询间隔（默认 30 秒）
 );
@@ -175,47 +182,48 @@ MaterialApp(
 
 ### 🧩 `IosBatteryIndicator`
 
-| 属性 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| `height` | `double?` | `null` | 首选高度，与 `width` 互斥。 |
-| `width` | `double?` | `null` | 首选宽度，与 `height` 互斥。 |
-| `batteryLevel` | `int?` | `null` | 电池电量 0–100，为 `null` 时从系统读取。 |
-| `batteryLevelPollInterval` | `Duration` | `30s` | 系统模式下电量轮询间隔。 |
-| `batteryState` | `BatteryState?` | `null` | 充电 / 放电 / 已满。为 `null` 时从系统读取。 |
-| `showBatteryPercentage` | `bool` | `true` | 是否在指示器内显示百分比数字。 |
-| `isInBatterySaveMode` | `bool?` | `null` | 低功耗模式。为 `null` 时从系统读取。 |
-| `monitorBatterySaveMode` | `bool` | `false` | 当 `isInBatterySaveMode` 为 `null` 时轮询系统低功耗模式。仅支持 Android、iOS、macOS 和 Windows（web 及其他平台无效）。 |
-| `saveModePollInterval` | `Duration` | `30s` | 省电模式轮询间隔。 |
-| `lowBatteryThreshold` | `int` | `20` | 低电量阈值（10–30），低于此值时指示器变红。 |
-| `chargingWithBolt` | `bool` | `true` | 充电时是否显示闪电图标。仅在 `batteryState` 为 `.charging` 时生效。 |
-| `playChargingSound` | `bool` | `false` | 手动模式下播放 iOS 充电音效（仅 iOS）。 |
-| `isIOS27Style` | `bool?` | `null` | 强制 iOS 27 风格。为 `null` 时自动检测 iOS 版本。 |
-| `brightness` | `Brightness?` | `null` | 强制亮色或深色。为 `null` 时使用环境亮度。 |
-| `animationDuration` | `Duration` | `Duration(milliseconds: 250)` | 电池指示器动画时长（填充、颜色、闪电图标等）。 |
-| `themeAnimationDuration` | `Duration` | `kThemeAnimationDuration` | 主题切换的动画时长。 |
-| `onBatteryLevelChanged` | `ValueChanged<int>?` | `null` | 系统电量变化回调（仅系统模式）。 |
-| `onBatteryStateChanged` | `ValueChanged<BatteryState>?` | `null` | 系统充电状态变化回调（仅系统模式）。 |
+| 属性                         | 类型                            | 默认值                           | 描述                                                                                        |
+|----------------------------|-------------------------------|-------------------------------|-------------------------------------------------------------------------------------------|
+| `height`                   | `double?`                     | `null`                        | 首选高度，与 `width` 互斥。                                                                        |
+| `width`                    | `double?`                     | `null`                        | 首选宽度，与 `height` 互斥。                                                                       |
+| `batteryLevel`             | `int?`                        | `null`                        | 电池电量 0–100，为 `null` 时从系统读取。                                                               |
+| `batteryLevelPollInterval` | `Duration`                    | `30s`                         | 系统模式下电量轮询间隔。                                                                              |
+| `batteryState`             | `BatteryState?`               | `null`                        | 充电 / 放电 / 已满。为 `null` 时从系统读取。                                                             |
+| `showBatteryPercentage`    | `bool`                        | `true`                        | 是否在指示器内显示百分比数字。                                                                           |
+| `fontFeatures`             | `List<FontFeature>?`          | `[.tabularFigures()]`         | 百分比数字的字体特性。仅在 `showBatteryPercentage` 为 `true` 时生效。                                       |
+| `isInBatterySaveMode`      | `bool?`                       | `null`                        | 低功耗模式。为 `null` 时从系统读取。                                                                    |
+| `monitorBatterySaveMode`   | `bool`                        | `false`                       | 当 `isInBatterySaveMode` 为 `null` 时轮询系统低功耗模式。仅支持 Android、iOS、macOS 和 Windows（web 及其他平台无效）。 |
+| `saveModePollInterval`     | `Duration`                    | `30s`                         | 省电模式轮询间隔。                                                                                 |
+| `lowBatteryThreshold`      | `int`                         | `20`                          | 低电量阈值（10–30），低于此值时指示器变红。                                                                  |
+| `chargingWithBolt`         | `bool`                        | `true`                        | 充电时是否显示闪电图标。仅在 `batteryState` 为 `.charging` 时生效。                                          |
+| `playChargingSound`        | `bool`                        | `false`                       | 手动模式下播放 iOS 充电音效（仅 iOS）。                                                                  |
+| `isIOS27Style`             | `bool?`                       | `null`                        | 强制 iOS 27 风格。为 `null` 时自动检测 iOS 版本。                                                       |
+| `brightness`               | `Brightness?`                 | `null`                        | 强制亮色或深色。为 `null` 时使用环境亮度。                                                                 |
+| `animationDuration`        | `Duration`                    | `Duration(milliseconds: 250)` | 电池指示器动画时长（填充、颜色、闪电图标等）。                                                                   |
+| `themeAnimationDuration`   | `Duration`                    | `kThemeAnimationDuration`     | 主题切换的动画时长。                                                                                |
+| `onBatteryLevelChanged`    | `ValueChanged<int>?`          | `null`                        | 系统电量变化回调（仅系统模式）。                                                                          |
+| `onBatteryStateChanged`    | `ValueChanged<BatteryState>?` | `null`                        | 系统充电状态变化回调（仅系统模式）。                                                                        |
 
 ### 🎨 `BatteryIndicatorTheme`
 
-| 属性 | 类型 | 描述 |
-| --- | --- | --- |
-| `bgColor` | `Color` | 电池外壳的背景/边框颜色。 |
-| `dischargingTrackColor` | `Color` | 放电（正常状态）时的填充颜色。 |
-| `contentColor` | `Color` | 用于闪电图标和镂空文字描边的颜色。 |
-| `contentAntiColor` | `Color` | 纯色模式下百分比文字的颜色。 |
+| 属性                      | 类型      | 描述                |
+|-------------------------|---------|-------------------|
+| `bgColor`               | `Color` | 电池外壳的背景/边框颜色。     |
+| `dischargingTrackColor` | `Color` | 放电（正常状态）时的填充颜色。   |
+| `contentColor`          | `Color` | 用于闪电图标和镂空文字描边的颜色。 |
+| `contentAntiColor`      | `Color` | 纯色模式下百分比文字的颜色。    |
 
 工厂构造函数 `BatteryIndicatorTheme.light()` 和 `BatteryIndicatorTheme.dark()` 提供了合理的默认值。
 
 ### 👁️ 视觉状态
 
-| 状态 | 外观 |
-| --- | --- |
-| 正常放电 | 外壳边框 + 与电量成比例的实心填充。 |
-| 充电中 | 绿色填充 + 闪电图标（如果 `chargingWithBolt` 为 true）。 |
-| 已满（100%） | 绿色填充，无闪电图标。 |
-| 低电量（≤ 阈值） | 红色填充，纯色（无镂空）。 |
-| 省电模式 | 黄色填充。 |
+| 状态        | 外观                                         |
+|-----------|--------------------------------------------|
+| 正常放电      | 外壳边框 + 与电量成比例的实心填充。                        |
+| 充电中       | 绿色填充 + 闪电图标（如果 `chargingWithBolt` 为 true）。 |
+| 已满（100%）  | 绿色填充，无闪电图标。                                |
+| 低电量（≤ 阈值） | 红色填充，纯色（无镂空）。                              |
+| 省电模式      | 黄色填充。                                      |
 
 ## ℹ️ 更多信息
 
