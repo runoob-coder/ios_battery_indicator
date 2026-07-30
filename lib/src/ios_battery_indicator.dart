@@ -620,22 +620,26 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     Widget batteryLevelText = Text(
       _batteryLevel.toString(),
       textAlign: .center,
-      style: TextStyle(
-        color: _isInBatterySaveMode
-            ? CupertinoColors.black
-            : CupertinoColors.white,
-        fontSize: _batteryHeight,
-        // At 100% remove the tabular-figures feature while keeping any other font features,
-        // so "100" uses proportional spacing.
-        fontFeatures: _isFull
-            ? widget.fontFeatures?.where((f) => f != .tabularFigures()).toList()
-            : widget.fontFeatures,
-        letterSpacing: -1,
-        fontWeight: _isMacOS
-            ? .w500
-            : !_isIOS27Style
-            ? .w800
-            : .w700,
+      style: DefaultTextStyle.of(context).style.merge(
+        TextStyle(
+          color: _isInBatterySaveMode
+              ? CupertinoColors.black
+              : CupertinoColors.white,
+          fontSize: _batteryHeight,
+          // At 100% remove the tabular-figures feature while keeping any other font features,
+          // so "100" uses proportional spacing.
+          fontFeatures: _isFull
+              ? widget.fontFeatures
+                    ?.where((f) => f != .tabularFigures())
+                    .toList()
+              : widget.fontFeatures,
+          letterSpacing: -1,
+          fontWeight: _isMacOS
+              ? .w500
+              : !_isIOS27Style
+              ? .w800
+              : .w700,
+        ),
       ),
     );
 
