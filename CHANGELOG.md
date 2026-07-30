@@ -1,3 +1,9 @@
+## 1.5.1
+
+- 🎨 At 100%, drop `tabularFigures` from `fontFeatures` while keeping other features.
+- 🎨 Simplify percentage text font weight.
+- 📝 Document `fontFeatures` and its 100% behavior.
+
 ## 1.5.0
 
 - ✨ Add configurable `fontFeatures` for the battery percentage text (default `const [FontFeature.tabularFigures()]`); only effective when `showBatteryPercentage` is `true`.

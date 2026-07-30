@@ -86,6 +86,9 @@ class IosBatteryIndicator extends StatefulWidget {
   /// default (proportional) figures, or supply other [FontFeature]s as needed.
   ///
   /// Only has an effect when [showBatteryPercentage] is `true`.
+  ///
+  /// Note: when the battery level is exactly 100, any `tabularFigures`
+  /// feature is removed from this list (other features are preserved).
   final List<FontFeature>? fontFeatures;
 
   /// Whether the device is in Low Power Mode / Battery Saver mode.
@@ -621,13 +624,13 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
             ? CupertinoColors.black
             : CupertinoColors.white,
         fontSize: _batteryHeight,
-        fontFeatures: widget.fontFeatures,
-        letterSpacing: -1.6,
-        fontWeight: _isMacOS
-            ? .w600
-            : _batteryLevel == 100 || !_isIOS27Style
-            ? .w800
-            : .w700,
+        // At 100% remove the tabular-figures feature while keeping any other font features,
+        // so "100" uses proportional spacing.
+        fontFeatures: _batteryLevel == 100
+            ? widget.fontFeatures?.where((f) => f != .tabularFigures()).toList()
+            : widget.fontFeatures,
+        letterSpacing: -1,
+        fontWeight: _isMacOS ? .w500 : .w700,
       ),
     );
 
@@ -656,7 +659,6 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
               fit: .scaleDown,
               child: Row(
                 mainAxisAlignment: .center,
-                // spacing: _isMacOS ? 0 : 1,
                 children: [
                   batteryLevelText,
 

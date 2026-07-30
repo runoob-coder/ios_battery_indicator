@@ -29,6 +29,8 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
 
   bool _showBatteryPercentage = false;
 
+  bool _useTabularFigures = true;
+
   bool _chargingWithBolt = true;
 
   bool _playChargingSound = true;
@@ -107,6 +109,7 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
             monitorBatterySaveMode:
                 _useSystemBattery && _monitorBatterySaveMode,
             showBatteryPercentage: _showBatteryPercentage,
+            fontFeatures: _useTabularFigures ? const [.tabularFigures()] : null,
             chargingWithBolt: _chargingWithBolt,
             playChargingSound: _playChargingSound,
             isIOS27Style: _isIOS27Style,
@@ -233,6 +236,17 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
                 onChanged: (v) => setState(() => _showBatteryPercentage = v),
               ),
             ),
+            if (_showBatteryPercentage)
+              CupertinoListTile(
+                leading: const Icon(CupertinoIcons.textformat),
+                title: const Text('Use Tabular Figures'),
+                subtitle: const Text('Monospaced digits (no shift); disabled at 100%'),
+                trailing: CupertinoSwitch(
+                  value: _useTabularFigures,
+                  onChanged: (v) => setState(() => _useTabularFigures = v),
+                ),
+              ),
+
             if (!_useSystemBattery && !kIsWeb && Platform.isIOS)
               CupertinoListTile(
                 leading: const Icon(CupertinoIcons.speaker_2_fill),
