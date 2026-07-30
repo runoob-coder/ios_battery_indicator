@@ -187,10 +187,13 @@ MaterialApp(
   theme: ThemeData(
     extensions: [
       BatteryIndicatorTheme(
-        bgColor: Colors.grey.withValues(alpha: .3),
-        dischargingTrackColor: Colors.blue,
-        contentColor: Colors.blue,
-        contentAntiColor: Colors.white,
+        bgColor: CupertinoColors.black.withValues(alpha: .3),
+        dischargingTrackColor: CupertinoColors.black,
+        chargingTrackColor: CupertinoColors.activeGreen,
+        criticallyLowTrackColor: CupertinoColors.destructiveRed,
+        saveModeTrackColor: CupertinoColors.systemYellow,
+        contentColor: CupertinoColors.black,
+        contentAntiColor: CupertinoColors.white,
       ),
     ],
   ),

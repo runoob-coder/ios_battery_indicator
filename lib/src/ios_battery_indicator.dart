@@ -230,11 +230,11 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
   Color _trackColor(BatteryIndicatorTheme theme) {
     return _isInBatterySaveMode
-        ? CupertinoColors.systemYellow
+        ? theme.saveModeTrackColor
         : _isCriticallyLow
-        ? CupertinoColors.destructiveRed
+        ? theme.criticallyLowTrackColor
         : _isCharging
-        ? CupertinoColors.activeGreen
+        ? theme.chargingTrackColor
         : theme.dischargingTrackColor;
   }
 

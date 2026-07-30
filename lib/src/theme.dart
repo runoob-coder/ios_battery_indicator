@@ -9,6 +9,21 @@ class BatteryIndicatorTheme extends ThemeExtension<BatteryIndicatorTheme> {
   /// Battery Track Color (Discharging)
   final Color dischargingTrackColor;
 
+  /// Battery Track Color (Charging)
+  ///
+  /// Defaults to [CupertinoColors.activeGreen].
+  final Color chargingTrackColor;
+
+  /// Battery Track Color (Critically Low)
+  ///
+  /// Defaults to [CupertinoColors.destructiveRed].
+  final Color criticallyLowTrackColor;
+
+  /// Battery Track Color (Battery Save Mode)
+  ///
+  /// Defaults to [CupertinoColors.systemYellow].
+  final Color saveModeTrackColor;
+
   /// Battery Content Color
   final Color contentColor;
 
@@ -18,6 +33,9 @@ class BatteryIndicatorTheme extends ThemeExtension<BatteryIndicatorTheme> {
   const BatteryIndicatorTheme({
     required this.bgColor,
     required this.dischargingTrackColor,
+    this.chargingTrackColor = CupertinoColors.activeGreen,
+    this.criticallyLowTrackColor = CupertinoColors.destructiveRed,
+    this.saveModeTrackColor = CupertinoColors.systemYellow,
     required this.contentColor,
     required this.contentAntiColor,
   });
@@ -49,6 +67,9 @@ class BatteryIndicatorTheme extends ThemeExtension<BatteryIndicatorTheme> {
   BatteryIndicatorTheme copyWith({
     Color? bgColor,
     Color? dischargingTrackColor,
+    Color? chargingTrackColor,
+    Color? criticallyLowTrackColor,
+    Color? saveModeTrackColor,
     Color? contentColor,
     Color? contentAntiColor,
   }) {
@@ -56,6 +77,10 @@ class BatteryIndicatorTheme extends ThemeExtension<BatteryIndicatorTheme> {
       bgColor: bgColor ?? this.bgColor,
       dischargingTrackColor:
           dischargingTrackColor ?? this.dischargingTrackColor,
+      chargingTrackColor: chargingTrackColor ?? this.chargingTrackColor,
+      criticallyLowTrackColor:
+          criticallyLowTrackColor ?? this.criticallyLowTrackColor,
+      saveModeTrackColor: saveModeTrackColor ?? this.saveModeTrackColor,
       contentColor: contentColor ?? this.contentColor,
       contentAntiColor: contentAntiColor ?? this.contentAntiColor,
     );
@@ -71,6 +96,15 @@ class BatteryIndicatorTheme extends ThemeExtension<BatteryIndicatorTheme> {
       dischargingTrackColor:
           .lerp(dischargingTrackColor, other.dischargingTrackColor, t) ??
           dischargingTrackColor,
+      chargingTrackColor:
+          .lerp(chargingTrackColor, other.chargingTrackColor, t) ??
+          chargingTrackColor,
+      criticallyLowTrackColor:
+          .lerp(criticallyLowTrackColor, other.criticallyLowTrackColor, t) ??
+          criticallyLowTrackColor,
+      saveModeTrackColor:
+          .lerp(saveModeTrackColor, other.saveModeTrackColor, t) ??
+          saveModeTrackColor,
       contentColor: .lerp(contentColor, other.contentColor, t) ?? contentColor,
       contentAntiColor:
           .lerp(contentAntiColor, other.contentAntiColor, t) ??

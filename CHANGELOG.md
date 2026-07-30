@@ -1,3 +1,8 @@
+## 1.6.0
+
+- 🎨 `BatteryIndicatorTheme`: add `chargingTrackColor`, `criticallyLowTrackColor`, and `saveModeTrackColor` (optional, with Cupertino defaults) to customize the track color for charging, critically-low, and battery-save-mode states.
+- 🔧 `_trackColor` now reads these states' colors from `BatteryIndicatorTheme` instead of hardcoded `CupertinoColors`.
+
 ## 1.5.1
 
 - 🎨 At 100%, drop `tabularFigures` from `fontFeatures` while keeping other features.
