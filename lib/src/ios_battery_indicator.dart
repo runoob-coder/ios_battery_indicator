@@ -331,7 +331,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
       _systemBatteryLevel = await _battery.batteryLevel;
       widget.onBatteryLevelChanged?.call(_systemBatteryLevel);
       _batteryLevelTimer?.cancel();
-      _batteryLevelTimer = Timer.periodic(widget.batteryLevelPollInterval, (
+      _batteryLevelTimer = .periodic(widget.batteryLevelPollInterval, (
         _,
       ) async {
         final level = await _battery.batteryLevel;
@@ -418,9 +418,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   void _startSaveModePolling() {
     if (!_supportsSaveModePolling) return;
     _batterySaveModeTimer?.cancel();
-    _batterySaveModeTimer = Timer.periodic(widget.saveModePollInterval, (
-      _,
-    ) async {
+    _batterySaveModeTimer = .periodic(widget.saveModePollInterval, (_) async {
       final enabled = await _battery.isInBatterySaveMode;
       if (mounted) setState(() => _systemIsInBatterySaveMode = enabled);
     });
@@ -441,16 +439,16 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     final brightness = widget.brightness ?? themeData.brightness;
     if (widget.brightness != null ||
         themeData.extension<BatteryIndicatorTheme>() == null) {
-      final indicatorTheme = brightness == Brightness.light
+      BatteryIndicatorTheme indicatorTheme = brightness == .light
           ? () {
-              final light = BatteryIndicatorTheme.light();
+              BatteryIndicatorTheme light = .light();
               return _isIOS27Style
                   ? light
                   : light.copyWith(
                       bgColor: light.bgColor.withValues(alpha: .38),
                     );
             }()
-          : BatteryIndicatorTheme.dark();
+          : .dark();
       themeData = themeData.copyWith(
         brightness: brightness,
         extensions: [...themeData.extensions.values, indicatorTheme],
@@ -541,7 +539,11 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     Widget child = Container(
       width: _batteryWidth,
       height: _batteryHeight,
-      padding: _isIOS27Style ? .zero : .all(_batteryPadding),
+      padding: _isIOS27Style
+          ? .zero
+          : .all(
+              widget.chargingWithBolt ? _batteryPadding : _batteryPadding - .5,
+            ),
       decoration: ShapeDecoration(
         color: _isIOS27Style ? theme.bgColor : null,
         shape: RoundedSuperellipseBorder(
@@ -626,11 +628,15 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         fontSize: _batteryHeight,
         // At 100% remove the tabular-figures feature while keeping any other font features,
         // so "100" uses proportional spacing.
-        fontFeatures: _batteryLevel == 100
+        fontFeatures: _isFull
             ? widget.fontFeatures?.where((f) => f != .tabularFigures()).toList()
             : widget.fontFeatures,
         letterSpacing: -1,
-        fontWeight: _isMacOS ? .w500 : .w700,
+        fontWeight: _isMacOS
+            ? .w500
+            : !_isIOS27Style
+            ? .w800
+            : .w700,
       ),
     );
 
@@ -667,7 +673,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                     _buildBolt(
                       context,
                       key: const ValueKey('bolt'),
-                      fontSize: _batteryHeight * .8,
+                      fontSize: _batteryHeight * .78,
                       color: _isInBatterySaveMode
                           ? CupertinoColors.black
                           : CupertinoColors.white,
@@ -742,7 +748,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   Widget _buildFillAnimation(Widget fillChild, {bool dynamicHeight = false}) {
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(end: (_batteryLevel / 100).clamp(_minFillLevel, 1)),
-      duration: widget.animationDuration * .5,
+      duration: widget.animationDuration * .8,
       curve: Curves.easeOutCubic,
       builder: (context, value, child) {
         // Only reduce height dynamically for the classic (non-iOS27) icon
@@ -801,6 +807,10 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   ///
   /// The returned widget uses the Cupertino icon font so that the bolt
   /// renders natively rather than as an emoji.
+  ///
+  /// The [icon] must be a member of [CupertinoIcons], since the text is drawn
+  /// with the Cupertino icon font ([CupertinoIcons.iconFont]) rather than a
+  /// generic [IconData] font.
   Widget _buildBolt(
     BuildContext context, {
     Key? key,
@@ -810,7 +820,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     TextStyle? style,
   }) {
     return Text(
-      String.fromCharCode(icon.codePoint),
+      .fromCharCode(icon.codePoint),
       key: key,
       style: TextStyle(
         fontFamily: CupertinoIcons.iconFont,
