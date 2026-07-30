@@ -204,7 +204,7 @@ MaterialApp(
 For Cupertino apps, wrap the indicator in a `Theme` widget or use
 `CupertinoThemeData` extensions.
 
-## 📚 API reference
+## 📚 [API reference](https://pub.dev/documentation/ios_battery_indicator/latest/)
 
 ### 🧩 [`IosBatteryIndicator`](https://pub.dev/documentation/ios_battery_indicator/latest/ios_battery_indicator/IosBatteryIndicator-class.html)
 

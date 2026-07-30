@@ -5,7 +5,7 @@
 [![Pub Version](https://img.shields.io/pub/v/ios_battery_indicator.svg)](https://pub.dev/packages/ios_battery_indicator)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Flutter Demo](https://img.shields.io/badge/demo-Flutter-brightgreen.svg)](https://runoob-coder.github.io/ios_battery_indicator/)
-[![API Reference](https://img.shields.io/badge/API-Reference-0175C2.svg)](https://pub.dev/documentation/ios_battery_indicator/latest/)
+[![API Reference](https://img.shields.io/badge/API-Reference-0175C2.svg)](https://pub-web.flutter-io.cn/documentation/ios_battery_indicator/latest/)
 [![GitHub stars](https://img.shields.io/github/stars/runoob-coder/ios_battery_indicator.svg?style=social)](https://github.com/runoob-coder/ios_battery_indicator)
 
 Language: [English](README.md) | 中文
@@ -34,7 +34,7 @@ Language: [English](README.md) | 中文
 
 ## 🚀 快速开始
 
-通过 pub.dev 安装 → [pub.dev/packages/ios_battery_indicator/install](https://pub.dev/packages/ios_battery_indicator/install)
+通过 pub.dev 安装 → [pub.dev/packages/ios_battery_indicator/install](https://pub-web.flutter-io.cn/packages/ios_battery_indicator/install)
 
 [在线演示](https://runoob-coder.github.io/ios_battery_indicator/) — 立即体验
 
@@ -98,7 +98,7 @@ IosBatteryIndicator(
 ```
 
 > [!NOTE]
-> 此功能依赖 [ios_system_sound](https://pub.dev/packages/ios_system_sound)
+> 此功能依赖 [ios_system_sound](https://pub-web.flutter-io.cn/packages/ios_system_sound)
 > 且仅支持 iOS 平台。在 Web 或其他平台上无效，自动模式（`batteryState` 为 `null`）下不播放。
 
 ### 🎨 样式设置
@@ -158,7 +158,7 @@ IosBatteryIndicator(
 
 ### 🖌️ 自定义主题
 
-可通过 `ThemeData.extensions` 提供 [`BatteryIndicatorTheme`](https://pub.dev/documentation/ios_battery_indicator/latest/ios_battery_indicator/BatteryIndicatorTheme-class.html) 来自定义颜色：
+可通过 `ThemeData.extensions` 提供 [`BatteryIndicatorTheme`](https://pub-web.flutter-io.cn/documentation/ios_battery_indicator/latest/ios_battery_indicator/BatteryIndicatorTheme-class.html) 来自定义颜色：
 
 ```dart
 MaterialApp(
@@ -181,9 +181,9 @@ MaterialApp(
 
 对于 Cupertino 应用，将指示器包裹在 `Theme` 组件中或使用 `CupertinoThemeData` 扩展。
 
-## 📚 API 参考
+## 📚 [API 参考](https://pub-web.flutter-io.cn/documentation/ios_battery_indicator/latest/)
 
-### 🧩 [`IosBatteryIndicator`](https://pub.dev/documentation/ios_battery_indicator/latest/ios_battery_indicator/IosBatteryIndicator-class.html)
+### 🧩 [`IosBatteryIndicator`](https://pub-web.flutter-io.cn/documentation/ios_battery_indicator/latest/ios_battery_indicator/IosBatteryIndicator-class.html)
 
 | 属性                         | 类型                            | 默认值                           | 描述                                                                                                    |
 |----------------------------|-------------------------------|-------------------------------|-------------------------------------------------------------------------------------------------------|
@@ -207,7 +207,7 @@ MaterialApp(
 | `onBatteryLevelChanged`    | `ValueChanged<int>?`          | `null`                        | 系统电量变化回调（仅系统模式）。                                                                                      |
 | `onBatteryStateChanged`    | `ValueChanged<BatteryState>?` | `null`                        | 系统充电状态变化回调（仅系统模式）。                                                                                    |
 
-### 🎨 [`BatteryIndicatorTheme`](https://pub.dev/documentation/ios_battery_indicator/latest/ios_battery_indicator/BatteryIndicatorTheme-class.html)
+### 🎨 [`BatteryIndicatorTheme`](https://pub-web.flutter-io.cn/documentation/ios_battery_indicator/latest/ios_battery_indicator/BatteryIndicatorTheme-class.html)
 
 | 属性                        | 类型      | 描述                                              |
 |---------------------------|---------|-------------------------------------------------|
@@ -221,7 +221,7 @@ MaterialApp(
 
 工厂构造函数 `BatteryIndicatorTheme.light()` 和 `BatteryIndicatorTheme.dark()` 提供了合理的默认值。
 
-完整 API 参考见：[`BatteryIndicatorTheme` 类](https://pub.dev/documentation/ios_battery_indicator/latest/ios_battery_indicator/BatteryIndicatorTheme-class.html)。
+完整 API 参考见：[`BatteryIndicatorTheme` 类](https://pub-web.flutter-io.cn/documentation/ios_battery_indicator/latest/ios_battery_indicator/BatteryIndicatorTheme-class.html)。
 
 ### 👁️ 视觉状态
 
