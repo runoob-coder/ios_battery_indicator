@@ -560,30 +560,29 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     );
 
     if (_isCharging && widget.chargingWithBolt) {
+      double blotScale = kIsWeb ? 1.05 : 1.1;
+
       child = Stack(
         alignment: .center,
         children: [
           Cutout(
             alignment: .center,
             maskChild: Transform.scale(
-              scale: 1.08,
-              child: FittedBox(
-                fit: .scaleDown,
-                child: _buildBolt(
-                  context,
-                  style: TextStyle(
-                    fontSize: _batteryHeight,
-                    foreground: Paint()
-                      ..style = .stroke
-                      ..strokeWidth = 5,
-                  ),
+              scale: blotScale,
+              child: _buildBolt(
+                context,
+                style: TextStyle(
+                  fontSize: _batteryHeight,
+                  foreground: Paint()
+                    ..style = .stroke
+                    ..strokeWidth = 5,
                 ),
               ),
             ),
             child: child,
           ),
-          FittedBox(
-            fit: .scaleDown,
+          Transform.scale(
+            scale: blotScale,
             child: _buildBolt(
               context,
               color: theme.contentColor,
@@ -822,10 +821,15 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     return Text(
       .fromCharCode(icon.codePoint),
       key: key,
-      style: TextStyle(
-        fontFamily: CupertinoIcons.iconFont,
-        package: CupertinoIcons.iconFontPackage,
-      ).merge(style).copyWith(fontSize: fontSize, color: color),
+      style: DefaultTextStyle.of(context).style
+          .merge(
+            TextStyle(
+              fontFamily: CupertinoIcons.iconFont,
+              package: CupertinoIcons.iconFontPackage,
+            ),
+          )
+          .merge(style)
+          .copyWith(fontSize: fontSize, color: color),
     );
   }
 }

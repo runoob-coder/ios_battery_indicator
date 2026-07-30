@@ -1,3 +1,8 @@
+## 1.6.1
+
+- 🎨 `_buildBolt` now inherits the parent `DefaultTextStyle` for correct glyph metrics.
+- 🎨 Tweaked the bolt icon scaling for better visual alignment.
+
 ## 1.6.0
 
 - 🎨 `BatteryIndicatorTheme`: add `chargingTrackColor`, `criticallyLowTrackColor`, and `saveModeTrackColor` (optional, with Cupertino defaults) to customize the track color for charging, critically-low, and battery-save-mode states.
