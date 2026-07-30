@@ -179,7 +179,7 @@ IosBatteryIndicator(
 
 ### 🖌️ Custom theme
 
-You can customize the colors by providing a `BatteryIndicatorTheme` via
+You can customize the colors by providing a [`BatteryIndicatorTheme`](https://pub.dev/documentation/ios_battery_indicator/latest/ios_battery_indicator/BatteryIndicatorTheme-class.html) via
 `ThemeData.extensions`:
 
 ```dart
@@ -206,41 +206,46 @@ For Cupertino apps, wrap the indicator in a `Theme` widget or use
 
 ## 📚 API reference
 
-### 🧩 `IosBatteryIndicator`
+### 🧩 [`IosBatteryIndicator`](https://pub.dev/documentation/ios_battery_indicator/latest/ios_battery_indicator/IosBatteryIndicator-class.html)
 
-| Property                   | Type                          | Default                       | Description                                                                                                                                                                                         |
-|----------------------------|-------------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `height`                   | `double?`                     | `null`                        | Preferred height. Mutually exclusive with `width`.                                                                                                                                                  |
-| `width`                    | `double?`                     | `null`                        | Preferred width. Mutually exclusive with `height`.                                                                                                                                                  |
-| `batteryLevel`             | `int?`                        | `null`                        | Battery level 0–100. When `null`, read from the system.                                                                                                                                             |
-| `batteryLevelPollInterval` | `Duration`                    | `30s`                         | Interval between battery-level polls in system mode.                                                                                                                                                |
-| `batteryState`             | `BatteryState?`               | `null`                        | Charging / discharging / full. When `null`, read from the system.                                                                                                                                   |
-| `showBatteryPercentage`    | `bool`                        | `true`                        | Show the percentage number inside the indicator.                                                                                                                                                    |
-| `fontFeatures`             | `List<FontFeature>?`          | `[.tabularFigures()]`         | Font features for the percentage text. Only effective when `showBatteryPercentage` is `true`. When the level is exactly 100, any `tabularFigures` entry is removed (other features are preserved).  |
-| `isInBatterySaveMode`      | `bool?`                       | `null`                        | Low-power mode. When `null`, read from the system.                                                                                                                                                  |
-| `monitorBatterySaveMode`   | `bool`                        | `false`                       | Poll system Low Power Mode when `isInBatterySaveMode` is `null`. Supported on Android, iOS, macOS and Windows only (no effect on web or other platforms).                                           |
-| `saveModePollInterval`     | `Duration`                    | `30s`                         | Interval between save-mode polls when `monitorBatterySaveMode` is `true`.                                                                                                                           |
-| `lowBatteryThreshold`      | `int`                         | `20`                          | Low Battery Threshold (10–30) below which the indicator turns red.                                                                                                                                  |
-| `chargingWithBolt`         | `bool`                        | `true`                        | Show a bolt icon when charging. Only effective when `batteryState` is `.charging`.                                                                                                                  |
-| `playChargingSound`        | `bool`                        | `false`                       | Play iOS charging sound in manual mode (iOS only).                                                                                                                                                  |
-| `isIOS27Style`             | `bool?`                       | `null`                        | Force iOS 27 style. When `null`, auto-detect the iOS version.                                                                                                                                       |
-| `brightness`               | `Brightness?`                 | `null`                        | Force light or dark colors. When `null`, use ambient brightness.                                                                                                                                    |
-| `animationDuration`        | `Duration`                    | `Duration(milliseconds: 250)` | Duration for battery indicator animations (fill, colors, bolt).                                                                                                                                     |
-| `themeAnimationDuration`   | `Duration`                    | `kThemeAnimationDuration`     | Animation duration for theme transitions.                                                                                                                                                           |
-| `onBatteryLevelChanged`    | `ValueChanged<int>?`          | `null`                        | Called when system battery level changes (system mode only).                                                                                                                                        |
-| `onBatteryStateChanged`    | `ValueChanged<BatteryState>?` | `null`                        | Called when system battery state changes (system mode only).                                                                                                                                        |
+| Property                   | Type                          | Default                       | Description                                                                                                                                                                                        |
+|----------------------------|-------------------------------|-------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `height`                   | `double?`                     | `null`                        | Preferred height. Mutually exclusive with `width`.                                                                                                                                                 |
+| `width`                    | `double?`                     | `null`                        | Preferred width. Mutually exclusive with `height`.                                                                                                                                                 |
+| `batteryLevel`             | `int?`                        | `null`                        | Battery level 0–100. When `null`, read from the system.                                                                                                                                            |
+| `batteryLevelPollInterval` | `Duration`                    | `30s`                         | Interval between battery-level polls in system mode.                                                                                                                                               |
+| `batteryState`             | `BatteryState?`               | `null`                        | Charging / discharging / full. When `null`, read from the system.                                                                                                                                  |
+| `showBatteryPercentage`    | `bool`                        | `true`                        | Show the percentage number inside the indicator.                                                                                                                                                   |
+| `fontFeatures`             | `List<FontFeature>?`          | `[.tabularFigures()]`         | Font features for the percentage text. Only effective when `showBatteryPercentage` is `true`. When the level is exactly 100, any `tabularFigures` entry is removed (other features are preserved). |
+| `isInBatterySaveMode`      | `bool?`                       | `null`                        | Low-power mode. When `null`, read from the system.                                                                                                                                                 |
+| `monitorBatterySaveMode`   | `bool`                        | `false`                       | Poll system Low Power Mode when `isInBatterySaveMode` is `null`. Supported on Android, iOS, macOS and Windows only (no effect on web or other platforms).                                          |
+| `saveModePollInterval`     | `Duration`                    | `30s`                         | Interval between save-mode polls when `monitorBatterySaveMode` is `true`.                                                                                                                          |
+| `lowBatteryThreshold`      | `int`                         | `20`                          | Low Battery Threshold (10–30) below which the indicator turns red.                                                                                                                                 |
+| `chargingWithBolt`         | `bool`                        | `true`                        | Show a bolt icon when charging. Only effective when `batteryState` is `.charging`.                                                                                                                 |
+| `playChargingSound`        | `bool`                        | `false`                       | Play iOS charging sound in manual mode (iOS only).                                                                                                                                                 |
+| `isIOS27Style`             | `bool?`                       | `null`                        | Force iOS 27 style. When `null`, auto-detect the iOS version.                                                                                                                                      |
+| `brightness`               | `Brightness?`                 | `null`                        | Force light or dark colors. When `null`, use ambient brightness.                                                                                                                                   |
+| `animationDuration`        | `Duration`                    | `Duration(milliseconds: 250)` | Duration for battery indicator animations (fill, colors, bolt).                                                                                                                                    |
+| `themeAnimationDuration`   | `Duration`                    | `kThemeAnimationDuration`     | Animation duration for theme transitions.                                                                                                                                                          |
+| `onBatteryLevelChanged`    | `ValueChanged<int>?`          | `null`                        | Called when system battery level changes (system mode only).                                                                                                                                       |
+| `onBatteryStateChanged`    | `ValueChanged<BatteryState>?` | `null`                        | Called when system battery state changes (system mode only).                                                                                                                                       |
 
-### 🎨 `BatteryIndicatorTheme`
+### 🎨 [`BatteryIndicatorTheme`](https://pub.dev/documentation/ios_battery_indicator/latest/ios_battery_indicator/BatteryIndicatorTheme-class.html)
 
-| Property                | Type    | Description                                             |
-|-------------------------|---------|---------------------------------------------------------|
-| `bgColor`               | `Color` | Background / border color of the battery shell.         |
-| `dischargingTrackColor` | `Color` | Fill color when discharging (normal state).             |
-| `contentColor`          | `Color` | Color used for the bolt icon and cutout text outline.   |
-| `contentAntiColor`      | `Color` | Color used for the percentage text in plain-style mode. |
+| Property                  | Type    | Description                                                                       |
+|---------------------------|---------|-----------------------------------------------------------------------------------|
+| `bgColor`                 | `Color` | Background / border color of the battery shell.                                   |
+| `dischargingTrackColor`   | `Color` | Fill color when discharging (normal state).                                       |
+| `chargingTrackColor`      | `Color` | Fill color when charging. Defaults to `CupertinoColors.activeGreen`.              |
+| `criticallyLowTrackColor` | `Color` | Fill color when critically low. Defaults to `CupertinoColors.destructiveRed`.     |
+| `saveModeTrackColor`      | `Color` | Fill color when in battery save mode. Defaults to `CupertinoColors.systemYellow`. |
+| `contentColor`            | `Color` | Color used for the bolt icon and cutout text outline.                             |
+| `contentAntiColor`        | `Color` | Color used for the percentage text in plain-style mode.                           |
 
 Factory constructors `BatteryIndicatorTheme.light()` and
 `BatteryIndicatorTheme.dark()` provide sensible defaults.
+
+See the full API reference: [`BatteryIndicatorTheme` class](https://pub.dev/documentation/ios_battery_indicator/latest/ios_battery_indicator/BatteryIndicatorTheme-class.html).
 
 ### 👁️ Visual states
 
