@@ -1,7 +1,7 @@
 # 🔋 iOS 电池指示器
 
 <div align="center">
-  <img src="screenshots/battery.100percent.bolt.svg" alt="ios_battery_indicator" height="80" />
+  <img src="https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/battery.100percent.bolt.svg" alt="ios_battery_indicator" height="100" />
 </div>
 
 一个复刻 iOS 原生电池指示器的 Flutter 组件，支持 iOS 27 风格以及自动监测系统电池。
