@@ -1,6 +1,6 @@
-## 1.6.3
+## 1.6.4
 
-- 📝 Add inline height style to the README banner image for consistent rendering.
+- 📝 Add inline width style to the README banner image for consistent rendering.
 
 ## 1.6.2
 
