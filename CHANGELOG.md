@@ -1,3 +1,7 @@
+## 1.6.3
+
+- 📝 Add inline height style to the README banner image for consistent rendering.
+
 ## 1.6.2
 
 - 🐛 Percentage text now inherits the parent `DefaultTextStyle` for correct font and glyph metrics.
