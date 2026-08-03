@@ -1,3 +1,7 @@
+## 1.6.2
+
+- 🐛 Percentage text now inherits the parent `DefaultTextStyle` for correct font and glyph metrics.
+
 ## 1.6.1
 
 - 🎨 `_buildBolt` now inherits the parent `DefaultTextStyle` for correct glyph metrics.
