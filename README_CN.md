@@ -25,7 +25,8 @@ Language: [English](README.md) | 中文
 - **手动控制** — 可选择性传入 `batteryLevel`、`batteryState` 和 `isInBatterySaveMode` 用于演示或自定义场景。
 - **iOS 27 风格** — 支持 iOS 27 引入的无边框设计，可自动检测 iOS 版本。
 - **充电闪电图标** — 充电时使用原生 Cupertino 图标字体渲染闪电 (⚡) 符号。
-- **镂空百分比** — 在正常放电模式下，百分比文字通过镂空效果穿透填充区域，呈现精致的外观。
+- **镂空百分比** — 在正常未充电模式下，百分比文字通过镂空效果穿透填充区域，呈现精致的外观。
+- **原生 SF Pro 字体** — 内置打包 SF Pro 字体，电池百分比在各个平台中与 iOS 原生排版一致。
 - **低电量警告** — 电量低于可配置阈值（10–30，默认 20）时，指示器变为红色。
 - **省电模式** — 低功耗模式激活时，电池轨道变为黄色。
 - **省电模式实时监控** — `monitorBatterySaveMode` 轮询系统低功耗模式（仅自动模式；轮询间隔可通过
@@ -195,7 +196,7 @@ MaterialApp(
 | `width`                    | `double?`                     | `null`                        | 首选宽度，与 `height` 互斥。                                                                                   |
 | `batteryLevel`             | `int?`                        | `null`                        | 电池电量 0–100，为 `null` 时从系统读取。                                                                           |
 | `batteryLevelPollInterval` | `Duration`                    | `30s`                         | 系统模式下电量轮询间隔。                                                                                          |
-| `batteryState`             | `BatteryState?`               | `null`                        | 充电 / 放电 / 已满。为 `null` 时从系统读取。                                                                         |
+| `batteryState`             | `BatteryState?`               | `null`                        | 充电 / 未充电 / 已满。为 `null` 时从系统读取。                                                                        |
 | `showBatteryPercentage`    | `bool`                        | `true`                        | 是否在指示器内显示百分比数字。                                                                                       |
 | `fontFeatures`             | `List<FontFeature>?`          | `[.tabularFigures()]`         | 百分比数字的字体特性。仅在 `showBatteryPercentage` 为 `true` 时生效。当电量恰好为 100% 时，会移除列表中的 `tabularFigures` 特性（保留其他特性）。 |
 | `isInBatterySaveMode`      | `bool?`                       | `null`                        | 低功耗模式。为 `null` 时从系统读取。                                                                                |
@@ -216,7 +217,7 @@ MaterialApp(
 | 属性                        | 类型      | 描述                                              |
 |---------------------------|---------|-------------------------------------------------|
 | `bgColor`                 | `Color` | 电池外壳的背景/边框颜色。                                   |
-| `dischargingTrackColor`   | `Color` | 放电（正常状态）时的填充颜色。                                 |
+| `dischargingTrackColor`   | `Color` | 未充电（正常状态）时的填充颜色。                                |
 | `chargingTrackColor`      | `Color` | 充电时的填充颜色，默认 `CupertinoColors.activeGreen`。      |
 | `criticallyLowTrackColor` | `Color` | 电量极低时的填充颜色，默认 `CupertinoColors.destructiveRed`。 |
 | `saveModeTrackColor`      | `Color` | 省电模式时的填充颜色，默认 `CupertinoColors.systemYellow`。   |
@@ -231,7 +232,7 @@ MaterialApp(
 
 | 状态        | 外观                                         |
 |-----------|--------------------------------------------|
-| 正常放电      | 外壳边框 + 与电量成比例的实心填充。                        |
+| 正常未充电     | 外壳边框 + 与电量成比例的实心填充。                        |
 | 充电中       | 绿色填充 + 闪电图标（如果 `chargingWithBolt` 为 true）。 |
 | 已满（100%）  | 绿色填充，无闪电图标。                                |
 | 低电量（≤ 阈值） | 红色填充，纯色（无镂空）。                              |

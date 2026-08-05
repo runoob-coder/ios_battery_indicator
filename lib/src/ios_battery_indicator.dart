@@ -506,6 +506,8 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     return DefaultTextStyle(
       style: const TextStyle(
         height: 1,
+        fontFamily: 'SF Pro',
+        package: 'ios_battery_indicator',
         fontWeight: .w500,
         leadingDistribution: .even,
       ),
@@ -634,11 +636,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                     .toList()
               : widget.fontFeatures,
           letterSpacing: -1,
-          fontWeight: _isMacOS
-              ? .w500
-              : !_isIOS27Style
-              ? .w800
-              : .w700,
+          fontWeight: _isMacOS ? .w600 : .w700,
         ),
       ),
     );

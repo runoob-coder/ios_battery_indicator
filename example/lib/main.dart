@@ -51,7 +51,13 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
       home: CupertinoPageScaffold(
         backgroundColor: CupertinoColors.systemGrey6,
         navigationBar: const CupertinoNavigationBar(
-          middle: Text('iOS Battery Indicator Demo'),
+          middle: Text(
+            'iOS Battery Indicator Demo 􀋦',
+            style: TextStyle(
+              fontFamily: 'SF Pro',
+              package: 'ios_battery_indicator',
+            ),
+          ),
         ),
         child: SafeArea(
           bottom: false,
@@ -240,7 +246,9 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
               CupertinoListTile(
                 leading: const Icon(CupertinoIcons.textformat),
                 title: const Text('Use Tabular Figures'),
-                subtitle: const Text('Monospaced digits (no shift); disabled at 100%'),
+                subtitle: const Text(
+                  'Monospaced digits (no shift); disabled at 100%',
+                ),
                 trailing: CupertinoSwitch(
                   value: _useTabularFigures,
                   onChanged: (v) => setState(() => _useTabularFigures = v),

@@ -1,3 +1,9 @@
+## 1.7.0
+
+- 🎉 Bundle the `SF Pro` font (`./fonts/SF-Pro.ttf`) so the indicator uses it natively on every platform.
+- 🎨 Use `SF Pro` in the indicator's `DefaultTextStyle`.
+- 🎨 Simplify percentage text font weight.
+
 ## 1.6.4
 
 - 📝 Add inline width style to the README banner image for consistent rendering.

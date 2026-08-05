@@ -35,6 +35,8 @@ Language: English | [中文](https://github.com/runoob-coder/ios_battery_indicat
   Cupertino icon font when the battery is charging.
 - **Cutout percentage** — in normal discharging mode, the percentage text is
   punched through the fill using a cutout effect for a polished look.
+- **Native SF Pro typeface** — bundles the SF Pro font and uses it for the
+  indicator's text on every platform, matching the native iOS typography.
 - **Low battery warning** — the indicator turns red when the battery level
   drops below a configurable threshold (10–30, defaults to 20).
 - **Battery save mode** — the track turns yellow when low-power mode is active.
