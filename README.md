@@ -1,7 +1,9 @@
 # 🔋 iOS Battery Indicator
 
 <div align="center">
-  <img src="https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/battery.100percent.bolt.svg" alt="ios_battery_indicator" width="200" style="width: 200px;" />
+  <a href="https://runoob-coder.github.io/ios_battery_indicator/" target="_blank" rel="noopener">
+    <img src="https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/battery.100percent.bolt.svg" alt="ios_battery_indicator" width="200" style="width: 200px;" />
+  </a>
 </div>
 
 A Flutter widget that replicates the native iOS battery indicator, including
