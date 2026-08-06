@@ -12,6 +12,8 @@ topics:
   - components
 
 screenshots:
+  - description: "ios_battery_indicator"
+    path: screenshots/battery.png
   - description: "90% Charging"
     path: screenshots/3.png
   - description: "20% Discharging - Low Battery Warning"
