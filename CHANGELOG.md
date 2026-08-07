@@ -1,3 +1,7 @@
+## 1.7.1
+
+- 📝 **Docs**: improved the documentation.
+
 ## 1.7.0
 
 - 🎉 Bundle the `SF Pro` font (`./fonts/SF-Pro.ttf`) so the indicator uses it natively on every platform.
