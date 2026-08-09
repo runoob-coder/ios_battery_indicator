@@ -1,3 +1,8 @@
+## 1.7.3
+
+- 🎨 Optimize spacing style.
+- ⚖️ Update LICENSE and add a restriction on magic-related commercial use.
+
 ## 1.7.2
 
 - 📝 **Docs**: improved the documentation.
