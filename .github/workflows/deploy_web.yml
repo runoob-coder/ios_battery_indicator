@@ -32,6 +32,9 @@ jobs:
         working-directory: example
         run: flutter pub get
 
+      - name: Flutter analyze
+        run: flutter analyze
+
       - name: Build web
         working-directory: example
         run: flutter build web --base-href "/ios_battery_indicator/" --release
