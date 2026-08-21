@@ -2,9 +2,9 @@
 
 <div align="center">
   <a href="https://runoob-coder.github.io/ios_battery_indicator/" target="_blank" rel="noopener">
-    <picture width="200" style="width: 200px;" alt="ios_battery_indicator">
+    <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/runoob-coder/ios_battery_indicator/master/example/web/icons/battery_dark.svg">
-      <img src="https://raw.githubusercontent.com/runoob-coder/ios_battery_indicator/master/example/web/icons/battery.svg" alt="图片描述">
+      <img src="https://raw.githubusercontent.com/runoob-coder/ios_battery_indicator/master/example/web/icons/battery.svg" width="200" style="width: 200px;" alt="ios_battery_indicator">
     </picture>
   </a>
 </div>
