@@ -166,7 +166,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.7.4"
+    version: "1.7.5"
   ios_system_sound:
     dependency: transitive
     description:
