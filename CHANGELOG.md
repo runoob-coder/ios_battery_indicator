@@ -1,3 +1,7 @@
+## 1.7.4
+
+- 🔤 Re-export the bundled `SF Pro` font with OpenType layout features `tnum`, `kern`, `pnum`.
+
 ## 1.7.3
 
 - 🎨 Optimize spacing style.

@@ -635,7 +635,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                     ?.where((f) => f != .tabularFigures())
                     .toList()
               : widget.fontFeatures,
-          letterSpacing: kIsWeb ? 0 : -1,
+          letterSpacing: kIsWeb || !_isCharging ? 0 : -1,
           fontWeight: _isMacOS ? .w600 : .w700,
         ),
       ),
