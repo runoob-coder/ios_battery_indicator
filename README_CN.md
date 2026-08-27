@@ -11,7 +11,6 @@
 
 一个复刻 iOS 原生电池指示器的 Flutter 组件，支持 iOS 27 风格以及自动监测系统电池。
 
-<div align="center">
 [![Pub Version](https://img.shields.io/pub/v/ios_battery_indicator.svg)](https://pub.dev/packages/ios_battery_indicator)
 [![API Reference](https://img.shields.io/badge/API-Reference-0175C2.svg)](https://pub-web.flutter-io.cn/documentation/ios_battery_indicator/latest/)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/runoob-coder/ios_battery_indicator)
@@ -19,11 +18,8 @@
 [![Flutter Demo](https://img.shields.io/badge/demo-Flutter-brightgreen.svg)](https://runoob-coder.github.io/ios_battery_indicator/)
 [![CI](https://img.shields.io/github/actions/workflow/status/runoob-coder/ios_battery_indicator/deploy_web.yml?label=CI)](https://github.com/runoob-coder/ios_battery_indicator/actions/workflows/deploy_web.yml)
 [![GitHub stars](https://img.shields.io/github/stars/runoob-coder/ios_battery_indicator.svg?style=social)](https://github.com/runoob-coder/ios_battery_indicator)
-</div>
 
-<div align="center">
 Language: [English](README.md) | 中文
-</div>
 
 | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/1.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/2.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/3.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/4.png)](https://runoob-coder.github.io/ios_battery_indicator/) |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
