@@ -1,6 +1,6 @@
 # 🔋 iOS 电池指示器
 
-<div style="text-align: center;">
+<div align="center">
   <a href="https://runoob-coder.github.io/ios_battery_indicator/" target="_blank" rel="noopener"> 
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/runoob-coder/ios_battery_indicator/master/example/web/icons/battery_dark.svg">
@@ -11,7 +11,7 @@
 
 一个复刻 iOS 原生电池指示器的 Flutter 组件，支持 iOS 27 风格以及自动监测系统电池。
 
-<div style="text-align: center;">
+<div align="center">
 [![Pub Version](https://img.shields.io/pub/v/ios_battery_indicator.svg)](https://pub.dev/packages/ios_battery_indicator)
 [![API Reference](https://img.shields.io/badge/API-Reference-0175C2.svg)](https://pub-web.flutter-io.cn/documentation/ios_battery_indicator/latest/)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/runoob-coder/ios_battery_indicator)
@@ -21,7 +21,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/runoob-coder/ios_battery_indicator.svg?style=social)](https://github.com/runoob-coder/ios_battery_indicator)
 </div>
 
-<div style="text-align: center;">
+<div align="center">
 Language: [English](README.md) | 中文
 </div>
 

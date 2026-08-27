@@ -1,6 +1,6 @@
 # 🔋 iOS Battery Indicator
 
-<div style="text-align: center;">
+<div align="center">
   <a href="https://runoob-coder.github.io/ios_battery_indicator/" target="_blank" rel="noopener">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/runoob-coder/ios_battery_indicator/master/example/web/icons/battery_dark.svg">
@@ -12,7 +12,7 @@
 A Flutter widget that replicates the native iOS battery indicator, including
 support for iOS 27 style and automatic system battery monitoring.
 
-<div style="text-align: center;">
+<div align="center">
 [![Pub Version](https://img.shields.io/pub/v/ios_battery_indicator.svg)](https://pub.dev/packages/ios_battery_indicator)
 [![API Reference](https://img.shields.io/badge/API-Reference-0175C2.svg)](https://pub.dev/documentation/ios_battery_indicator/latest/)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/runoob-coder/ios_battery_indicator)
@@ -22,7 +22,7 @@ support for iOS 27 style and automatic system battery monitoring.
 [![GitHub stars](https://img.shields.io/github/stars/runoob-coder/ios_battery_indicator.svg?style=social)](https://github.com/runoob-coder/ios_battery_indicator)
 </div>
 
-<div style="text-align: center;">
+<div align="center">
 Language: English | [中文](https://github.com/runoob-coder/ios_battery_indicator/blob/master/README_CN.md)
 </div>
 
