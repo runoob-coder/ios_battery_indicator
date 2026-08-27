@@ -1,3 +1,8 @@
+## 1.8.0
+
+- ⚠️ **BREAKING**: Migrates to [`cupertino_ui`](https://pub.dev/packages/cupertino_ui) and [
+  `material_ui`](https://pub.dev/packages/material_ui) .
+
 ## 1.7.5
 
 - 📝 **Docs**: improved the documentation.
@@ -17,7 +22,8 @@
 
 ## 1.7.0
 
-- 🎉 Bundle the `SF Pro` font (`./fonts/SF-Pro.ttf`) so the indicator uses it natively on every platform.
+- 🎉 Bundle the `SF Pro` font (`./fonts/SF-Pro.ttf`) so the indicator uses it natively on every
+  platform.
 - 🎨 Use `SF Pro` in the indicator's `DefaultTextStyle`.
 - 🎨 Simplify percentage text font weight.
 
@@ -36,8 +42,11 @@
 
 ## 1.6.0
 
-- 🎨 `BatteryIndicatorTheme`: add `chargingTrackColor`, `criticallyLowTrackColor`, and `saveModeTrackColor` (optional, with Cupertino defaults) to customize the track color for charging, critically-low, and battery-save-mode states.
-- 🔧 `_trackColor` now reads these states' colors from `BatteryIndicatorTheme` instead of hardcoded `CupertinoColors`.
+- 🎨 `BatteryIndicatorTheme`: add `chargingTrackColor`, `criticallyLowTrackColor`, and
+  `saveModeTrackColor` (optional, with Cupertino defaults) to customize the track color for
+  charging, critically-low, and battery-save-mode states.
+- 🔧 `_trackColor` now reads these states' colors from `BatteryIndicatorTheme` instead of hardcoded
+  `CupertinoColors`.
 
 ## 1.5.1
 
@@ -47,11 +56,13 @@
 
 ## 1.5.0
 
-- ✨ Add configurable `fontFeatures` for the battery percentage text (default `const [FontFeature.tabularFigures()]`); only effective when `showBatteryPercentage` is `true`.
+- ✨ Add configurable `fontFeatures` for the battery percentage text (default
+  `const [FontFeature.tabularFigures()]`); only effective when `showBatteryPercentage` is `true`.
 
 ## 1.4.7
 
-- 🎨 More native-proportioned battery; text, bolt, and positive pole now scale with the indicator size
+- 🎨 More native-proportioned battery; text, bolt, and positive pole now scale with the indicator
+  size
 - 🎨 Cleaner percentage text and more reliable vertical centering across platforms
 - 🎨 More visible low-battery fill and a clearer charging-bolt cutout effect
 - 🔧 Tighter corner-radius handling for consistent classic and iOS 27 styles
@@ -62,7 +73,8 @@
 
 ## 1.4.5
 
-- 🎨 Use a solid fill in low-power (battery save) mode, matching the charging and critically-low states
+- 🎨 Use a solid fill in low-power (battery save) mode, matching the charging and critically-low
+  states
 
 ## 1.4.4
 
@@ -70,11 +82,14 @@
 
 ## 1.4.3
 
-- 🎨 Taller classic (non-iOS 27) battery — height `14` instead of `13` when the percentage is shown, for better text proportion
-- 🎨 Tighten corner radii for the classic style (outer `3.2` / inner `1.6` vs `4` / `2`) to better match the native pre-iOS 27 look
+- 🎨 Taller classic (non-iOS 27) battery — height `14` instead of `13` when the percentage is shown,
+  for better text proportion
+- 🎨 Tighten corner radii for the classic style (outer `3.2` / inner `1.6` vs `4` / `2`) to better
+  match the native pre-iOS 27 look
 - 🎨 Scale the percentage text and bolt icon to the battery height for consistent proportions
 - 🎨 Use `w800` font weight for the percentage text in the classic style (previously only at 100%)
-- 🎨 Slightly squeeze the percentage text (`scaleX: .9`) and tighten row spacing while charging in the classic style
+- 🎨 Slightly squeeze the percentage text (`scaleX: .9`) and tighten row spacing while charging in
+  the classic style
 
 ## 1.4.2
 
@@ -87,11 +102,13 @@
 
 ## 1.4.0
 
-- ✨ Add configurable `batteryLevelPollInterval` for the battery-level poll in system mode (default 30s)
+- ✨ Add configurable `batteryLevelPollInterval` for the battery-level poll in system mode (default
+  30s)
 
 ## 1.3.0
 
-- ✨ Add `monitorBatterySaveMode` to poll Low Power Mode at runtime when `isInBatterySaveMode` is `null`, with configurable `saveModePollInterval` (default 30s)
+- ✨ Add `monitorBatterySaveMode` to poll Low Power Mode at runtime when `isInBatterySaveMode` is
+  `null`, with configurable `saveModePollInterval` (default 30s)
 
 ## 1.2.7
 
@@ -105,7 +122,8 @@
 
 ## 1.2.5
 
-- 🎨 Restore cutout percentage style when battery is full — plain fill now only applies when charging or critically low
+- 🎨 Restore cutout percentage style when battery is full — plain fill now only applies when charging
+  or critically low
 - 🎨 Use `FontFeature.tabularFigures()` for percentage text to prevent digit-width jitter
 - 🎨 Shrink positive pole diameter from 4.2 to 3.9 for better visual proportion
 - 🎨 Prevent "100" text overflow by reducing scale when battery is full
@@ -113,7 +131,8 @@
 
 ## 1.2.4
 
-- 📝 Fix screenshot images and language link in README — use absolute GitHub URLs so they render correctly on pub.dev
+- 📝 Fix screenshot images and language link in README — use absolute GitHub URLs so they render
+  correctly on pub.dev
 
 ## 1.2.3
 
@@ -127,31 +146,41 @@
 
 ## 1.2.1
 
-- 🎨 Refine percentage text rendering: increase font size from 12 to 13, remove letter spacing for cleaner appearance
+- 🎨 Refine percentage text rendering: increase font size from 12 to 13, remove letter spacing for
+  cleaner appearance
 - 🎨 Adjust bolt icon size from 10 to 9.6 for better visual balance with percentage text
-- 🎨 Remove `Transform.scale` wrappers from percentage text and cutout mask, use `Padding` inset instead for more predictable layout
+- 🎨 Remove `Transform.scale` wrappers from percentage text and cutout mask, use `Padding` inset
+  instead for more predictable layout
 
 ## 1.2.0
 
-- 🔊 **New `playChargingSound` parameter** — optionally play the native iOS charging sound (`connectedToPower`) when entering the charging state in manual mode. Uses the [ios_system_sound](https://pub.dev/packages/ios_system_sound) package and is only supported on iOS. Disabled by default.
+- 🔊 **New `playChargingSound` parameter** — optionally play the native iOS charging sound (
+  `connectedToPower`) when entering the charging state in manual mode. Uses
+  the [ios_system_sound](https://pub.dev/packages/ios_system_sound) package and is only supported on
+  iOS. Disabled by default.
 
 ## 1.1.0
 
-- 📡 **New callbacks** — added `onBatteryLevelChanged` and `onBatteryStateChanged` to receive real-time system battery updates in auto mode
-- 🐛 Fix percentage text vertical misalignment by applying `TextHeightBehavior` to suppress extra ascent/descent
+- 📡 **New callbacks** — added `onBatteryLevelChanged` and `onBatteryStateChanged` to receive
+  real-time system battery updates in auto mode
+- 🐛 Fix percentage text vertical misalignment by applying `TextHeightBehavior` to suppress extra
+  ascent/descent
 
 ## 1.0.3
 
-- 🎬 Added `animationDuration` parameter to control all indicator animations, including fill progress, color changes, bolt icon, and crossfade transitions
+- 🎬 Added `animationDuration` parameter to control all indicator animations, including fill
+  progress, color changes, bolt icon, and crossfade transitions
 - 🎨 Fix cutout percentage text overflow by wrapping `maskChild` with `FittedBox` for proper scaling
 
 ## 1.0.2
 
-- 🎨 Adjust text rendering: wrap battery indicator in `DefaultTextStyle` with `height: 1` and `fontWeight: .w500` for consistent typography
+- 🎨 Adjust text rendering: wrap battery indicator in `DefaultTextStyle` with `height: 1` and
+  `fontWeight: .w500` for consistent typography
 - 🎨 Refine cutout percentage font size from 14 to 13 for better visual balance
 - 📱 Update example app defaults: battery state set to charging, percentage display toggled off
 - 🔧 Fix formatting of Repository and Issue tracker links in README
-- 🌐 Improve example web page SEO: update meta description, keywords, title, and apple-mobile-web-app-title
+- 🌐 Improve example web page SEO: update meta description, keywords, title, and
+  apple-mobile-web-app-title
 - 📝 Add class-level documentation comment to `IosBatteryIndicator`
 - 📦 Include `screenshots/` in published package files
 
@@ -163,16 +192,27 @@
 ## 1.0.0
 
 - 🎉 Initial stable release
-- **Core widget**: Added `IosBatteryIndicator` widget that faithfully replicates the native iOS battery indicator
-- **Auto system battery monitoring**: Reads battery level, charging state, and low-power mode from the device in real time
-- **Manual control mode**: Supports manually specifying battery state via `batteryLevel`, `batteryState`, and `isInBatterySaveMode`
-- **iOS 27 style support**: Supports the new borderless design introduced in iOS 27, with automatic iOS version detection
-- **Charging bolt overlay**: Renders a bolt (⚡) icon using the native Cupertino icon font when the battery is charging
-- **Cutout percentage effect**: Percentage text is punched through the fill using a cutout effect for a polished look when discharging
-- **Low battery warning**: Indicator turns red when the battery level drops below a configurable threshold (10–30, defaults to 20)
+- **Core widget**: Added `IosBatteryIndicator` widget that faithfully replicates the native iOS
+  battery indicator
+- **Auto system battery monitoring**: Reads battery level, charging state, and low-power mode from
+  the device in real time
+- **Manual control mode**: Supports manually specifying battery state via `batteryLevel`,
+  `batteryState`, and `isInBatterySaveMode`
+- **iOS 27 style support**: Supports the new borderless design introduced in iOS 27, with automatic
+  iOS version detection
+- **Charging bolt overlay**: Renders a bolt (⚡) icon using the native Cupertino icon font when the
+  battery is charging
+- **Cutout percentage effect**: Percentage text is punched through the fill using a cutout effect
+  for a polished look when discharging
+- **Low battery warning**: Indicator turns red when the battery level drops below a configurable
+  threshold (10–30, defaults to 20)
 - **Battery save mode**: Track turns yellow when low-power mode is active
-- **Light / Dark mode**: Automatically adapts to ambient `Brightness`, with an option to force a specific brightness via the `brightness` property
-- **Smooth animations**: Uses `AnimatedSwitcher` for display mode transitions and `AnimatedTheme` for theme transitions
+- **Light / Dark mode**: Automatically adapts to ambient `Brightness`, with an option to force a
+  specific brightness via the `brightness` property
+- **Smooth animations**: Uses `AnimatedSwitcher` for display mode transitions and `AnimatedTheme`
+  for theme transitions
 - **Flexible sizing**: Supports scaling via `height` or `width` properties (mutually exclusive)
-- **Display option controls**: Supports `showBatteryPercentage` to hide the percentage number and `chargingWithBolt` to hide the charging bolt icon
-- **Custom theme**: Added `BatteryIndicatorTheme`, supports custom color schemes via `ThemeData.extensions`, with built-in `.light()` and `.dark()` factory constructors
+- **Display option controls**: Supports `showBatteryPercentage` to hide the percentage number and
+  `chargingWithBolt` to hide the charging bolt icon
+- **Custom theme**: Added `BatteryIndicatorTheme`, supports custom color schemes via
+  `ThemeData.extensions`, with built-in `.light()` and `.dark()` factory constructors

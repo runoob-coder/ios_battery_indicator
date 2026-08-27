@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:battery_plus/battery_plus.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ios_battery_indicator/ios_battery_indicator.dart';
 
