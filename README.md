@@ -20,9 +20,9 @@ support for iOS 27 style and automatic system battery monitoring.
 [![Flutter Demo](https://img.shields.io/badge/demo-Flutter-brightgreen.svg)](https://runoob-coder.github.io/ios_battery_indicator/)
 [![CI](https://img.shields.io/github/actions/workflow/status/runoob-coder/ios_battery_indicator/deploy_web.yml?label=CI)](https://github.com/runoob-coder/ios_battery_indicator/actions/workflows/deploy_web.yml)
 [![GitHub stars](https://img.shields.io/github/stars/runoob-coder/ios_battery_indicator.svg?style=social)](https://github.com/runoob-coder/ios_battery_indicator)
-</div>
 
 Language: English | [中文](https://github.com/runoob-coder/ios_battery_indicator/blob/master/README_CN.md)
+</div>
 
 | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/1.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/2.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/3.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/4.png)](https://runoob-coder.github.io/ios_battery_indicator/) |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
