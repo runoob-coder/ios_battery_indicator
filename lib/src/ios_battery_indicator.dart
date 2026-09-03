@@ -463,7 +463,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
           final child = FittedBox(
             child: Row(
               mainAxisSize: .min,
-              spacing: 3,
+              spacing: _isIOS27Style ? 2 : 3,
               children: [
                 /// Battery content with a crossfade transition between basic
                 /// and percentage modes.
@@ -715,7 +715,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   Widget _buildPositivePole(BuildContext context) {
     final theme = _theme(context);
 
-    const double circleDiameter = 13;
+    double circleDiameter = _isIOS27Style ? 15 : 13;
 
     /// adaptive color when full but not charging
     final Color color =
@@ -724,7 +724,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         : theme.bgColor;
 
     return SizedBox(
-      width: 4,
+      width: _isIOS27Style ? 6 : 4,
       height: circleDiameter,
       child: Stack(
         children: [

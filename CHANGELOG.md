@@ -1,3 +1,8 @@
+## 1.8.1
+
+- 🎨 Tune the iOS 27 style proportions — tighter row `spacing` and a larger positive pole for a more faithful native look.
+- 📝 Document the `SF-Pro.ttf` subsetting workflow and rebuild the bundled subset to reduce size.
+
 ## 1.8.0
 
 - ⚠️ **BREAKING**: Migrates to [`cupertino_ui`](https://pub.dev/packages/cupertino_ui) and [
