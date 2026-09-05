@@ -1,3 +1,8 @@
+## 1.8.2
+
+- 📝 Add an interactive widget-preview showcase to the example app.
+- 🖼️ Update documentation screenshots with new state-specific previews.
+
 ## 1.8.1
 
 - 🎨 Tune the iOS 27 style proportions — tighter row `spacing` and a larger positive pole for a more faithful native look.
