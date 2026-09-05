@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widget_previews.dart';
 import 'package:ios_battery_indicator/ios_battery_indicator.dart';
 
 void main() {
@@ -363,3 +364,231 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
     );
   }
 }
+
+// ============================================================================
+// Widget Previews
+// ============================================================================
+
+final class BatteryIndicatorPreview extends Preview {
+  const BatteryIndicatorPreview({
+    super.name,
+    super.group,
+    super.size = const Size(.infinity, 100),
+    super.textScaleFactor,
+    super.wrapper,
+    super.brightness,
+    super.localizations,
+  }) : super(theme: BatteryIndicatorPreview.themeBuilder);
+
+  static PreviewThemeData themeBuilder() {
+    return _CupertinoPreviewTheme(
+      light: CupertinoThemeData(brightness: .light),
+      dark: CupertinoThemeData(brightness: .dark),
+    );
+  }
+}
+
+final class _CupertinoPreviewTheme extends PreviewThemeData {
+  const _CupertinoPreviewTheme({this.light, this.dark});
+
+  final CupertinoThemeData? light;
+  final CupertinoThemeData? dark;
+
+  @override
+  Widget apply(BuildContext context, Widget child) {
+    final Brightness brightness = MediaQuery.of(context).platformBrightness;
+    return CupertinoTheme(
+      data: brightness == .dark
+          ? (dark ?? const CupertinoThemeData(brightness: .dark))
+          : (light ?? const CupertinoThemeData(brightness: .light)),
+      child: child,
+    );
+  }
+}
+
+// ---- 电量状态（显示百分比）/ Battery States (with percentage) ----
+@BatteryIndicatorPreview(
+  name: 'Discharging',
+  group: 'Battery States (with percentage)',
+)
+Widget stateDischarging() =>
+    IosBatteryIndicator(batteryLevel: 64, batteryState: .discharging);
+
+@BatteryIndicatorPreview(
+  name: 'Charging',
+  group: 'Battery States (with percentage)',
+)
+Widget stateCharging() =>
+    IosBatteryIndicator(batteryLevel: 64, batteryState: .charging);
+
+@BatteryIndicatorPreview(
+  name: 'Full',
+  group: 'Battery States (with percentage)',
+)
+Widget stateFull() =>
+    IosBatteryIndicator(batteryLevel: 100, batteryState: .full);
+
+@BatteryIndicatorPreview(
+  name: 'Low battery',
+  group: 'Battery States (with percentage)',
+)
+Widget stateLow() =>
+    IosBatteryIndicator(batteryLevel: 12, batteryState: .discharging);
+
+@BatteryIndicatorPreview(
+  name: 'Low battery (threshold 30)',
+  group: 'Battery States (with percentage)',
+)
+Widget stateCritical() => IosBatteryIndicator(
+  batteryLevel: 25,
+  batteryState: .discharging,
+  lowBatteryThreshold: 30,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low Power Mode',
+  group: 'Battery States (with percentage)',
+)
+Widget appearanceSaveMode() => IosBatteryIndicator(
+  batteryLevel: 70,
+  batteryState: .discharging,
+  isInBatterySaveMode: true,
+);
+
+// ---- 电量状态（隐藏百分比）/ Battery States (no percentage) ----
+@BatteryIndicatorPreview(
+  name: 'Discharging',
+  group: 'Battery States (no percentage)',
+)
+Widget stateDischargingHidden() => IosBatteryIndicator(
+  batteryLevel: 64,
+  batteryState: .discharging,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Charging',
+  group: 'Battery States (no percentage)',
+)
+Widget stateChargingHidden() => IosBatteryIndicator(
+  batteryLevel: 64,
+  batteryState: .charging,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(name: 'Full', group: 'Battery States (no percentage)')
+Widget stateFullHidden() => IosBatteryIndicator(
+  batteryLevel: 100,
+  batteryState: .full,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low battery',
+  group: 'Battery States (no percentage)',
+)
+Widget stateLowHidden() => IosBatteryIndicator(
+  batteryLevel: 12,
+  batteryState: .discharging,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low battery (threshold 30)',
+  group: 'Battery States (no percentage)',
+)
+Widget stateCriticalHidden() => IosBatteryIndicator(
+  batteryLevel: 25,
+  batteryState: .discharging,
+  lowBatteryThreshold: 30,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low Power Mode',
+  group: 'Battery States (no percentage)',
+)
+Widget stateSaveModeHidden() => IosBatteryIndicator(
+  batteryLevel: 70,
+  batteryState: .discharging,
+  isInBatterySaveMode: true,
+  showBatteryPercentage: false,
+);
+
+// ---- 电量状态（隐藏百分比 / iOS 27 风格）/ Battery States (no percentage, iOS 27) ----
+@BatteryIndicatorPreview(
+  name: 'Discharging',
+  group: 'Battery States (no percentage, iOS 27)',
+)
+Widget stateDischargingHiddenIOS27() => IosBatteryIndicator(
+  batteryLevel: 64,
+  batteryState: .discharging,
+  isIOS27Style: true,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Charging',
+  group: 'Battery States (no percentage, iOS 27)',
+)
+Widget stateChargingHiddenIOS27() => IosBatteryIndicator(
+  batteryLevel: 64,
+  batteryState: .charging,
+  isIOS27Style: true,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Full',
+  group: 'Battery States (no percentage, iOS 27)',
+)
+Widget stateFullHiddenIOS27() => IosBatteryIndicator(
+  batteryLevel: 100,
+  batteryState: .full,
+  isIOS27Style: true,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low battery',
+  group: 'Battery States (no percentage, iOS 27)',
+)
+Widget stateLowHiddenIOS27() => IosBatteryIndicator(
+  batteryLevel: 12,
+  batteryState: .discharging,
+  isIOS27Style: true,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low battery (threshold 30)',
+  group: 'Battery States (no percentage, iOS 27)',
+)
+Widget stateCriticalHiddenIOS27() => IosBatteryIndicator(
+  batteryLevel: 25,
+  batteryState: .discharging,
+  lowBatteryThreshold: 30,
+  isIOS27Style: true,
+  showBatteryPercentage: false,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low Power Mode',
+  group: 'Battery States (no percentage, iOS 27)',
+)
+Widget stateSaveModeHiddenIOS27() => IosBatteryIndicator(
+  batteryLevel: 70,
+  batteryState: .discharging,
+  isInBatterySaveMode: true,
+  isIOS27Style: true,
+  showBatteryPercentage: false,
+);
+
+// ---- Animation ----
+
+@BatteryIndicatorPreview(name: 'Long animation', group: 'Animation')
+Widget appearanceLongAnimation() => IosBatteryIndicator(
+  batteryLevel: 50,
+  batteryState: .discharging,
+  animationDuration: const Duration(seconds: 1),
+);

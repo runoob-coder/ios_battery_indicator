@@ -16,14 +16,14 @@ support for iOS 27 style and automatic system battery monitoring.
 [![API Reference](https://img.shields.io/badge/API-Reference-0175C2.svg)](https://pub.dev/documentation/ios_battery_indicator/latest/)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/runoob-coder/ios_battery_indicator)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Flutter Demo](https://img.shields.io/badge/demo-Flutter-brightgreen.svg)](https://runoob-coder.github.io/ios_battery_indicator/)
+[![Flutter Demo](https://img.shields.io/badge/demo-Flutter-brightgreen.svg)][preview]
 [![CI](https://img.shields.io/github/actions/workflow/status/runoob-coder/ios_battery_indicator/deploy_web.yml?label=CI)](https://github.com/runoob-coder/ios_battery_indicator/actions/workflows/deploy_web.yml)
 [![GitHub stars](https://img.shields.io/github/stars/runoob-coder/ios_battery_indicator.svg?style=social)](https://github.com/runoob-coder/ios_battery_indicator)
 
 Language: English | [中文](https://github.com/runoob-coder/ios_battery_indicator/blob/master/README_CN.md)
 
-| [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/1.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/2.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/3.png)](https://runoob-coder.github.io/ios_battery_indicator/) | [![iOS Battery Indicator](https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/4.png)](https://runoob-coder.github.io/ios_battery_indicator/) |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [![iOS Battery Indicator][states-with-percentage-img]][preview] | [![iOS Battery Indicator][states-no-percentage-img]][preview] | [![iOS Battery Indicator][states-ios-27-img]][preview] |
+|-----------------------------------------------------------------|---------------------------------------------------------------|--------------------------------------------------------|
 
 ## ✨ Features
 
@@ -63,7 +63,7 @@ Language: English | [中文](https://github.com/runoob-coder/ios_battery_indicat
 
 Install via pub.dev → [pub.dev/packages/ios_battery_indicator/install](https://pub.dev/packages/ios_battery_indicator/install)
 
-[Live Demo](https://runoob-coder.github.io/ios_battery_indicator/) — try it out online
+[Live Demo][preview] — try it out online
 
 ### ⚙️ Platform setup
 
@@ -291,3 +291,8 @@ It only takes a few seconds and helps other Flutter developers discover the libr
 <a href="https://ko-fi.com/noob_coder" target="_blank">
   <img src="https://storage.ko-fi.com/cdn/kofi6.png" alt="Buy Me a Coffee at ko-fi.com" />
 </a>
+
+[preview]: https://runoob-coder.github.io/ios_battery_indicator/
+[states-with-percentage-img]: https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/battery-states-with-percentage.png
+[states-no-percentage-img]: https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/battery-states-no-percentage.png
+[states-ios-27-img]: https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/battery-states-ios-27.png

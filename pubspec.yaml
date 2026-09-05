@@ -13,16 +13,14 @@ topics:
   - components
 
 screenshots:
-  - description: "ios_battery_indicator"
+  - description: "iOS Battery Indicator"
     path: screenshots/battery.png
-  - description: "90% Charging"
-    path: screenshots/3.png
-  - description: "20% Discharging - Low Battery Warning"
-    path: screenshots/4.png
-  - description: "80% Charging - Show Battery Percentage"
-    path: screenshots/1.png
-  - description: "65% Discharging - Show Battery Percentage"
-    path: screenshots/2.png
+  - description: "Battery States (with percentage)"
+    path: screenshots/battery-states-with-percentage.png
+  - description: "Battery States (no percentage)"
+    path: screenshots/battery-states-no-percentage.png
+  - description: "Battery States (no percentage, iOS 27 style)"
+    path: screenshots/battery-states-ios-27.png
 
 include:
   - pubspec.yaml
