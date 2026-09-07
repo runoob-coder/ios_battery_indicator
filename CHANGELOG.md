@@ -1,3 +1,8 @@
+## 1.8.3
+
+- 🎨 Replace the Cupertino-icon-font bolt glyph with a vector-drawn `CustomPaint` bolt for crisp,
+  resolution-independent scaling at any indicator size.
+
 ## 1.8.2
 
 - 📝 Add an interactive widget-preview showcase to the example app.
@@ -5,7 +10,8 @@
 
 ## 1.8.1
 
-- 🎨 Tune the iOS 27 style proportions — tighter row `spacing` and a larger positive pole for a more faithful native look.
+- 🎨 Tune the iOS 27 style proportions — tighter row `spacing` and a larger positive pole for a more
+  faithful native look.
 - 📝 Document the `SF-Pro.ttf` subsetting workflow and rebuild the bundled subset to reduce size.
 
 ## 1.8.0

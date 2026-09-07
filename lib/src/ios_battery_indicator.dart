@@ -562,35 +562,15 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     );
 
     if (_isCharging && widget.chargingWithBolt) {
-      double blotScale = kIsWeb ? 1.05 : 1.1;
-
       child = Stack(
         alignment: .center,
         children: [
           Cutout(
             alignment: .center,
-            maskChild: Transform.scale(
-              scale: blotScale,
-              child: _buildBolt(
-                context,
-                style: TextStyle(
-                  fontSize: _batteryHeight,
-                  foreground: Paint()
-                    ..style = .stroke
-                    ..strokeWidth = 5,
-                ),
-              ),
-            ),
+            maskChild: _buildBolt(context, strokeWidth: 2.8),
             child: child,
           ),
-          Transform.scale(
-            scale: blotScale,
-            child: _buildBolt(
-              context,
-              color: theme.contentColor,
-              fontSize: _batteryHeight,
-            ),
-          ),
+          _buildBolt(context, color: theme.contentColor),
         ],
       );
     }
@@ -674,8 +654,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                   if (_isCharging && _showBolt)
                     _buildBolt(
                       context,
-                      key: const ValueKey('bolt'),
-                      fontSize: _batteryHeight * .78,
+                      height: _batteryHeight * .75,
                       color: _isInBatterySaveMode
                           ? CupertinoColors.black
                           : CupertinoColors.white,
@@ -805,34 +784,85 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     return clipped;
   }
 
-  /// Builds a [Text] widget rendering the Cupertino bolt (⚡) glyph.
-  ///
-  /// The returned widget uses the Cupertino icon font so that the bolt
-  /// renders natively rather than as an emoji.
-  ///
-  /// The [icon] must be a member of [CupertinoIcons], since the text is drawn
-  /// with the Cupertino icon font ([CupertinoIcons.iconFont]) rather than a
-  /// generic [IconData] font.
+  /// Builds a bolt (⚡) glyph by vector-drawing a [CustomPaint] widget.
   Widget _buildBolt(
     BuildContext context, {
-    Key? key,
-    IconData icon = CupertinoIcons.bolt_fill,
-    double? fontSize,
+    double? height,
     Color? color,
-    TextStyle? style,
+    strokeWidth = 0,
   }) {
-    return Text(
-      .fromCharCode(icon.codePoint),
-      key: key,
-      style: DefaultTextStyle.of(context).style
-          .merge(
-            TextStyle(
-              fontFamily: CupertinoIcons.iconFont,
-              package: CupertinoIcons.iconFontPackage,
+    final theme = _theme(context);
+    return SizedBox(
+      height: height ?? _batteryHeight,
+      child: FittedBox(
+        child: SizedBox(
+          width: _boltWidth,
+          height: _boltHeight,
+          child: CustomPaint(
+            painter: _BoltPainter(
+              strokeWidth: strokeWidth,
+              color: color ?? theme.contentColor,
             ),
-          )
-          .merge(style)
-          .copyWith(fontSize: fontSize, color: color),
+          ),
+        ),
+      ),
     );
+  }
+}
+
+const double _boltWidth = 10;
+const double _boltHeight = 16;
+
+class _BoltPainter extends CustomPainter {
+  final double strokeWidth;
+  final Color color;
+
+  _BoltPainter({required this.strokeWidth, required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double scaleX = size.width / _boltWidth;
+    final double scaleY = size.height / _boltHeight;
+    final double scale = scaleX < scaleY ? scaleX : scaleY;
+
+    final double dx = (size.width - _boltWidth * scale) / 2;
+    final double dy = (size.height - _boltHeight * scale) / 2;
+
+    canvas.translate(dx, dy);
+    canvas.scale(scale, scale);
+
+    final path = Path();
+    path.moveTo(0, 8.92);
+    path.cubicTo(0, 9.15, .18, 9.33, .45, 9.33);
+    path.lineTo(4.59, 9.33);
+    path.lineTo(2.40, 15.27);
+    path.cubicTo(2.15, 15.92, 2.82, 16.26, 3.25, 15.73);
+    path.lineTo(9.84, 7.49);
+    path.cubicTo(9.95, 7.35, 10.01, 7.22, 10.01, 7.07);
+    path.cubicTo(10.01, 6.84, 9.84, 6.65, 9.57, 6.65);
+    path.lineTo(5.43, 6.65);
+    path.lineTo(7.61, .73);
+    path.cubicTo(7.86, .07, 7.19, -.27, 6.76, .27);
+    path.lineTo(.17, 8.50);
+    path.cubicTo(.06, 8.64, 0, 8.77, 0, 8.92);
+    path.close();
+
+    final paint = Paint()
+      ..style = .fill
+      ..color = color
+      ..isAntiAlias = true;
+    canvas.drawPath(path, paint);
+
+    final strokePaint = Paint()
+      ..style = .stroke
+      ..strokeWidth = strokeWidth
+      ..color = color
+      ..isAntiAlias = true;
+    canvas.drawPath(path, strokePaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _BoltPainter oldDelegate) {
+    return oldDelegate.strokeWidth != strokeWidth || oldDelegate.color != color;
   }
 }
