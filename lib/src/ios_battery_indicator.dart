@@ -789,7 +789,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     BuildContext context, {
     double? height,
     Color? color,
-    strokeWidth = 0,
+    double strokeWidth = 0,
   }) {
     final theme = _theme(context);
     return SizedBox(

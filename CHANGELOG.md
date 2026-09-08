@@ -1,3 +1,7 @@
+## 1.8.4
+
+- 🔧 Type `_buildBolt`'s `strokeWidth` as `double`.
+
 ## 1.8.3
 
 - 🎨 Replace the Cupertino-icon-font bolt glyph with a vector-drawn `CustomPaint` bolt for crisp,
