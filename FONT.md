@@ -39,8 +39,20 @@ pyftsubset /Library/Fonts/SF-Pro.ttf \
   --output-file=$HOME/Downloads/SF-Pro.ttf
 ```
 
+```bash
+pyftsubset /Library/Fonts/SF-Pro-Rounded-Medium.otf \
+  --text='1234567890%􀋦 ' \
+  --layout-features=kern,tnum,pnum \
+  --gids=9634,9635 \
+  --output-file=$HOME/Downloads/SF-Pro-Rounded-Medium.otf
+```
+
 Copy the generated `SF-Pro.ttf` back into the repository's `fonts/` directory:
 
 ```bash
 cp $HOME/Downloads/SF-Pro.ttf fonts/SF-Pro.ttf
+```
+
+```bash
+cp $HOME/Downloads/SF-Pro-Rounded-Medium.otf fonts/SF-Pro-Rounded-Medium.otf
 ```

@@ -55,7 +55,7 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
           middle: Text(
             'iOS Battery Indicator Demo 􀋦',
             style: TextStyle(
-              fontFamily: 'SF Pro',
+              fontFamily: 'SF-Pro',
               package: 'ios_battery_indicator',
             ),
           ),
@@ -249,6 +249,7 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
                 title: const Text('Use Tabular Figures'),
                 subtitle: const Text(
                   'Monospaced digits (no shift); disabled at 100%',
+                  maxLines: 2,
                 ),
                 trailing: CupertinoSwitch(
                   value: _useTabularFigures,
@@ -340,7 +341,7 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
               leading: kIsWeb
                   ? const Icon(CupertinoIcons.exclamationmark_triangle)
                   : null,
-              title: const Text('Low Battery Threshold'),
+              title: const Text('Low Battery Threshold', maxLines: 2),
               additionalInfo: Text(
                 '${_lowBatteryThreshold.round()}%',
                 style: const TextStyle(color: CupertinoColors.activeBlue),

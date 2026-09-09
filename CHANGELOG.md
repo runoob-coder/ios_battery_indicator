@@ -1,3 +1,8 @@
+## 1.8.5
+
+- 🎨 Use the rounded `SF-Pro-Rounded-Medium` font for the percentage text in iOS 27 style (keep `SF Pro` elsewhere).
+- 🔤 Rename the `SF Pro` font family to `SF-Pro` and add the `SF-Pro-Rounded-Medium` family.
+
 ## 1.8.4
 
 - 🔧 Type `_buildBolt`'s `strokeWidth` as `double`.

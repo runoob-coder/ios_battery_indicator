@@ -504,9 +504,9 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     );
 
     return DefaultTextStyle(
-      style: const TextStyle(
+      style: TextStyle(
         height: 1,
-        fontFamily: 'SF Pro',
+        fontFamily: _isIOS27Style ? 'SF-Pro-Rounded-Medium' : 'SF-Pro',
         package: 'ios_battery_indicator',
         fontWeight: .w500,
         leadingDistribution: .even,
@@ -615,7 +615,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                     ?.where((f) => f != .tabularFigures())
                     .toList()
               : widget.fontFeatures,
-          letterSpacing: kIsWeb || !_isCharging ? 0 : -1,
+          letterSpacing: kIsWeb || _isIOS27Style || !_isCharging ? 0 : -1,
           fontWeight: _isMacOS ? .w600 : .w700,
         ),
       ),
@@ -646,7 +646,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
               fit: .scaleDown,
               child: Row(
                 mainAxisAlignment: .center,
-                spacing: 1,
+                spacing: _isIOS27Style ? 2 : 1,
                 children: [
                   batteryLevelText,
 
@@ -654,7 +654,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
                   if (_isCharging && _showBolt)
                     _buildBolt(
                       context,
-                      height: _batteryHeight * .75,
+                      height: _batteryHeight * .70,
                       color: _isInBatterySaveMode
                           ? CupertinoColors.black
                           : CupertinoColors.white,
