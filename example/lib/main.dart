@@ -456,6 +456,69 @@ Widget saveModeCharging() => IosBatteryIndicator(
   isInBatterySaveMode: true,
 );
 
+// ---- 电量状态（显示百分比 / iOS 27 风格）/ Battery States (with percentage, iOS 27) ----
+@BatteryIndicatorPreview(
+  name: 'Discharging',
+  group: 'Battery States (with percentage, iOS 27)',
+)
+Widget stateDischargingIOS27Pct() => IosBatteryIndicator(
+  batteryLevel: 64,
+  batteryState: .discharging,
+  isIOS27Style: true,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Charging',
+  group: 'Battery States (with percentage, iOS 27)',
+)
+Widget stateChargingIOS27Pct() => IosBatteryIndicator(
+  batteryLevel: 64,
+  batteryState: .charging,
+  isIOS27Style: true,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Full',
+  group: 'Battery States (with percentage, iOS 27)',
+)
+Widget stateFullIOS27Pct() => IosBatteryIndicator(
+  batteryLevel: 100,
+  batteryState: .full,
+  isIOS27Style: true,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low battery',
+  group: 'Battery States (with percentage, iOS 27)',
+)
+Widget stateLowIOS27Pct() => IosBatteryIndicator(
+  batteryLevel: 12,
+  batteryState: .discharging,
+  isIOS27Style: true,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low Power Mode',
+  group: 'Battery States (with percentage, iOS 27)',
+)
+Widget saveModeIOS27Pct() => IosBatteryIndicator(
+  batteryLevel: 70,
+  batteryState: .discharging,
+  isInBatterySaveMode: true,
+  isIOS27Style: true,
+);
+
+@BatteryIndicatorPreview(
+  name: 'Low Power Mode (charging)',
+  group: 'Battery States (with percentage, iOS 27)',
+)
+Widget saveModeChargingIOS27Pct() => IosBatteryIndicator(
+  batteryLevel: 25,
+  batteryState: .charging,
+  isInBatterySaveMode: true,
+  isIOS27Style: true,
+);
+
 // ---- 电量状态（隐藏百分比）/ Battery States (no percentage) ----
 @BatteryIndicatorPreview(
   name: 'Discharging',
