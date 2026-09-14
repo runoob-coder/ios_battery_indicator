@@ -22,19 +22,6 @@ screenshots:
   - description: "Battery States (no percentage, iOS 27 style)"
     path: screenshots/battery-states-ios-27.png
 
-include:
-  - pubspec.yaml
-  - CHANGELOG.md
-  - LICENSE
-  - README.md
-  - README_CN.md
-  - analysis_options.yaml
-  - fonts/
-  - lib/
-  - test/
-  - example/lib/
-  - screenshots/
-
 platforms:
   android:
   ios:
