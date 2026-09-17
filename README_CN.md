@@ -259,11 +259,11 @@ MaterialApp(
 - ⭐ [GitHub 上点星](https://github.com/runoob-coder/ios_battery_indicator)
 - 👍 [pub.dev 上点赞](https://pub.dev/packages/ios_battery_indicator)
 
-## ☕️ 请我喝咖啡
+## [☕️ 请我喝奶茶](https://www.noob-coder.com/buy-me-a-coffee)
 
-<a href="https://ko-fi.com/noob_coder" target="_blank">
-  <img src="https://storage.ko-fi.com/cdn/kofi6.png" alt="Buy Me a Coffee at ko-fi.com" />
-</a>
+|                                            赞赏码     WeChat                                             |                                          支付宝     Alipay                                           |
+|:-----------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------:|
+| ![赞赏码WeChat](https://raw.githubusercontent.com/runoob-coder/runoob-coder/main/public/appreciate.avif) | ![支付宝Alipay](https://raw.githubusercontent.com/runoob-coder/runoob-coder/main/public/alipay.avif) |
 
 [preview]: https://runoob-coder.github.io/ios_battery_indicator/
 [states-with-percentage-img]: https://github.com/runoob-coder/ios_battery_indicator/raw/master/screenshots/battery-states-with-percentage.png
