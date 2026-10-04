@@ -1,6 +1,6 @@
 name: ios_battery_indicator
 description: "A Flutter widget that replicates the native iOS battery indicator, including support for iOS 27 style and automatic system battery monitoring."
-version: 1.8.5
+version: 2.0.0
 homepage: https://runoob-coder.github.io/ios_battery_indicator/
 repository: https://github.com/runoob-coder/ios_battery_indicator
 issue_tracker: https://github.com/runoob-coder/ios_battery_indicator/issues
@@ -41,8 +41,8 @@ dependencies:
   cupertino_ui: any
   material_ui: any
 
-  battery_plus: ^7.1.0
-  device_info_plus: ^13.2.0
+  battery_plus: ^7.1.2
+  device_info_plus: ^13.3.0
   version: ^3.0.2
   cutout: ^1.0.2
   ios_system_sound: ^0.0.2
@@ -52,27 +52,12 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^6.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
 flutter:
-
-  # To add assets to your package, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-  #
-  # For details regarding assets in packages, see
-  # https://flutter.dev/to/asset-from-package
-  #
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
-
+  # iOS 27 style only: the rounded SF Pro face used by the percentage text.
+  # Everywhere else the text renders with Apple's system font via Flutter's
+  # `CupertinoSystemText` proxy family, because embedding Apple-provided fonts
+  # is rejected by App Store Connect (ITMS-91182, TN3214).
   fonts:
-    - family: SF-Pro
-      fonts:
-        - asset: ./fonts/SF-Pro.ttf
     - family: SF-Pro-Rounded-Medium
       fonts:
         - asset: ./fonts/SF-Pro-Rounded-Medium.otf

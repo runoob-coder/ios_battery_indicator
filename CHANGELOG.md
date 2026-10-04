@@ -1,3 +1,13 @@
+## 2.0.0
+
+- 🍎 **Use Apple's system font** — the percentage text now renders with
+  Flutter's `CupertinoSystemText` proxy family (SF Pro Text) instead of the
+  bundled `SF-Pro.ttf`, which was removed from `pubspec.yaml` to avoid the
+  App Store Connect rejection ([`ITMS-91182`](https://developer.apple.com/documentation/technotes/tn3214-validating-the-fonts-you-ship-in-your-app),
+  TN3214).
+- 💻 **Platform fallback** — on non-Apple platforms the text falls back to the
+  platform default font.
+
 ## 1.8.5
 
 - 🎨 Use the rounded `SF-Pro-Rounded-Medium` font for the percentage text in iOS 27 style (keep `SF Pro` elsewhere).

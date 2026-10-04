@@ -506,8 +506,14 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
     return DefaultTextStyle(
       style: TextStyle(
         height: 1,
-        fontFamily: _isIOS27Style ? 'SF-Pro-Rounded-Medium' : 'SF-Pro',
-        package: 'ios_battery_indicator',
+        // iOS 27 style uses the bundled rounded SF Pro face; everything else
+        // renders with Apple's system font (SF Pro Text) via Flutter's
+        // `CupertinoSystemText` proxy family, so no `SF-Pro` file is bundled
+        // (App Store Connect rejects Apple fonts, `ITMS-91182`).
+        fontFamily: _isIOS27Style
+            ? 'SF-Pro-Rounded-Medium'
+            : 'CupertinoSystemText',
+        package: _isIOS27Style ? 'ios_battery_indicator' : null,
         fontWeight: .w500,
         leadingDistribution: .even,
       ),

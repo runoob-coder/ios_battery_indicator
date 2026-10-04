@@ -52,13 +52,7 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
       home: CupertinoPageScaffold(
         backgroundColor: CupertinoColors.systemGrey6,
         navigationBar: const CupertinoNavigationBar(
-          middle: Text(
-            'iOS Battery Indicator Demo 􀋦',
-            style: TextStyle(
-              fontFamily: 'SF-Pro',
-              package: 'ios_battery_indicator',
-            ),
-          ),
+          middle: Text('iOS Battery Indicator Demo'),
         ),
         child: SafeArea(
           bottom: false,
