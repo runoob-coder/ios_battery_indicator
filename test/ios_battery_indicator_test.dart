@@ -1,10 +1,16 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:battery_plus_platform_interface/battery_plus_platform_interface.dart';
 import 'package:flutter/cupertino.dart' show CupertinoColors;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ios_battery_indicator/ios_battery_indicator.dart';
 import 'package:material_ui/material_ui.dart';
+
+/// Mirrors the widget's platform gate for save-mode monitoring: supported on
+/// Android, iOS, macOS and Windows, but **not** on web or Linux — including
+/// the ubuntu CI runner, where the widget never reads the save-mode state.
+final bool saveModeSupported = !Platform.isLinux;
 
 /// A fake [BatteryPlatform] installed via `BatteryPlatform.instance`, letting
 /// the system-mode tests drive level, state and save-mode reads without any
@@ -431,7 +437,8 @@ void main() {
       expect(find.text('42'), findsOneWidget);
       expect(fake.levelReads, 1);
       expect(fake.stateReads, 1);
-      expect(fake.saveModeReads, 1);
+      // The save-mode read is skipped on web / Linux (see saveModeSupported).
+      expect(fake.saveModeReads, saveModeSupported ? 1 : 0);
 
       await tester.pumpWidget(_host(const SizedBox()));
     });
@@ -595,11 +602,12 @@ void main() {
         ),
       );
       await tester.pump();
-      expect(fake.saveModeReads, 1); // initial read only
+      // initial read only (skipped entirely on web / Linux)
+      expect(fake.saveModeReads, saveModeSupported ? 1 : 0);
 
       // Monitoring disabled: no polls.
       await tester.pump(const Duration(seconds: 30));
-      expect(fake.saveModeReads, 1);
+      expect(fake.saveModeReads, saveModeSupported ? 1 : 0);
 
       // Enable monitoring at runtime.
       await tester.pumpWidget(
@@ -611,6 +619,15 @@ void main() {
         ),
       );
       await tester.pump();
+
+      // On web / Linux save-mode polling is unsupported, so the monitor flag
+      // has no effect at all: no reads, no state change.
+      if (!saveModeSupported) {
+        await tester.pump(const Duration(seconds: 30));
+        expect(fake.saveModeReads, 0);
+        await tester.pumpWidget(_host(const SizedBox()));
+        return;
+      }
 
       fake.inSaveMode = true;
       await tester.pump(const Duration(seconds: 10));
