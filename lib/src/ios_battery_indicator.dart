@@ -8,7 +8,6 @@ import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:ios_system_sound/ios_system_sound.dart';
-import 'package:version/version.dart';
 
 import 'theme.dart';
 
@@ -183,6 +182,19 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   bool _systemIsIOS27Style = false;
   bool _systemIsInBatterySaveMode = false;
 
+  /// Monotonic token guarding the deferred "charging → discharging" commit
+  /// (see [_startStateMonitoring]). Every immediate state commit bumps it, so
+  /// a pending delayed callback becomes a no-op once superseded — e.g. when
+  /// the charger is re-plugged within the 1-second deferral window.
+  int _batteryStateCommitToken = 0;
+
+  // ---- memoization cache for [_resolveThemeData] ----
+
+  ThemeData? _resolvedThemeData;
+  ThemeData? _resolvedThemeSource;
+  Brightness? _resolvedThemeBrightness;
+  bool? _resolvedThemeIOS27;
+
   // ---- resolution getters: widget prop takes priority, system value as fallback ----
 
   int get _batteryLevel {
@@ -238,6 +250,53 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
         : theme.dischargingTrackColor;
   }
 
+  /// Resolves the [ThemeData] handed to [AnimatedTheme].
+  ///
+  /// The ambient theme is passed through untouched when it already carries a
+  /// [BatteryIndicatorTheme] and no explicit [IosBatteryIndicator.brightness]
+  /// is set. Otherwise a default theme extension (and brightness) is injected.
+  ///
+  /// The result is memoized on its inputs — ambient theme instance, resolved
+  /// brightness and iOS 27 style. [ThemeData] does not implement value
+  /// equality, so handing [AnimatedTheme] a freshly copied instance on every
+  /// build would restart the theme animation (and rebuild every `Theme.of`
+  /// dependent) on each rebuild, even when nothing actually changed.
+  ThemeData _resolveThemeData(BuildContext context) {
+    final source = Theme.of(context);
+    final brightness = widget.brightness ?? source.brightness;
+    if (widget.brightness == null &&
+        source.extension<BatteryIndicatorTheme>() != null) {
+      return source;
+    }
+
+    final isIOS27Style = _isIOS27Style;
+    if (_resolvedThemeData != null &&
+        identical(_resolvedThemeSource, source) &&
+        _resolvedThemeBrightness == brightness &&
+        _resolvedThemeIOS27 == isIOS27Style) {
+      return _resolvedThemeData!;
+    }
+
+    final BatteryIndicatorTheme indicatorTheme = brightness == .light
+        ? () {
+            final light = BatteryIndicatorTheme.light();
+            return isIOS27Style
+                ? light
+                : light.copyWith(bgColor: light.bgColor.withValues(alpha: .38));
+          }()
+        : BatteryIndicatorTheme.dark();
+    final resolved = source.copyWith(
+      brightness: brightness,
+      extensions: [...source.extensions.values, indicatorTheme],
+    );
+
+    _resolvedThemeData = resolved;
+    _resolvedThemeSource = source;
+    _resolvedThemeBrightness = brightness;
+    _resolvedThemeIOS27 = isIOS27Style;
+    return resolved;
+  }
+
   // ---- layout constants ----
 
   static const double _batteryPadding = 3;
@@ -282,131 +341,224 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   @override
   void initState() {
     super.initState();
-    _initBattery();
     if (widget.isIOS27Style != null) {
-      setState(() => _systemIsIOS27Style = widget.isIOS27Style!);
+      _systemIsIOS27Style = widget.isIOS27Style!;
     }
+    // Each dimension (level / state / save mode) is monitored independently,
+    // so switching one of them between manual and system mode at runtime
+    // leaves the monitoring of the others untouched. See didUpdateWidget.
+    _startLevelMonitoring();
+    _startStateMonitoring();
+    _startSaveModeMonitoring();
     _checkIosVersion();
   }
 
   @override
   void didUpdateWidget(covariant IosBatteryIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // System → manual: cancel system monitoring.
-    if ((widget.batteryLevel != null && oldWidget.batteryLevel == null) ||
-        (widget.batteryState != null && oldWidget.batteryState == null) ||
-        (widget.isInBatterySaveMode != null &&
-            oldWidget.isInBatterySaveMode == null)) {
+
+    // ---- battery level ----
+
+    if (widget.batteryLevel != null && oldWidget.batteryLevel == null) {
+      // System → manual: stop polling; [IosBatteryIndicator.batteryLevel]
+      // takes precedence from now on.
       _batteryLevelTimer?.cancel();
+      _batteryLevelTimer = null;
+    } else if (widget.batteryLevel == null && oldWidget.batteryLevel != null) {
+      // Manual → system: (re)start system level monitoring.
+      _startLevelMonitoring();
+    } else if (widget.batteryLevel == null &&
+        widget.batteryLevelPollInterval != oldWidget.batteryLevelPollInterval) {
+      // System mode with a new poll interval: restart on the new cadence.
+      _startLevelMonitoring();
+    }
+
+    // ---- battery state ----
+
+    if (widget.batteryState != null && oldWidget.batteryState == null) {
+      // System → manual: drop the subscription and adopt the manual value.
       _batteryStateSubscription?.cancel();
-      _batterySaveModeTimer?.cancel();
-    }
-    // Manual → system: restart system monitoring.
-    // _initBattery() handles level, state and save mode, so only call it once.
-    if ((widget.batteryLevel == null && oldWidget.batteryLevel != null) ||
-        (widget.batteryState == null && oldWidget.batteryState != null) ||
-        (widget.isInBatterySaveMode == null &&
-            oldWidget.isInBatterySaveMode != null)) {
-      _initBattery();
-    }
-
-    // Start save-mode polling when the flag is enabled at runtime (system mode).
-    if (widget.monitorBatterySaveMode &&
-        !oldWidget.monitorBatterySaveMode &&
-        widget.isInBatterySaveMode == null) {
-      _startSaveModePolling();
-    }
-
-    // Play charging sound when the external batteryState changes to charging.
-    if (widget.batteryState != null &&
-        widget.batteryState != oldWidget.batteryState) {
+      _batteryStateSubscription = null;
+      _systemBatteryState = widget.batteryState!;
       _playChargingSoundIfNeeded(widget.batteryState);
+      _batteryStateCommitToken++;
+    } else if (widget.batteryState == null && oldWidget.batteryState != null) {
+      // Manual → system.
+      _startStateMonitoring();
+    } else if (widget.batteryState != null &&
+        widget.batteryState != oldWidget.batteryState) {
+      // Manual value changed: keep the displayed state and the charging-sound
+      // transition tracking in sync.
+      _systemBatteryState = widget.batteryState!;
+      _playChargingSoundIfNeeded(widget.batteryState);
+      _batteryStateCommitToken++;
+    }
+
+    // ---- battery save mode ----
+
+    if (widget.isInBatterySaveMode != null &&
+        oldWidget.isInBatterySaveMode == null) {
+      // System → manual: stop polling and adopt the manual value.
+      _batterySaveModeTimer?.cancel();
+      _batterySaveModeTimer = null;
+      _systemIsInBatterySaveMode = widget.isInBatterySaveMode!;
+    } else if (widget.isInBatterySaveMode == null &&
+        oldWidget.isInBatterySaveMode != null) {
+      // Manual → system.
+      _startSaveModeMonitoring();
+    } else if (widget.isInBatterySaveMode == null) {
+      // Still system mode: keep the poll timer in sync with runtime changes
+      // of monitorBatterySaveMode and saveModePollInterval.
+      _syncSaveModePolling(
+        monitorChanged:
+            widget.monitorBatterySaveMode != oldWidget.monitorBatterySaveMode,
+        intervalChanged:
+            widget.saveModePollInterval != oldWidget.saveModePollInterval,
+      );
     }
   }
 
-  Future<void> _initBattery() async {
+  /// Starts (or restarts) battery-level monitoring for the current mode.
+  ///
+  /// In manual mode ([IosBatteryIndicator.batteryLevel] set) it only mirrors
+  /// the value into [_systemBatteryLevel]; in system mode it reads the level
+  /// once, notifies [IosBatteryIndicator.onBatteryLevelChanged] and then
+  /// polls on [IosBatteryIndicator.batteryLevelPollInterval].
+  Future<void> _startLevelMonitoring() async {
+    _batteryLevelTimer?.cancel();
+    _batteryLevelTimer = null;
+
     if (widget.batteryLevel != null) {
       _systemBatteryLevel = widget.batteryLevel!;
-    } else {
-      _systemBatteryLevel = await _battery.batteryLevel;
-      widget.onBatteryLevelChanged?.call(_systemBatteryLevel);
-      _batteryLevelTimer?.cancel();
-      _batteryLevelTimer = .periodic(widget.batteryLevelPollInterval, (
-        _,
-      ) async {
-        final level = await _battery.batteryLevel;
-        if (mounted) {
-          setState(() => _systemBatteryLevel = level);
-          widget.onBatteryLevelChanged?.call(level);
-        }
-      });
+      return;
     }
+
+    final level = await _battery.batteryLevel;
+    if (!mounted) return;
+    setState(() => _systemBatteryLevel = level);
+    widget.onBatteryLevelChanged?.call(level);
+    _startLevelTimer();
+  }
+
+  /// (Re)creates the periodic level poll timer. Safe to call repeatedly.
+  void _startLevelTimer() {
+    _batteryLevelTimer?.cancel();
+    _batteryLevelTimer = Timer.periodic(widget.batteryLevelPollInterval, (
+      _,
+    ) async {
+      final level = await _battery.batteryLevel;
+      if (!mounted) return;
+      setState(() => _systemBatteryLevel = level);
+      widget.onBatteryLevelChanged?.call(level);
+    });
+  }
+
+  /// Starts (or restarts) battery-state monitoring for the current mode.
+  ///
+  /// In manual mode ([IosBatteryIndicator.batteryState] set) the value is
+  /// adopted as-is; mounting with an already-charging battery is not a
+  /// "plugged in" transition, so the charging sound stays silent here (see
+  /// [_playChargingSoundIfNeeded]).
+  ///
+  /// In system mode the state is read once, then kept up to date through
+  /// [Battery.onBatteryStateChanged].
+  Future<void> _startStateMonitoring() async {
+    _batteryStateSubscription?.cancel();
+    _batteryStateSubscription = null;
+    _batteryStateCommitToken++;
 
     if (widget.batteryState != null) {
       _systemBatteryState = widget.batteryState!;
-      _playChargingSoundIfNeeded(widget.batteryState);
-    } else {
-      _systemBatteryState = await _battery.batteryState;
-      widget.onBatteryStateChanged?.call(_systemBatteryState!);
+      _previousBatteryState = widget.batteryState;
+      return;
+    }
 
-      _batteryStateSubscription?.cancel();
-      _batteryStateSubscription = _battery.onBatteryStateChanged.listen((
-        state,
-      ) async {
-        /// Sync the latest battery level when the state changes.
-        if (widget.batteryLevel == null) {
-          final level = await _battery.batteryLevel;
-          if (mounted) {
-            setState(() => _systemBatteryLevel = level);
-            widget.onBatteryLevelChanged?.call(level);
-          }
-        }
+    final state = await _battery.batteryState;
+    if (!mounted) return;
+    setState(() => _systemBatteryState = state);
+    widget.onBatteryStateChanged?.call(state);
 
-        /// When transitioning from charging to discharging, defer the update
-        /// by 1 second to avoid a brief flicker of the bolt icon on unplug.
-        /// Only applies on iOS (not Web).
-        if (!kIsWeb &&
-            Platform.isIOS &&
-            _systemBatteryState == .charging &&
-            state == .discharging) {
-          Future.delayed(const Duration(seconds: 1), () {
-            if (!mounted) return;
-            setState(() => _systemBatteryState = state);
-            widget.onBatteryStateChanged?.call(state);
-          });
-        } else {
+    _batteryStateSubscription = _battery.onBatteryStateChanged.listen((
+      state,
+    ) async {
+      /// Sync the latest battery level when the state changes.
+      if (widget.batteryLevel == null) {
+        final level = await _battery.batteryLevel;
+        if (!mounted) return;
+        setState(() => _systemBatteryLevel = level);
+        widget.onBatteryLevelChanged?.call(level);
+      }
+
+      /// When transitioning from charging to discharging, defer the update
+      /// by 1 second to avoid a brief flicker of the bolt icon on unplug.
+      /// Only applies on iOS (not Web).
+      if (!kIsWeb &&
+          Platform.isIOS &&
+          _systemBatteryState == .charging &&
+          state == .discharging) {
+        // The deferred commit must not resurrect a superseded state: if the
+        // charger is re-plugged (or the mode changes) within the 1-second
+        // window, the token no longer matches and this becomes a no-op.
+        final token = ++_batteryStateCommitToken;
+        Future.delayed(const Duration(seconds: 1), () {
+          if (!mounted) return;
+          if (token != _batteryStateCommitToken) return;
           setState(() => _systemBatteryState = state);
           widget.onBatteryStateChanged?.call(state);
-        }
-      });
-    }
+        });
+      } else {
+        _batteryStateCommitToken++;
+        setState(() => _systemBatteryState = state);
+        widget.onBatteryStateChanged?.call(state);
+      }
+    });
+  }
+
+  /// Starts (or restarts) battery save mode resolution for the current mode.
+  ///
+  /// In manual mode ([IosBatteryIndicator.isInBatterySaveMode] set) the value
+  /// is adopted as-is. In system mode it is read once and, when
+  /// [IosBatteryIndicator.monitorBatterySaveMode] is `true`, re-polled on
+  /// [IosBatteryIndicator.saveModePollInterval] so runtime toggles are
+  /// reflected.
+  Future<void> _startSaveModeMonitoring() async {
+    _batterySaveModeTimer?.cancel();
+    _batterySaveModeTimer = null;
 
     if (widget.isInBatterySaveMode != null) {
       _systemIsInBatterySaveMode = widget.isInBatterySaveMode!;
-    } else if (_supportsSaveModePolling) {
-      final isInBatterySaveMode = await _battery.isInBatterySaveMode;
-      setState(() => _systemIsInBatterySaveMode = isInBatterySaveMode);
-      // When monitoring is enabled, re-poll the save-mode state on the
-      // configured interval so runtime toggles are reflected.
-      if (widget.monitorBatterySaveMode) {
-        _startSaveModePolling();
-      }
+      return;
     }
+    if (!_supportsSaveModePolling) return;
 
-    setState(() {});
+    final isInBatterySaveMode = await _battery.isInBatterySaveMode;
+    if (!mounted) return;
+    setState(() => _systemIsInBatterySaveMode = isInBatterySaveMode);
+
+    // When monitoring is enabled, re-poll the save-mode state on the
+    // configured interval so runtime toggles are reflected.
+    if (widget.monitorBatterySaveMode) {
+      _startSaveModePolling();
+    }
   }
 
   Future<void> _checkIosVersion() async {
-    if (!kIsWeb && Platform.isIOS) {
+    if (kIsWeb || !Platform.isIOS) return;
+    try {
       final iosInfo = await DeviceInfoPlugin().iosInfo;
       if (!mounted) return;
-      final major = Version.parse(iosInfo.systemVersion).major;
+      // `systemVersion` looks like "18.0" or "17.0.1"; only the major part
+      // matters here. An unparsable value falls back to the classic style.
+      final major = int.tryParse(iosInfo.systemVersion.split('.').first) ?? 0;
       setState(() {
         _systemIsIOS26 = major >= 26;
         if (widget.isIOS27Style == null) {
           _systemIsIOS27Style = major >= 27;
         }
       });
+    } catch (_) {
+      // Device info is best-effort — keep the default (classic) styling when
+      // the version cannot be determined.
     }
   }
 
@@ -416,12 +568,33 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
   /// Only meaningful when [IosBatteryIndicator.monitorBatterySaveMode] is
   /// `true` and [IosBatteryIndicator.isInBatterySaveMode] is `null`.
   void _startSaveModePolling() {
-    if (!_supportsSaveModePolling) return;
     _batterySaveModeTimer?.cancel();
-    _batterySaveModeTimer = .periodic(widget.saveModePollInterval, (_) async {
+    _batterySaveModeTimer = Timer.periodic(widget.saveModePollInterval, (
+      _,
+    ) async {
       final enabled = await _battery.isInBatterySaveMode;
-      if (mounted) setState(() => _systemIsInBatterySaveMode = enabled);
+      if (!mounted) return;
+      setState(() => _systemIsInBatterySaveMode = enabled);
     });
+  }
+
+  /// Keeps the save-mode poll timer in sync with runtime changes of
+  /// [IosBatteryIndicator.monitorBatterySaveMode] and
+  /// [IosBatteryIndicator.saveModePollInterval] while in system mode:
+  /// (re)starts it when monitoring is enabled or the interval changed, and
+  /// stops it when monitoring is turned off.
+  void _syncSaveModePolling({
+    required bool monitorChanged,
+    required bool intervalChanged,
+  }) {
+    if (!widget.monitorBatterySaveMode || !_supportsSaveModePolling) {
+      _batterySaveModeTimer?.cancel();
+      _batterySaveModeTimer = null;
+      return;
+    }
+    final isActive = _batterySaveModeTimer?.isActive ?? false;
+    if (isActive && !monitorChanged && !intervalChanged) return;
+    _startSaveModePolling();
   }
 
   @override
@@ -434,26 +607,7 @@ class _IosBatteryIndicatorState extends State<IosBatteryIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-
-    final brightness = widget.brightness ?? themeData.brightness;
-    if (widget.brightness != null ||
-        themeData.extension<BatteryIndicatorTheme>() == null) {
-      BatteryIndicatorTheme indicatorTheme = brightness == .light
-          ? () {
-              BatteryIndicatorTheme light = .light();
-              return _isIOS27Style
-                  ? light
-                  : light.copyWith(
-                      bgColor: light.bgColor.withValues(alpha: .38),
-                    );
-            }()
-          : .dark();
-      themeData = themeData.copyWith(
-        brightness: brightness,
-        extensions: [...themeData.extensions.values, indicatorTheme],
-      );
-    }
+    final themeData = _resolveThemeData(context);
 
     Widget child = AnimatedTheme(
       duration: widget.themeAnimationDuration,

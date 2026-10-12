@@ -1,6 +1,6 @@
 name: ios_battery_indicator
 description: "A Flutter widget that replicates the native iOS battery indicator, including support for iOS 27 style and automatic system battery monitoring."
-version: 2.0.0
+version: 2.0.1
 homepage: https://runoob-coder.github.io/ios_battery_indicator/
 repository: https://github.com/runoob-coder/ios_battery_indicator
 issue_tracker: https://github.com/runoob-coder/ios_battery_indicator/issues
@@ -38,12 +38,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_ui: any
-  material_ui: any
+  cupertino_ui: ^1.1.1
+  material_ui: ^1.5.0
 
   battery_plus: ^7.1.2
   device_info_plus: ^13.3.0
-  version: ^3.0.2
   cutout: ^1.0.2
   ios_system_sound: ^0.0.2
 
@@ -51,6 +50,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  # Used by the test suite to fake the system battery (BatteryPlatform).
+  battery_plus_platform_interface: ^2.0.1
 
 flutter:
   # iOS 27 style only: the rounded SF Pro face used by the percentage text.

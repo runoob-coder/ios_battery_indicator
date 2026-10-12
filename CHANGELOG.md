@@ -1,3 +1,18 @@
+## 2.0.1
+
+- 🐛 Guard the initial battery reads with `mounted` checks (setState after
+  dispose / leaked timers and subscriptions).
+- 🐛 Switching one dimension (level / state / save mode) between manual and
+  system mode no longer cancels the monitoring of the other two.
+- 🐛 Skip the deferred unplug commit when superseded within the 1-second window.
+- 🐛 The charging sound only fires on real transitions.
+- 🐛 Toggling `monitorBatterySaveMode` off stops the poll timer; interval changes
+  restart the timers.
+- ⚡ Memoize the `ThemeData` passed to `AnimatedTheme`.
+- ✅ Add a widget test suite (manual mode, transitions, poll timers, save mode,
+  lifecycle, asserts).
+- 🔧 The web deploy workflow now runs format / analyze / test before building.
+
 ## 2.0.0
 
 - 🍎 **Use Apple's system font** — the percentage text now renders with

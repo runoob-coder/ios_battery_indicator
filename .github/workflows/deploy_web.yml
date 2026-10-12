@@ -32,8 +32,18 @@ jobs:
         working-directory: example
         run: flutter pub get
 
-      - name: Flutter analyze
+      # Quality gates — run before the (slower) web build so PRs fail fast.
+      - name: Install package dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze
         run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
 
       - name: Build web
         working-directory: example
