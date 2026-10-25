@@ -1,3 +1,8 @@
+## 2.0.2
+
+- ⬆️ **Dependencies**: bump `cutout` to ^1.0.3 and `ios_system_sound` to ^0.1.2.
+- 📝 **Docs**: improved the documentation.
+
 ## 2.0.1
 
 - 🐛 Guard the initial battery reads with `mounted` checks (setState after

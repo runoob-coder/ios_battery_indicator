@@ -253,6 +253,19 @@ MaterialApp(
 - **问题反馈**: [github.com/runoob-coder/ios_battery_indicator/issues](https://github.com/runoob-coder/ios_battery_indicator/issues)
 - **示例应用**: 查看 `example/` 目录获取完整的交互式演示，可实时调整每个属性。
 - **贡献**: 欢迎提交 Pull Request 和 Issue！
+- **商标与字体说明**: Apple、iOS 与 SF Pro 是 Apple Inc. 的商标。本包是独立
+  开发的第三方实现，用于还原 iOS 电池指示器外观，与 Apple Inc. 无关。随包附带的
+  `fonts/SF-Pro-Rounded-Medium.otf`（仅 iOS 27 风格使用）属于 Apple 的字体，此处
+  仅作演示用途；上架 App Store 前请替换为已获授权的字体。
+
+## 📄 许可证
+
+本包采用**双许可证**：
+
+- **MIT 许可证**（见 [`LICENSE`](LICENSE)）—— 适用于除「魔术相关商业用途」之外的所有使用。
+- **魔术相关商业用途商业许可证**（见 [`LICENSE-COMMERCIAL`](LICENSE-COMMERCIAL)）—— 任何涉及魔术、纸牌、花切或其他魔术相关商业活动（包括但不限于魔术表演、魔术产品、魔术服务的销售、推广或变现）的商业使用，均需事先取得版权持有人的书面许可。
+
+超出魔术商业范围的使用，均适用 MIT 许可证。
 
 ## 💛 支持
 

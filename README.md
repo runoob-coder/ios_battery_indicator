@@ -279,6 +279,26 @@ See the full API reference: [`BatteryIndicatorTheme` class](https://pub.dev/docu
 - **Example app**: See the `example/` directory for a full interactive demo
   that lets you tweak every property in real time.
 - **Contributions**: Pull requests and issues are welcome!
+- **Trademark & font notice**: Apple, iOS and SF Pro are trademarks of Apple
+  Inc. This package is an independent, unaffiliated reimplementation of the iOS
+  battery indicator, made for interoperability. The bundled
+  `fonts/SF-Pro-Rounded-Medium.otf` (used only by the iOS 27 style) is Apple's
+  font and ships here for demonstration purposes only — replace it with a
+  properly licensed face before shipping to the App Store.
+
+## 📄 License
+
+This package is **dual-licensed**:
+
+- **MIT License** (see [`LICENSE`](LICENSE)) — covers all uses **except** magic-related commercial activities.
+- **Commercial License for magic-related activities** (see
+  [`LICENSE-COMMERCIAL`](LICENSE-COMMERCIAL)) — any commercial activity involving
+  magic, conjuring, illusion, cardistry or other magic-related commercial endeavors
+  (including but not limited to the sale, promotion, or monetization of magic
+  performances, magic products, or magic services) requires prior written
+  permission from the copyright holder.
+
+For everything outside the magic commercial scope, the MIT License applies.
 
 ## 💛 Support
 
