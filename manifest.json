@@ -1,0 +1,23 @@
+{
+    "name": "example",
+    "short_name": "example",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#111111",
+    "theme_color": "#111111",
+    "description": "A new Flutter project.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/battery.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        },
+        {
+            "src": "icons/battery_dark.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}
