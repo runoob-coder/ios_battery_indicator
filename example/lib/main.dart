@@ -287,7 +287,8 @@ class _BatteryDemoAppState extends State<BatteryDemoApp> {
                     // report `connectedNotCharging`/`unknown` from system mode;
                     // clamp those to a valid key so the control never overflows
                     // its keys assertion.
-                    groupValue: const <BatteryState>{
+                    groupValue:
+                        const <BatteryState>{
                           .discharging,
                           .charging,
                           .full,
