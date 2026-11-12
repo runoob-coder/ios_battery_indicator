@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:battery_plus_platform_interface/battery_plus_platform_interface.dart';
-import 'package:flutter/cupertino.dart' show CupertinoColors;
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ios_battery_indicator/ios_battery_indicator.dart';
 import 'package:material_ui/material_ui.dart';
