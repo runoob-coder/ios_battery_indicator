@@ -1,0 +1,160 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "iOS Battery Indicator Demo",
+  "@appTitle": {
+    "description": "App title shown in the navigation bar and used as the localized task-switcher title."
+  },
+
+  "languageSectionHeader": "Language",
+  "@languageSectionHeader": {
+    "description": "Header of the section that contains the in-app language selector."
+  },
+  "languageSetting": "App Language",
+  "@languageSetting": {
+    "description": "Label of the language dropdown."
+  },
+  "languageFollowSystem": "Follow System",
+  "@languageFollowSystem": {
+    "description": "Dropdown option that makes the app use the device language."
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "English language option, written in its own language."
+  },
+  "languageChinese": "简体中文",
+  "@languageChinese": {
+    "description": "Simplified Chinese language option, written in its own language."
+  },
+
+  "statusLine": "Level: {level} | State: {state} | {style}",
+  "@statusLine": {
+    "description": "Summary of the current preview settings.",
+    "placeholders": {
+      "level": { "type": "String", "example": "75%" },
+      "state": { "type": "String", "example": "Charging" },
+      "style": { "type": "String", "example": "Classic Style" }
+    }
+  },
+  "percentValue": "{value}%",
+  "@percentValue": {
+    "description": "A battery percentage value with its percent sign.",
+    "placeholders": {
+      "value": { "type": "String", "example": "75" }
+    }
+  },
+  "styleIOS27": "iOS 27 Style",
+  "@styleIOS27": {
+    "description": "Name of the borderless iOS 27 indicator style."
+  },
+  "styleClassic": "Classic Style",
+  "@styleClassic": {
+    "description": "Name of the classic outlined indicator style."
+  },
+  "stateDischarging": "Discharging",
+  "@stateDischarging": {
+    "description": "Battery state: the device is running on battery."
+  },
+  "stateCharging": "Charging",
+  "@stateCharging": {
+    "description": "Battery state: the device is plugged in."
+  },
+  "stateFull": "Full",
+  "@stateFull": {
+    "description": "Battery state: the battery is fully charged."
+  },
+  "stateConnectedNotCharging": "Plugged",
+  "@stateConnectedNotCharging": {
+    "description": "Battery state: power is connected but the battery is not charging."
+  },
+  "stateUnknown": "Unknown",
+  "@stateUnknown": {
+    "description": "Battery state: the current battery state is unknown."
+  },
+
+  "basicSettings": "Basic Settings",
+  "@basicSettings": { "description": "Header of the basic settings section." },
+  "useSystemBattery": "Use System Battery",
+  "@useSystemBattery": {
+    "description": "Switch that reads the real device battery instead of the simulated level."
+  },
+  "batteryLevel": "Battery Level",
+  "@batteryLevel": {
+    "description": "Label of the slider that sets the simulated battery level."
+  },
+  "batteryState": "Battery State",
+  "@batteryState": {
+    "description": "Label of the segmented control that sets the simulated battery state."
+  },
+  "monitorBatterySaveMode": "Monitor Battery Save Mode",
+  "@monitorBatterySaveMode": {
+    "description": "Switch that polls the device low power mode."
+  },
+  "monitorBatterySaveModeHint": "Poll Low Power Mode every 30s",
+  "@monitorBatterySaveModeHint": {
+    "description": "Explanation of the low power mode polling interval."
+  },
+
+  "displayOptions": "Display Options",
+  "@displayOptions": { "description": "Header of the display options section." },
+  "showBatteryPercentage": "Show Battery Percentage",
+  "@showBatteryPercentage": {
+    "description": "Switch that shows the percentage text inside the indicator."
+  },
+  "useTabularFigures": "Use Tabular Figures",
+  "@useTabularFigures": {
+    "description": "Switch that uses monospaced digits for the percentage."
+  },
+  "useTabularFiguresHint": "Monospaced digits (no shift); disabled at 100%",
+  "@useTabularFiguresHint": {
+    "description": "Explanation of the tabular figures behavior."
+  },
+  "playChargingSound": "Play Charging Sound",
+  "@playChargingSound": {
+    "description": "Switch that enables the charging sound."
+  },
+  "playChargingSoundHint": "Only plays when charging",
+  "@playChargingSoundHint": {
+    "description": "Explanation of when the charging sound is played."
+  },
+  "showBoltWhenCharging": "Show Bolt When Charging",
+  "@showBoltWhenCharging": {
+    "description": "Switch that shows the bolt icon while charging."
+  },
+  "batterySaveMode": "Battery Save Mode",
+  "@batterySaveMode": {
+    "description": "Switch that renders the indicator in low power mode."
+  },
+
+  "styleSettings": "Style Settings",
+  "@styleSettings": { "description": "Header of the style settings section." },
+  "ios27StyleHint": "Use iOS 27+ borderless design",
+  "@ios27StyleHint": {
+    "description": "Explanation of the iOS 27 indicator style."
+  },
+  "themeBrightness": "Theme Brightness",
+  "@themeBrightness": {
+    "description": "Label of the light/dark theme segmented control."
+  },
+  "brightnessLight": "Light",
+  "@brightnessLight": {
+    "description": "Light theme option."
+  },
+  "brightnessDark": "Dark",
+  "@brightnessDark": {
+    "description": "Dark theme option."
+  },
+
+  "advancedSettings": "Advanced Settings",
+  "@advancedSettings": {
+    "description": "Header of the advanced settings section."
+  },
+  "widgetSize": "Widget Size",
+  "@widgetSize": {
+    "description": "Label of the slider that sets the indicator height."
+  },
+  "lowBatteryThreshold": "Low Battery Threshold",
+  "@lowBatteryThreshold": {
+    "description": "Label of the slider that sets the low battery threshold."
+  }
+}

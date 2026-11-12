@@ -1,0 +1,46 @@
+{
+  "@@locale": "zh",
+
+  "appTitle": "iOS 电池指示器示例",
+  "languageSectionHeader": "语言",
+  "languageSetting": "应用语言",
+  "languageFollowSystem": "跟随系统",
+  "languageEnglish": "English",
+  "languageChinese": "简体中文",
+
+  "statusLine": "电量：{level} | 状态：{state} | {style}",
+  "percentValue": "{value}%",
+  "styleIOS27": "iOS 27 风格",
+  "styleClassic": "经典风格",
+  "stateDischarging": "放电中",
+  "stateCharging": "充电中",
+  "stateFull": "已充满",
+  "stateConnectedNotCharging": "已插电",
+  "stateUnknown": "未知",
+
+  "basicSettings": "基础设置",
+  "useSystemBattery": "使用系统电量",
+  "batteryLevel": "电池电量",
+  "batteryState": "电池状态",
+  "monitorBatterySaveMode": "监听省电模式",
+  "monitorBatterySaveModeHint": "每 30 秒读取一次低电量模式",
+
+  "displayOptions": "显示选项",
+  "showBatteryPercentage": "显示电量百分比",
+  "useTabularFigures": "使用等宽数字",
+  "useTabularFiguresHint": "等宽数字（数字不跳动）；100% 时禁用",
+  "playChargingSound": "播放充电提示音",
+  "playChargingSoundHint": "仅在充电时播放",
+  "showBoltWhenCharging": "充电时显示闪电",
+  "batterySaveMode": "省电模式",
+
+  "styleSettings": "样式设置",
+  "ios27StyleHint": "使用 iOS 27+ 无边框设计",
+  "themeBrightness": "主题亮度",
+  "brightnessLight": "浅色",
+  "brightnessDark": "深色",
+
+  "advancedSettings": "高级设置",
+  "widgetSize": "组件尺寸",
+  "lowBatteryThreshold": "低电量阈值"
+}
